@@ -1,0 +1,22 @@
+welcome = state( "Welcome Screen" )
+
+function welcome.before() pkeyboard.use( "Welcome Screen" ); print"menu" end
+function welcome.update(dt)
+ 	 gui.Label{text = "Current FPS: "..tostring(love.timer.getFPS( )), pos = {10,5}}
+	gui.label( {text = "YO", align = "Center",  pos = {0, 0}, size={100, 100}, widgetHit=true, draw=true} )
+
+  qGui.Panel{size = {"tight","tight"},  pos = {mx+10,my-20}, text = "Wow look at this tooltip"}
+ end
+function welcome.draw()    
+	gui.core.draw()
+end
+
+pkeyboard( "Welcome Screen" ):setConfig( "pressed", {
+	[{" ", "return"}] = function() goto("Character Select")       end,
+	escape            = function() love.event.push('quit') end,
+	[Polygamy.default] = print
+})
+
+
+function welcome.after() print"TEST" love.graphics.print("WHAT", 30, 10) love.timer.sleep(3) end
+
