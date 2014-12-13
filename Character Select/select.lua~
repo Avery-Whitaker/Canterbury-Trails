@@ -1,18 +1,35 @@
 
 local state, goto, pkeyboard = Polygamy.state, Polygamy.state.goto, Polygamy.keyboard   -- for convenience
 
-welcome = state( "Welcome Screen" )
+scores = state( "Character Select" )
 
-function welcome.before() pkeyboard.use( "Welcome Screen" ); print"menu" end
-function welcome.update(dt)  --[[ your title update callback ]] end
-function welcome.draw()    love.graphics.print("TITLE SCREEN", 10, 10)  --[[ draw your fine title here  ]] end
+function scores.before() pkeyboard.use( "Character Select" ); end
+fullCheck = false
+volume=0
 
-pkeyboard( "Welcome Screen" ):setConfig( "pressed", {
-	[{" ", "return"}] = function() goto("Character Select")       end,
-	escape            = function() love.event.push('quit') end,
+function scores.update(dt)  
+	gui.Image{ pos = {0,0}, size= gui.screenPercent({1,1}), image=selectIMG }
+	
+if gui.Button{text = "Select", pos=gui.screenPercent({0.21-0.128,0.888-.1077}), size=gui.screenPercent({0.138,0.1277}),}
+ then Polygamy.state.goto("Menu") end
+
+
+end
+
+function scores.draw() 
+	gui.preDraw()
+
+
+	gui.postDraw()
+end
+
+pkeyboard( "Character Select" ):setConfig( "pressed", {
+	escape            = function() goto("Welcome Screen")        end,
 	[Polygamy.default] = print
 })
 
 
-function welcome.after() print"TEST" love.graphics.print("WHAT", 30, 10) love.timer.sleep(3) end
+function welcome.after() 
+
+end
 

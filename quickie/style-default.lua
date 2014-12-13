@@ -29,10 +29,10 @@ local utf8 = require(BASE .. 'utf8')
 
 -- default style
 local color = {
-	normal = {bg = {78,78,78}, fg = {200,200,200}, border={20,20,20}},
-	hot    = {bg = {98,98,98}, fg = {69,201,84},   border={30,30,30}},
+	normal = {bg = {255,255,255}, fg = {0,25,102}, border={255,153,153}},
+	hot    = {bg = {241,241,241}, fg = {15,61,112},   border={30,30,30}},
 	background    = {bg = {98,98,98,122}, fg = {69,201,84,122},   border={255,0,0}},
-	active = {bg = {88,88,88}, fg = {49,181,64},   border={10,10,10}}
+	active = {bg = {230,230,230}, fg = {25,74,122},   border={10,10,10}}
 }
 
 -- box drawing
@@ -66,9 +66,10 @@ local function Button(state, title, x, y, w, h)
 	local c = color[state]
 	box(x,y,w,h, c.bg, c.border, state == 'active')
 	local f = assert(love.graphics.getFont())
-	x,y = x + (w-f:getWidth(title))/2, y + (h-f:getHeight(title))/2
+--	x,y = x + (w-f:getWidth(title))/2, y + (h-f:getHeight(title))/2
 	love.graphics.setColor(c.fg)
-	love.graphics.print(title, x,y)
+	gui.printText(title, x+w*0.1, y+h*0.1, w*0.8, h*0.8, "center", "assets/LobsterTwo-BoldItalic.otf")
+	--love.graphics.print(title, x,y)
 end
 
 local function Panel(state, title, x, y, w, h)
@@ -77,9 +78,10 @@ local function Panel(state, title, x, y, w, h)
 	local c = color["background"]
 	box(x,y,w,h, c.bg, c.border, state == 'background')
 	local f = assert(love.graphics.getFont())
-	x,y = x + (w-f:getWidth(title))/2, y + (h-f:getHeight(title))/2
+	--x,y = x + (w-f:getWidth(title))/2, y + (h-f:getHeight(title))/2
 	love.graphics.setColor(c.fg)
-	love.graphics.print(title, x,y)
+	gui.printText(title, x+w*0.05, y+h*0.05, w*0.9, h*0.9, "left", "assets/LobsterTwo-BoldItalic.otf", true)
+	--love.graphics.print(title, x,y)
 end
 
 local function Image(state, img, x, y, w, h)
@@ -90,14 +92,15 @@ end
 local function Label(state, text, align, x,y,w,h)
 	local c = color[state]
 	love.graphics.setColor(c.fg)
-	local f = assert(love.graphics.getFont())
-	y = y + (h - f:getHeight(text))/2
-	if align == 'center' then
-		x = x + (w - f:getWidth(text))/2
-	elseif align == 'right' then
-		x = x + w - f:getWidth(text)
-	end
-	love.graphics.print(text, x,y)
+	--local f = assert(love.graphics.getFont())
+	--y = y + (h - f:getHeight(text))/2
+	--if align == 'center' then
+	--	x = x + (w - f:getWidth(text))/2
+	--elseif align == 'right' then
+	--	x = x + w - f:getWidth(text)
+	--end
+	gui.printText(text, x, y, w, h, align, "assets/oldenglishregular.ttf")
+	--love.graphics.print(text, x,y,0,w/f:getWidth(text),h/f:getHeight(text))
 end
 
 local function Slider(state, fraction, vertical, x,y,w,h)

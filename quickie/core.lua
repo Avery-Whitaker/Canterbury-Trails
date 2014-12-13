@@ -96,7 +96,7 @@ local function draw()
 	local lw = love.graphics.getLineWidth()
 	local ls = love.graphics.getLineStyle()
 
-	for i = 1,draw_items.n do draw_items[i]() end
+	for i = draw_items.n,1,-1 do draw_items[i]() end
 
 	-- restore graphics state
 	love.graphics.setLineWidth(lw)

@@ -23,7 +23,7 @@ return function(w)
 	--   hot (mouse over widget),
 	--   active (mouse pressed on widget) or
 	--   normal (mouse not on widget and not pressed on widget).
-	--mouse.updateWidget(id, pos, size, w.widgetHit)
+	mouse.updateWidget(id, pos, size, w.widgetHit)
 
 	-- keyboard.makeCyclable makes the item focus on tab or whatever binding is
 	-- in place (see core.keyboard.cycle). Cycle order is determied by the
@@ -32,6 +32,7 @@ return function(w)
 
 	-- core.registerDraw(id, drawfunction, drawfunction-arguments...)
 	-- shows widget when core.draw() is called.
+
 	core.registerDraw(id, w.draw or core.style.Image,
 		w.image, pos[1],pos[2], size[1],size[2])
 

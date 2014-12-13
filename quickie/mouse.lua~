@@ -46,7 +46,8 @@ local function getHot()      return hot end
 local function updateWidget(id, pos, size, hit)
 	hit = hit or _M.widgetHit
 
-	if hit{{x,y}, pos, size} then
+	--Modify for our whiteboxing!!
+	if hit({x-xModification(),y-yModification()}, pos, size) then
 		setHot(id)
 		if not active and down then
 			setActive(id)
