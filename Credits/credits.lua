@@ -1,4 +1,3 @@
-
 local state, goto, pkeyboard = Polygamy.state, Polygamy.state.goto, Polygamy.keyboard   -- for convenience
 
 welcome = state( "Credits" )

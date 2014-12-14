@@ -79,7 +79,8 @@ local function Panel(state, title, x, y, w, h)
 	box(x,y,w,h, c.bg, c.border, state == 'background')
 	local f = assert(love.graphics.getFont())
 	--x,y = x + (w-f:getWidth(title))/2, y + (h-f:getHeight(title))/2
-	love.graphics.setColor(c.fg)
+	--love.graphics.setColor(c.fg)
+  love.graphics.setColor(255,255,255)
 	gui.printText(title, x+w*0.05, y+h*0.05, w*0.9, h*0.9, "left", "assets/LobsterTwo-BoldItalic.otf", true)
 	--love.graphics.print(title, x,y)
 end

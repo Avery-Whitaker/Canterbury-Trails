@@ -1,11 +1,7 @@
 require "library.Polygamy.init" "./library/Polygamy/"
 gui = require "quickie"
 
--- Keep track of inventory by number has of each item
-inventory = {}
-inventory.beer = 0
-inventory.inventoryitem = 0
-inventory.inventorystuff = 0
+
 
 function gui.screenWidth()
 	if(love.graphics.getWidth()/love.graphics.getHeight() < 16/9) then
@@ -32,6 +28,12 @@ end
 function gui.imageSize(screenPercentWidth, img)
 w = gui.screenWidth()*screenPercentWidth
 h = w/img:getWidth() * img:getHeight()
+return {w,h}
+end
+
+function gui.imageSizeH(screenPercentHeight, img)
+h = gui.screenHeight()*screenPercentHeight
+w = h/img:getHeight() * img:getWidth()
 return {w,h}
 end
 
@@ -94,12 +96,14 @@ require "Character Select/select"
 require "Options/options"
 require "Credits/credits"
 require "Scores/scores"
-require "Menu/menu"
-require "Conversation/conversation"
 require "Splash/Splash"
 require "chatState"
 require "Inventory/inventory"
+require "Inventory/itemState"
 require "Miller/miller"
+require "character"
+require "Menu/menu"
+require "intentory"
 --require "Knight/knight"
 
 require "math"
@@ -119,7 +123,7 @@ function love.load()
 	gui.preloadFonts()
 
 
-	newChatState({ name = "MillerMain", charecter = Miller, text = "Yar har im the Miller", choices = {
+	newChatState({ name = "MillerMain", character = characters.miller, text = "Yar har im the Miller", choices = {
 {"This is the first choice.", function() 
 	Polygamy.state.goto("Test Screen") end},
 {"This is the second choice.", function() 
@@ -131,7 +135,7 @@ function love.load()
 {"This is the last choice.", function() 
 	Polygamy.state.goto("Test Screen") end}
 }})
-newChatState({ name = "NoOptions", charecter = Miller, text = "Yar har im the Miller", choices = {{ "..." , function() print("yo") end}}})
+newChatState({ name = "NoOptions", character = characters.miller, text = "Yar har im the Miller", choices = {{ "..." , function() print("yo") end}}})
 
 Polygamy.state.goto("Test Screen") 
 end
