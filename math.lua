@@ -18,7 +18,11 @@ function math.angle(x1,y1, x2,y2) return math.atan2(y2-y1, x2-x1) end
 
 -- Returns the closest multiple of 'size' (defaulting to 10).
 function math.multiple(n, size) size = size or 10 return math.round(n/size)*size end
-
+ 
+function math.round(num) 
+        if num >= 0 then return math.floor(num+.5) 
+        else return math.ceil(num-.5) end
+    end
 
 -- Clamps a number to within a certain range.
 function math.clamp(low, n, high) return math.min(math.max(low, n), high) end
