@@ -69,6 +69,9 @@ else
 local imin = 1
 local imax = math.floor(h)
 
+--make a max height for wrapped text
+if imax > gui.screenHeight()*0.035 then imax = gui.screenHeight()*0.035 end
+
 
 while(imax > imin) do
 

@@ -19,7 +19,7 @@ end
 panelTop = (0.75-(n*0.075))
 	gui.Panel({text = w.character.name, align="left", pos = gui.screenPercent({0.1, panelTop}), size=gui.screenPercent({0.2, 0.05})})
 
-gui.Panel({text = "Text text text text text text. Text text text text text text. Text text text text text text. Text text text text text text. Text text text text text text. Text text text text text text. Text text text text text text. Text text text text text text. Text text text text text text?", pos = gui.screenPercent({0.1, panelTop+0.05}), size=gui.screenPercent({0.8, 0.15})})
+gui.Panel({text = w.text, pos = gui.screenPercent({0.1, panelTop+0.05}), size=gui.screenPercent({0.8, 0.15})})
 
 if n>0 then
 for key,value in pairs(w.choices) do

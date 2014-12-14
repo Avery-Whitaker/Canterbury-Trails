@@ -39,7 +39,6 @@ inventory.aleLarge.description = "A Tiny Little draught of Ale"
 inventory.aleLarge.imageAvalible = love.graphics.newImage("assets/box.png")
 inventory.aleLarge.imageUnavalible = love.graphics.newImage("assets/boxBW.png")
 inventory.aleLarge.count = 0
-inventory.aleLarge.use = function() end
 inventory.aleLarge.row = 2
 inventory.aleLarge.col = 1
 newItemState(inventory.aleLarge)
@@ -50,7 +49,6 @@ inventory.foodSmall.description = "A Tiny Little draught of Ale"
 inventory.foodSmall.imageAvalible = love.graphics.newImage("assets/box.png")
 inventory.foodSmall.imageUnavalible = love.graphics.newImage("assets/boxBW.png")
 inventory.foodSmall.count = 0
-inventory.foodSmall.use = function() end
 inventory.foodSmall.row = 1
 inventory.foodSmall.col = 2
 newItemState(inventory.foodSmall)
@@ -61,7 +59,6 @@ inventory.foodLarge.description = "A Tiny Little draught of Ale"
 inventory.foodLarge.imageAvalible = love.graphics.newImage("assets/box.png")
 inventory.foodLarge.imageUnavalible = love.graphics.newImage("assets/boxBW.png")
 inventory.foodLarge.count = 0
-inventory.foodLarge.use = function() end
 inventory.foodLarge.row = 2
 inventory.foodLarge.col = 2
 newItemState(inventory.foodLarge)

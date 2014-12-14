@@ -48,7 +48,7 @@ function millerGame.update(dt)
 if lose == false then
     gameScore = gameScore + dt*speed*10000
     end
-	playerMove = dt*speed*700
+	playerMove = dt*7*0.1
     physicsWorld:update(dt)
 	spawnCounter = spawnCounter + dt
 	womanTimer = womanTimer - dt

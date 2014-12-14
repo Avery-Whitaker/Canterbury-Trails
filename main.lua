@@ -53,7 +53,7 @@ end
 
 function gui.preDraw()
 	love.graphics.push()
-	love.graphics.translate((love.graphics.getWidth()-gui.screenWidth())/2,(love.graphics.getHeight()-gui.screenHeight())/2);
+	love.graphics.translate(gui.xModification(),gui.yModification());
 end
 
 function gui.postDraw()
@@ -83,7 +83,7 @@ Polygamy.keyboard( "test" ):setConfig( "pressed", {
 	["3"] = function() Polygamy.state.goto("Options")       end,
 	["4"] = function() Polygamy.state.goto("Credits")       end,
 	["5"] = function() Polygamy.state.goto("Menu")       end,
-	["6"] = function() Polygamy.state.goto("Conversation")       end,
+	["6"] = function() Polygamy.state.goto("Traveling")       end,
 	["8"] = function() Polygamy.state.goto("Miller")       end,
 	["9"] = function() Polygamy.state.goto("Knight")       end,
 	["7"] = function() Polygamy.state.goto("Scores")       end,
@@ -91,19 +91,24 @@ Polygamy.keyboard( "test" ):setConfig( "pressed", {
 	[Polygamy.default] = print
 })
 
+require "chatState"
+require "character"
+require "gameFlow"
 require "Welcome Screen/welcome"
+require "map"
 require "Character Select/select"
 require "Options/options"
 require "Credits/credits"
 require "Scores/scores"
 require "Splash/Splash"
-require "chatState"
 require "Inventory/inventory"
 require "Inventory/itemState"
 require "Miller/miller"
-require "character"
 require "Menu/menu"
 require "intentory"
+require "traveling"
+require "begin"
+require "instructions"
 --require "Knight/knight"
 
 require "math"
@@ -137,7 +142,8 @@ function love.load()
 }})
 newChatState({ name = "NoOptions", character = characters.miller, text = "Yar har im the Miller", choices = {{ "..." , function() print("yo") end}}})
 
-Polygamy.state.goto("Test Screen") 
+
+Polygamy.state.goto("Test Screen")
 end
 
 function love.textinput(str)
