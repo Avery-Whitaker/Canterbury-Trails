@@ -2,7 +2,7 @@
 local state, goto, pkeyboard = Polygamy.state, Polygamy.state.goto, Polygamy.keyboard   -- for convenience
 
 
-  travelIMG = love.graphics.newImage("assets/travel.jpg")
+  travelIMG = love.graphics.newImage("assets/trailBackgroundLong.png")
   
 traveling = state( "Traveling" )
 

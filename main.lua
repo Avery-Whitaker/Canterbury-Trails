@@ -60,6 +60,7 @@ function gui.screenPercentY(a)
 end
 
 function gui.preDraw()
+  love.graphics.setColor(255,255,255,255)
 	love.graphics.push()
 	love.graphics.translate(gui.xModification(),gui.yModification());
 end
@@ -128,7 +129,7 @@ require "text"
 function love.load() 
 
 	--images
-	backgroundIMG = love.graphics.newImage("assets/trail.JPG")
+	backgroundIMG = love.graphics.newImage("assets/trailBackground.png")
 	scoreIMG = love.graphics.newImage("assets/scores.png")
 	selectIMG = love.graphics.newImage("assets/select.png")
 	optionsIMG = love.graphics.newImage("assets/options.png")

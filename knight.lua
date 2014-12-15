@@ -4,8 +4,8 @@ prayForLove=false
 
 function knightGame.before()
   Polygamy.keyboard.use( "Knight" )
-  ladyIMG = love.graphics.newImage("assets/woman.png")
-  enemyIMG = love.graphics.newImage("assets/man.png")
+  ladyIMG = love.graphics.newImage("assets/lady.png")
+  enemyIMG = love.graphics.newImage("assets/enemyKnight.png")
   gameScore = 0
   timer = 0
   flashTimer = 0

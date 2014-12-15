@@ -16,10 +16,10 @@ else
 n = 0
 end
 
-panelTop = (0.75-(n*0.075))
+panelTop = (0.6-(n*0.075))
 	gui.Panel({text = w.character.name, align="left", pos = gui.screenPercent({0.1, panelTop}), size=gui.screenPercent({0.2, 0.05})})
 
-gui.Panel({text = w.text, pos = gui.screenPercent({0.1, panelTop+0.05}), size=gui.screenPercent({0.8, 0.15})})
+gui.Panel({text = w.text, pos = gui.screenPercent({0.1, panelTop+0.05}), size=gui.screenPercent({0.8, 0.3})})
 
 if n>0 then
 for key,value in pairs(w.choices) do
@@ -27,7 +27,7 @@ for key,value in pairs(w.choices) do
 	 then w.choices[key][2]() end
 end end
 
-	gui.Image{ pos = {(gui.screenWidth()-(gui.imageSizeH(panelTop+0.1,w.character.image)[1]))/2, 0}, size= gui.imageSizeH(panelTop+0.1,w.character.image), image=w.character.image }
+	gui.Image{ pos = {(gui.screenWidth()-(gui.imageSizeH(panelTop+0.35,w.character.image)[1]))/2, 0}, size= gui.imageSizeH(panelTop+0.35,w.character.image), image=w.character.image }
 
   gui.Image{ pos = gui.screenPercent({0,0}), size= gui.screenPercent({1,1}), image=backgroundIMG }
 end

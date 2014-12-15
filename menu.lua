@@ -24,8 +24,8 @@ continueRejection = a.continueRejection
 
 justHunted = false
 
---canContinue = false
-        canContinue = true
+canContinue = false
+       -- canContinue = true
 mapText = introMapText
 end
 
@@ -79,13 +79,16 @@ function welcome.update(dt)
     n = n +1
  end
 
-    gui.Label{text= "Score: 10923", pos = gui.screenPercent({0.05, 0}), size= gui.screenPercent({0.2,0.2})}
-  if gui.Button{text= "Look at Map", pos = gui.screenPercent({0.05, 0.2}), size= gui.screenPercent({0.2,0.15})} then
+    gui.Label{text= "Score: 10923", pos = gui.screenPercent({0.05, 0}), size= gui.screenPercent({0.2,0.1})}
+  if gui.Button{text= "Look at Map", pos = gui.screenPercent({0.05, 0.1}), size= gui.screenPercent({0.2,0.1})} then
   
   Polygamy.state.goto("Map") 
   end
   
-  if gui.Button{text= "Go Hunting", pos = gui.screenPercent({0.05, 0.4}), size= gui.screenPercent({0.2,0.15})} then 
+  gui.Button{text= "Pardanor Shop", pos = gui.screenPercent({0.05, 0.25}), size= gui.screenPercent({0.2,0.1})}
+  gui.Button{text= "Merchant Shop", pos = gui.screenPercent({0.05, 0.4}), size= gui.screenPercent({0.2,0.1})}
+  
+  if gui.Button{text= "Go Hunting", pos = gui.screenPercent({0.05, 0.55}), size= gui.screenPercent({0.2,0.10})} then 
    if canHunt == true and justHunted == false then
     justHunted = true
     --hunt
@@ -98,13 +101,13 @@ function welcome.update(dt)
   
   end
   
-  if gui.Button{text= "Check Bag", pos = gui.screenPercent({0.05, 0.6}), size= gui.screenPercent({0.2,0.15})} then
+  if gui.Button{text= "Veiw Inventory", pos = gui.screenPercent({0.05, 0.7}), size= gui.screenPercent({0.2,0.1})} then
   Polygamy.state.goto("Inventory") 
   end
   
 
    
-   if gui.Button{text= "Continue Journy", pos = gui.screenPercent({0.05, 0.8}), size= gui.screenPercent({0.2,0.15})} then
+   if gui.Button{text= "Continue Journy", pos = gui.screenPercent({0.05, 0.85}), size= gui.screenPercent({0.2,0.1})} then
    if canContinue == false then
    foodAlert = true
      else
