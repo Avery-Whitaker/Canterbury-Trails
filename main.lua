@@ -95,11 +95,12 @@ Polygamy.keyboard( "test" ):setConfig( "pressed", {
 	["6"] = function() Polygamy.state.goto("-")       end,
 	["8"] = function() Polygamy.state.goto("-")       end,
 	["9"] = function() Polygamy.state.goto("-")       end,
-	["7"] = function() Polygamy.state.goto("-")       end,
+	["7"] = function() Polygamy.state.goto("End")       end,
 	["q"]            = function() love.event.push('quit') end,
 	[Polygamy.default] = print
 })
 
+require "end"
 require "chatState"
 require "character"
 require "gameFlow"
@@ -155,7 +156,7 @@ function love.load()
 newChatState({ name = "NoOptions", character = characters.miller, text = "Yar har im the Miller", choices = {{ "..." , function() print("yo") end}}})
 
 
-Polygamy.state.goto("Test Screen")
+Polygamy.state.goto("Splash Screen")
 end
 
 function love.textinput(str)

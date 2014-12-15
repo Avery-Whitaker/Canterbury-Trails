@@ -39,6 +39,7 @@ mapText=stateMapText
 
 foodAlert = false
 huntingAlert = false
+wentHunting = false
 
 function welcome.update(dt) 
   
@@ -47,6 +48,13 @@ function welcome.update(dt)
       foodAlert = false
     end
     gui.Panel({text = continueRejection, align="left", pos = gui.screenPercent({0.25, 0.25}), size=gui.screenPercent({0.5, 0.5})})
+    gui.Panel({text = "", align="left", pos = gui.screenPercent({0, 0}), size=gui.screenPercent({1, 1})})
+  end  
+  if wentHunting == true then
+    if gui.Button{text= "Yay", pos = gui.screenPercent({0.5-0.075, 0.75-0.075}), size= gui.screenPercent({0.15,0.15})} then
+      wentHunting = false
+    end
+    gui.Panel({text = "You have a fun time hunting, no time to keep the meat though!", align="left", pos = gui.screenPercent({0.25, 0.25}), size=gui.screenPercent({0.5, 0.5})})
     gui.Panel({text = "", align="left", pos = gui.screenPercent({0, 0}), size=gui.screenPercent({1, 1})})
   end  
 
@@ -80,24 +88,24 @@ function welcome.update(dt)
     n = n +1
  end
 
-    gui.Label{text= "Score: 10923", pos = gui.screenPercent({0.05, 0}), size= gui.screenPercent({0.2,0.1})}
+    gui.Label{text= "Cantebury Trails", pos = gui.screenPercent({0.05, 0}), size= gui.screenPercent({0.2,0.1})}
   if gui.Button{text= "Look at Map", pos = gui.screenPercent({0.05, 0.1}), size= gui.screenPercent({0.2,0.1})} then
   
   Polygamy.state.goto("Map") 
   end
   
-  if pardonerShopUnlocked then
-  gui.Button{text= "Pardanor Shop", pos = gui.screenPercent({0.05, 0.25}), size= gui.screenPercent({0.2,0.1})}
-  end
+ -- if pardonerShopUnlocked then
+  --gui.Button{text= "Pardanor Shop", pos = gui.screenPercent({0.05, 0.25}), size= gui.screenPercent({0.2,0.1})}
+  --end
   
-  if merchentShopUnlocked then
-  gui.Button{text= "Merchant Shop", pos = gui.screenPercent({0.05, 0.4}), size= gui.screenPercent({0.2,0.1})}
-  end
+ -- if merchentShopUnlocked then
+  --gui.Button{text= "Merchant Shop", pos = gui.screenPercent({0.05, 0.4}), size= gui.screenPercent({0.2,0.1})}
+  --end
   
   if gui.Button{text= "Go Hunting", pos = gui.screenPercent({0.05, 0.55}), size= gui.screenPercent({0.2,0.10})} then 
    if canHunt == true and justHunted == false then
     justHunted = true
-    --hunt
+   wentHunting = true
     
     elseif canHunt == false then
        huntingAlert = true

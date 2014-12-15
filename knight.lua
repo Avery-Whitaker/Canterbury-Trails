@@ -33,17 +33,17 @@ function knightGame.update(dt)
   if lose == false then
   gameScore = gameScore + dt*speedMod
   end
-  if popup == "enemy" and timer > 2 then
+  if popup == "enemy" and timer > 2 and lose == false then
     lose = true
     loseText = "TOO SLOW"
   end
   
-  if popup == "lady" and timer > 2 then
+  if popup == "lady" and timer > 2 and lose == false then
     popup = "none"
     timer = 0
   end
   
-  if popup == "none" and timer > 3 then
+  if popup == "none" and timer > 3 and lose == false then
     if math.random() > 0.6 then
       popup = "enemy"
     else

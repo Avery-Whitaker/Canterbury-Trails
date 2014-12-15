@@ -12,7 +12,7 @@ stages[2].nextStage = stages[3]
 stages[3].nextStage = stages[4]
 stages[4].nextStage = stages[5]
 stages[5].nextStage = stages[6]
-stages[6].nextStage = stages[7]
+stages[6].nextStage = nil
 stages[1].avalibleCharacters = {}
 stages[2].avalibleCharacters = {}
 stages[3].avalibleCharacters = {}
@@ -30,11 +30,11 @@ stages[7].characterAction = {}
  
 --Emilys version dont have
 stages[1].mapImg = love.graphics.newImage("assets/trailBackground.png")
-stages[2].mapImg = love.graphics.newImage("assets/trailBackground.png") --village
+stages[2].mapImg = love.graphics.newImage("assets/village.png") --village
 stages[3].mapImg = love.graphics.newImage("assets/trailBackground.png")
-stages[4].mapImg = love.graphics.newImage("assets/trailBackground.png") --village
+stages[4].mapImg = love.graphics.newImage("assets/village.png") --village
 stages[5].mapImg = love.graphics.newImage("assets/trailBackground.png")
-stages[6].mapImg = love.graphics.newImage("assets/trailBackground.png") --village
+stages[6].mapImg = love.graphics.newImage("assets/village.png") --village
 stages[7].mapImg = love.graphics.newImage("assets/trailBackground.png")
 
 stages[1].merchentShopUnlocked = false
@@ -136,6 +136,8 @@ stages[2].continueRejection = "You should talk to the Squire and the Monk first!
   newChatState({ name = "Squire1-4", character = characters.squire, text = "Wonderous! *The Squire begins to sing a song.* Thanks for listening!", choices = {
 {"A pleasure. Goodbye.", function()
      talkedToSquire = true
+stages[2].continueRejection = "You should talk to the Monk first!"
+     stages[2].continueRejection = "You should talk to the Monk first!"
      if talkedToSquire and talkedToMonk then
       canContinue = true
     end
@@ -165,6 +167,7 @@ stages[2].continueRejection = "You should talk to the Squire and the Monk first!
   newChatState({ name = "Monk1-3", character = characters.monk, text = "Sure thing...\n\n***HUNTING UNLOCKED***", choices = {
 {"Thank you so much. Goodbye.", function()
   canHunt = true
+     stages[2].continueRejection = "You should talk to the Squire first!"
      talkedToMonk = true
      if talkedToSquire and talkedToMonk then
       canContinue = true
@@ -191,6 +194,7 @@ stages[3].continueRejection = "You should talk to the Miller first!"
 {"Tell me about yourself.", function()
   Polygamy.state.goto("Miller1-2") end},
 {"Tell me a story.", function()
+  canContinue=true
   Polygamy.state.goto("MillerInstructions") end},
 {"Goodbye.", function()
   Polygamy.state.goto("Menu") end}
@@ -236,14 +240,22 @@ end
 {"Goodbye.", function()
   Polygamy.state.goto("Menu") end}
 }})
- 
+ --[[
   newChatState({ name = "Pardoner1-3", character = characters.pardoner, text = "You’re going to need to hand me a draught of moist and malty ale before I tell you any stories.", choices = {
 {"Give the Pardoner a DRAUGHT OF ALE", function() --This should detract ale from your inbox...
   Polygamy.state.goto("Pardoner1-4") end},
 {"I don't have any ale. Goodbye.", function()
   Polygamy.state.goto("Menu") end}
 }})
+ --]]
  
+  newChatState({ name = "Pardoner1-3", character = characters.pardoner, text = "You’re going to need to hand me a draught of moist and malty ale before I tell you any stories.", choices = {
+{"Give the Pardoner some of your Ale", function() --This should detract ale from your inbox...
+  Polygamy.state.goto("Pardoner1-4") end},
+{"I don't have any ale. Goodbye.", function()
+  Polygamy.state.goto("Menu") end}
+}})
+
   newChatState({ name = "Pardoner1-4", character = characters.pardoner, text = "Alright, I’ve had some ale, so I’ll show you a bit of my sermon. ", choices = {
 {"...", function()
   Polygamy.state.goto("Pardoner1-5") end}
@@ -268,11 +280,25 @@ end
 {"...", function()
   Polygamy.state.goto("Pardoner1-9") end},
 }})
- 
+ --[[
 newChatState({ name = "Pardoner1-9", character = characters.pardoner, text = "Well, I never knew our host could be so rude. So, do you want to buy a pardon? You never know when you might need it!\n\n*******PARDONER’S SHOP UNLOCKED*******", choices = {
 {"Yes,please.", function()
 pardonerShopUnlocked = true
+stages[4].continueRejection = "You should talk to the Reeve first!"
   Polygamy.state.goto("pardonerShop") end}, --this should go to the pardoner's shop
+  {"No thank you. Goodbye.", function()
+pardonerShopUnlocked = true
+  
+     talkedToPardoner = true
+     if talkedToPardoner and talkedToReeve then
+      canContinue = true
+    end
+  Polygamy.state.goto("Menu") end}
+}})
+ 
+ --]]
+ 
+newChatState({ name = "Pardoner1-9", character = characters.pardoner, text = "Well, I never knew our host could be so rude. So, do you want to buy a pardon? You never know when you might need it!", choices = {
   {"No thank you. Goodbye.", function()
 pardonerShopUnlocked = true
   
@@ -285,14 +311,13 @@ pardonerShopUnlocked = true
  
  
  
- 
 
 stages[4].characterAction[2] = function()
 Polygamy.state.goto("Reeve1-1")
 end
   newChatState({ name = "Reeve1-1", character = characters.reeve, text = "grumble grumble… mutter… that stupid Miller, oh how i hate him… grumble", choices = {
 {"Hello?", function()
-  Polygamy.state.goto("Knight1-2") end}
+  Polygamy.state.goto("Reeve1-2") end}
 }})
 
  
@@ -345,7 +370,7 @@ end
 
   newChatState({ name = "Reeve1-9", character = characters.reeve, text = "Agh, I’m so mad, I don’t think I can tell a coherent story right now. I’m certainly too old for this. It would probably be a story about making a cuckold and a fool out of a miller.", choices = {
 {"Goodbye.", function()
-
+  stages[4].continueRejection = "You should talk to the Pardoner first!"
      talkedToReeve = true
      if talkedToPardoner and talkedToReeve then
       canContinue = true
@@ -382,12 +407,13 @@ end
 {"So, tell me more about yourself.", function()
   Polygamy.state.goto("Wife-3") end},
 {"Tell me a story.", function()
+      canContinue = true
   Polygamy.state.goto("WifeOfBathInstructions") end},
 {"Goodbye.", function()
   Polygamy.state.goto("Menu") end}
 }})
  
-  newChatState({ name = "Wife-3", character = characters.wifeOfBath, text = "Of course I can tell you a little about myself, love. I’ve had five husbands since I was twelve years old, so I find myself very qualified to discuss the important matters of chastity, bla and bla. I believe first and foremost that chastity is overrated. The Apostle only suggests that chastity is a good idea. The people who want to remain chaste can go right ahead. As the Bible states, a lord has wooden dishes in his house as well as gold. I say that if we have the organs for it, we should use them! God gave us reproductive capabilities for a reason. I also say that the woman should have control over her husband’s body for all his life, just as the Apostle says. \n\n(You think to yourself that her Bible interpretations are a bit of a stretch.)", choices = {
+  newChatState({ name = "Wife-3", character = characters.wifeOfBath, text = "Of course I can tell you a little about myself, love. I’ve had five husbands since I was twelve years old, so I find myself very qualified to discuss the important matters of chastity, bla and bla. I believe first and foremost that chastity is overrated. The Apostle only suggests that chastity is a good idea. The people who want to remain chaste can go right ahead. As the Bible states, a lord has wooden dishes in his house as well as gold. I say that if we have the organs for it, we should use them! God gave us reproductive capabilities for a reason. I also say that the woman should have control over her husband’s body for all his life, just as the Apostle says. (You think to yourself that her Bible interpretations are a bit of a stretch.)", choices = {
 {"...", function()
   Polygamy.state.goto("Wife-4") end}
 }})
@@ -397,7 +423,7 @@ end
   Polygamy.state.goto("Wife-5") end}
 }})
  
-  newChatState({ name = "Wife-5", character = characters.wifeOfBath, text = "My story hasn’t even started yet! Return to your spot in line. I will tell you after I’ve finished talking to the kind Pilgrim here.\n\n(The Pardoner leaves.)\n\nWhat a poor sap. You remember what I said about having the organs for it? Well, he is one that was... meant to be chaste. Poor soul.\n\nAny questions?", choices = {
+  newChatState({ name = "Wife-5", character = characters.wifeOfBath, text = "My story hasn’t even started yet! Return to your spot in line. I will tell you after I’ve finished talking to the kind Pilgrim here.\n(The Pardoner leaves.)\nWhat a poor sap. You remember what I said about having the organs for it? Well, he is one that was... meant to be chaste. Poor soul.\nAny questions?", choices = {
 {"Tell me more about your husbands.", function()
   canContinue = true
   Polygamy.state.goto("WifeOfBathInstructions") end},
@@ -501,7 +527,7 @@ stages[7].introMapText = "Your journey continues... Your party decides to take a
 stages[7].continueRejection = "You should talk to the Wife of Bath first!"
 
 
-stages[7].characterAction[7] = function()
+stages[7].characterAction[1] = function()
 Polygamy.state.goto("Priest-1")
 end
   newChatState({ name = "Priest-1", character = characters.prioress, text = "Priest, fetch me a new steak and the finest bread for my pooch! Immediately- oh, hello, Mr. Geoffrey. I didn’t see you there. How are you?", choices = {

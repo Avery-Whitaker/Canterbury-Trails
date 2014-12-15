@@ -75,8 +75,11 @@ nNum = 0
   end
   
   if shade > 255 then 
+  if nextStage == nil then Polygamy.state.goto("End")
+  else
  menu.setStage(nextStage)
   Polygamy.state.goto("Map")
+  end
   end
 
 end

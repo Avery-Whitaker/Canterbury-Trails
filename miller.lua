@@ -1,8 +1,8 @@
 millerGame = Polygamy.state( "Miller" )
 
 
-function newMan(i,j)
-	table.insert(men, {x = i, y = j, status = "down"})
+function newMan(i,j, t)
+	table.insert(men, {x = i, y = j, status = "down", type = t})
 end
 
 function millerGame.before()
@@ -31,8 +31,9 @@ womanTime = 1
 spawnCounter = 0
 speed = 0.001
 
-	manIMG = love.graphics.newImage("assets/reeve.png")
-	evilIMG = love.graphics.newImage("assets/enemyKnight.png")
+	manIMG = love.graphics.newImage("assets/enemy2.png")
+	evilAIMG = love.graphics.newImage("assets/defender.png")
+  evilBIMG = love.graphics.newImage("assets/enemy1.png")
 	powIMG = love.graphics.newImage("assets/POW.png")
 	millerBackIMG = love.graphics.newImage("assets/millerBack.png")
 	womanIMG = love.graphics.newImage("assets/lady.png")
@@ -45,7 +46,7 @@ end
 
 function millerGame.update(dt)
 if lose == false then
-    gameScore = gameScore + dt*speed*10000
+    gameScore = gameScore + dt*speed*1000
     end
 	playerMove = dt*7*0.1
     physicsWorld:update(dt)
@@ -65,14 +66,18 @@ if lose == false then
 
 	if spawnCounter > 1 then
 		spawnCounter = spawnCounter - 1
-		newMan(math.random()*0.8+0.1, -0.25)
+		if math.random() < 0.2 then
+		newMan(math.random()*0.8+0.1, -0.25,"super")
+		else
+    newMan(math.random()*0.8+0.1, -0.25,"normal")
+		end
 		speed = speed*1.01
 	end
 	powTimer = powTimer + dt
 	heartTimer = heartTimer + dt
 	if(powTimer > 0.1) then powX = -1 end
 
-	if(heartX > playerX and heartX < playerX+playerW) then
+	if(heartX+playerW > playerX and heartX < playerX+playerW) then
 		heartX = -1
 		gameScore = gameScore + 20
 	end
@@ -89,9 +94,9 @@ if lose == false then
 			womanTarget = value.x-0.05
 		end
 
-		if(value.x > playerX and value.x < playerX+playerW and value.y > 0.45 and value.status == "down") then
+		if(value.x+playerW > playerX and value.x < playerX+playerW and value.y > 0.45 and value.status == "down") then
 			value.status = "hit"
-			gameScore = gameScore + 10
+			--gameScore = gameScore + 10
 			powX = value.x
 			powTimer = 0
 		end
@@ -104,7 +109,11 @@ if lose == false then
 		end--]]
     
     if(value.status == "down" and lose == false) then
+    if value.type == "super" then
+    value.y = value.y + speed*2
+    else
     value.y = value.y + speed
+    end
 		elseif value.status == "hit" or value.status == "down" and lose == true then
       value.y = value.y - speed * 10
 		else
@@ -136,7 +145,11 @@ gui.Panel{text = "GAME OVER", pos = gui.screenPercent({0.4,0.2}), size=gui.scree
 	gui.Image{ pos = gui.screenPercent({heartX,0.65}), size= gui.imageSize(playerW*1.5, heartIMG), image=heartIMG }
   gui.Image{ pos = gui.screenPercent({heartBadX,0.75}), size= gui.imageSize(playerW*1.5, heartBadIMG), image=heartBadIMG }
     for key, value in ipairs(men) do
-	gui.Image{ pos = gui.screenPercent({value.x,value.y}), size= gui.imageSize(0.05, manIMG), image=evilIMG }
+    if value.type == "super" then
+	gui.Image{ pos = gui.screenPercent({value.x,value.y}), size= gui.imageSize(0.05, manIMG), image=evilBIMG }
+	else
+  gui.Image{ pos = gui.screenPercent({value.x,value.y}), size= gui.imageSize(0.05, manIMG), image=evilAIMG }
+	end
 	--love.graphics.draw(manIMG, gui.screenPercentX(value.x), gui.screenPercentY(value.y))
     end
     

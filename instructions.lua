@@ -44,7 +44,7 @@ instructState = Polygamy.state( "WifeOfBathInstructions" )
 function instructState.before() end
 function instructState.update(dt) 
  gui.Label{text = "Wife of Bath Minigame", align = "center", pos = gui.screenPercent({0.1,0.05}), size = gui.screenPercent({0.8,0.2})}
- gui.Panel{text = "TODO WRITE THIS", align = "center", pos = gui.screenPercent({0.1,0.4}), size = gui.screenPercent({0.8,0.4})}
+ gui.Panel{text = "Welcome to SPEED DATE! You represent the Wife of Bath. Today you have five lovely husbands to choose from. You’re going to ask them questions, and they will respond accordingly. Once you think you know which ones best, choose that one for the wife of bath.\nClick on a silhouette to talk to him.", align = "center", pos = gui.screenPercent({0.1,0.4}), size = gui.screenPercent({0.8,0.4})}
    if gui.Button{text = "Play", pos=gui.screenPercent({0.1,(0.90-(3*1*0.025))+1*3*0.025}), size=gui.screenPercent({0.8,0.05})} then
    Polygamy.state.goto("WifeOfBathInstructions2") 
    end
@@ -67,8 +67,8 @@ end
  end
 function instructState.draw()
   gui.preDraw()
-  love.graphics.draw(wifeBathGameIMG, 0,0, 0, gui.screenWidth()/wifeBathGameIMG:getWidth(), gui.screenHeight()/wifeBathGameIMG:getHeight())
- love.graphics.setColor(255,255,255,125-(timer/5)*125)
+  love.graphics.draw(wifeBathGameIMG, (gui.screenWidth()-gui.screenWidth()/wifeBathGameIMG:getHeight()/wifeBathGameIMG:getWidth())/8,0, 0, gui.screenWidth()/wifeBathGameIMG:getHeight(), gui.screenHeight()/wifeBathGameIMG:getHeight())
+ love.graphics.setColor(0,0,0,255-(timer/5)*255)
   love.graphics.rectangle("fill", gui.xModification(), gui.yModification(), gui.screenWidth(), gui.screenHeight())
   gui.postDraw() 
 end

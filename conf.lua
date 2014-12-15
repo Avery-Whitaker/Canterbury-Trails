@@ -4,7 +4,7 @@ function love.conf(t)
     t.console = false                  -- Attach a console (boolean, Windows only)
 
     t.window.title = "Canterbury Trails"        -- The window title (string)
-    t.window.icon = "assets/logo.png"                -- Filepath to an image to use as the window's icon (string)
+    t.window.icon = "assets/splashLogo.png"                -- Filepath to an image to use as the window's icon (string)
     t.window.width = 1280              -- The window width (number)
     t.window.height = 720              -- The window height (number)
     t.window.borderless = false        -- Remove all border visuals from the window (boolean)
