@@ -116,9 +116,9 @@ function welcome.update(dt)
   
   end
   
-  if gui.Button{text= "Veiw Inventory", pos = gui.screenPercent({0.05, 0.7}), size= gui.screenPercent({0.2,0.1})} then
-  Polygamy.state.goto("Inventory") 
-  end
+ -- if gui.Button{text= "Veiw Inventory", pos = gui.screenPercent({0.05, 0.7}), size= gui.screenPercent({0.2,0.1})} then
+ -- Polygamy.state.goto("Inventory") 
+  --end
   
 
    
