@@ -31,9 +31,6 @@ function millerGame.before()
 	Polygamy.keyboard.use( "Miller" )
     physicsWorld = love.physics.newWorld(-800,-600,800,600,0,1.1)
     
-    love.mouse.setVisible(false)
-
-
 end
 
 

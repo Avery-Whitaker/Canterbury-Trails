@@ -1,6 +1,14 @@
 require "library.Polygamy.init" "./library/Polygamy/"
 gui = require "quickie"
 
+math.randomseed( os.time() )
+math.random()
+math.random()
+math.random()
+math.random()
+math.random()
+math.random()
+math.random()
 
 
 function gui.screenWidth()
@@ -79,14 +87,14 @@ end
 Polygamy.keyboard( "test" ):setConfig( "pressed", {
 	["0"] = function() Polygamy.state.goto("Splash Screen")       end,
 	["1"] = function() Polygamy.state.goto("Welcome Screen")       end,
-	["2"] = function() Polygamy.state.goto("Character Select")       end,
-	["3"] = function() Polygamy.state.goto("Options")       end,
-	["4"] = function() Polygamy.state.goto("Credits")       end,
-	["5"] = function() Polygamy.state.goto("Menu")       end,
-	["6"] = function() Polygamy.state.goto("Traveling")       end,
-	["8"] = function() Polygamy.state.goto("Miller")       end,
-	["9"] = function() Polygamy.state.goto("Knight")       end,
-	["7"] = function() Polygamy.state.goto("Scores")       end,
+	["2"] = function() Polygamy.state.goto("MillerInstructions")       end,
+	["3"] = function() Polygamy.state.goto("KinghtInstructions")       end,
+	["4"] = function() Polygamy.state.goto("WifeOfBathInstructions")       end,
+	["5"] = function() Polygamy.state.goto("PreistInstructions")       end,
+	["6"] = function() Polygamy.state.goto("-")       end,
+	["8"] = function() Polygamy.state.goto("-")       end,
+	["9"] = function() Polygamy.state.goto("-")       end,
+	["7"] = function() Polygamy.state.goto("-")       end,
 	["q"]            = function() love.event.push('quit') end,
 	[Polygamy.default] = print
 })
@@ -94,21 +102,24 @@ Polygamy.keyboard( "test" ):setConfig( "pressed", {
 require "chatState"
 require "character"
 require "gameFlow"
-require "Welcome Screen/welcome"
+require "welcome"
 require "map"
-require "Character Select/select"
-require "Options/options"
-require "Credits/credits"
-require "Scores/scores"
-require "Splash/Splash"
+require "select"
+require "options"
+require "credits"
+require "scores"
+require "Splash"
 require "Inventory/inventory"
 require "Inventory/itemState"
-require "Miller/miller"
-require "Menu/menu"
+require "miller"
+require "menu"
 require "intentory"
 require "traveling"
 require "begin"
 require "instructions"
+require "preist"
+require "wifeBath"
+require "knight"
 --require "Knight/knight"
 
 require "math"

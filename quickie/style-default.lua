@@ -80,8 +80,8 @@ local function Panel(state, title, x, y, w, h)
 	local f = assert(love.graphics.getFont())
 	--x,y = x + (w-f:getWidth(title))/2, y + (h-f:getHeight(title))/2
 	--love.graphics.setColor(c.fg)
-  love.graphics.setColor(255,255,255)
-	gui.printText(title, x+w*0.05, y+h*0.05, w*0.9, h*0.9, "left", "assets/LobsterTwo-BoldItalic.otf", true)
+  love.graphics.setColor(0,0,0)
+	gui.printText(title, x+w*0.05, y+h*0.05, w*0.9, h*0.9, "left", "assets/ThrowMyHandsUpintheAirBold.ttf", true)
 	--love.graphics.print(title, x,y)
 end
 
@@ -100,7 +100,7 @@ local function Label(state, text, align, x,y,w,h)
 	--elseif align == 'right' then
 	--	x = x + w - f:getWidth(text)
 	--end
-	gui.printText(text, x, y, w, h, align, "assets/oldenglishregular.ttf")
+	gui.printText(text, x, y, w, h, align, "assets/LobsterTwo-BoldItalic.otf")
 	--love.graphics.print(text, x,y,0,w/f:getWidth(text),h/f:getHeight(text))
 end
 

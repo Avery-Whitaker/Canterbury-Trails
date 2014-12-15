@@ -24,7 +24,8 @@ continueRejection = a.continueRejection
 
 justHunted = false
 
-canContinue = false
+--canContinue = false
+        canContinue = true
 mapText = introMapText
 end
 
@@ -73,9 +74,10 @@ function welcome.update(dt)
       characterAction[key]()
     end
     
-    
     gui.Image{ pos = gui.screenPercent({0.3+(n-1)*(0.7/nMax) + 0.025, 0}), size= gui.imageSize(0.7/nMax - 0.05,value.image), image=value.image }
-  end
+  
+    n = n +1
+ end
 
     gui.Label{text= "Score: 10923", pos = gui.screenPercent({0.05, 0}), size= gui.screenPercent({0.2,0.2})}
   if gui.Button{text= "Look at Map", pos = gui.screenPercent({0.05, 0.2}), size= gui.screenPercent({0.2,0.15})} then
@@ -106,7 +108,7 @@ function welcome.update(dt)
    if canContinue == false then
    foodAlert = true
      else
-     menu.setStage(nextStage)
+    -- menu.setStage(nextStage)
   Polygamy.state.goto("Traveling")   
    
    end

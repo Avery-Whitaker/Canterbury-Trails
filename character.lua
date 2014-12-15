@@ -27,7 +27,7 @@ characters.knight.image = love.graphics.newImage("assets/chartest.png")
 characters.knight.name = "Knight"
 
 characters.squire = {}
-characters.squire.image = love.graphics.newImage("assets/chartest.png")
+characters.squire.image = love.graphics.newImage("assets/squire.png")
 characters.squire.name = "The Squire"
 
 characters.merchant = {}
@@ -35,7 +35,7 @@ characters.merchant.image = love.graphics.newImage("assets/chartest.png")
 characters.merchant.name = "The Merchant"
 
 characters.monk = {}
-characters.monk.image = love.graphics.newImage("assets/chartest.png")
+characters.monk.image = love.graphics.newImage("assets/monk.png")
 characters.monk.name = "The Monk"
 
 characters.miller = {}
@@ -43,7 +43,7 @@ characters.miller.image = love.graphics.newImage("assets/chartest.png")
 characters.miller.name = "The Miller"
 
 characters.prioress = {}
-characters.prioress.image = love.graphics.newImage("assets/chartest.png")
+characters.prioress.image = love.graphics.newImage("assets/prioress.png")
 characters.prioress.name = "The Prioress"
 
 characters.nunsPreist = {}
@@ -51,5 +51,9 @@ characters.nunsPreist.image = love.graphics.newImage("assets/chartest.png")
 characters.nunsPreist.name = "Nun's Priest"
 
 characters.wifeOfBath = {}
-characters.wifeOfBath.image = love.graphics.newImage("assets/chartest.png")
+characters.wifeOfBath.image = love.graphics.newImage("assets/wife.png")
 characters.wifeOfBath.name = "Wife of Bath"
+
+characters.pardoner = {}
+characters.pardoner.image = love.graphics.newImage("assets/chartest.png")
+characters.pardoner.name = "The Pardoner"

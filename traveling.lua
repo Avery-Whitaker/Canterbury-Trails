@@ -29,7 +29,9 @@ function traveling.before()
 pkeyboard.use( "Traveling" )
 shade = 0 
 
+backOff = 0
 end
+
 function traveling.update(dt) 
 
 nNum = 0
@@ -82,7 +84,6 @@ end
  -- if gui.Button{text = "Back", pos=gui.screenPercent({0,1-0.5/4}), size=gui.screenPercent({0.5/5,0.5/4})}
 -- then Polygamy.state.goto("Menu") end
 
-backOff = 0
  
 function traveling.draw()
   gui.preDraw()
@@ -102,7 +103,7 @@ n = 0
 end
 
 pkeyboard( "Traveling" ):setConfig( "pressed", {
-  [{" ", "return"}] = function() goto("Menu")       end,
+  [{" ", "return"}] = function() backOff=0.7       end,
   escape            = function() love.event.push('quit') end,
   [Polygamy.default] = print
 })
