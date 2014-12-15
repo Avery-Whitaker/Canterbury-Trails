@@ -47,7 +47,7 @@ end
 {"Tell me more about yourself.", function() 
   Polygamy.state.goto("Knight1-3") end},
 {"Tell me a story.", function() 
-  Polygamy.state.goto("KinghtInstructions") end},
+  Polygamy.state.goto("KnightInstructions") end},
 {"Goodbye.", function() 
   Polygamy.state.goto("Menu") end}
 }})

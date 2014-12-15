@@ -18,7 +18,7 @@ function instructState.after() end
 
 
 
-instructState = Polygamy.state( "KinghtInstructions" )
+instructState = Polygamy.state( "KnightInstructions" )
 function instructState.before() end
 function instructState.update(dt) 
  gui.Label{text = "Knight Minigame", align = "center", pos = gui.screenPercent({0.1,0.05}), size = gui.screenPercent({0.8,0.2})}
@@ -78,7 +78,7 @@ function instructState.after() end
 
 
 
-instructState = Polygamy.state( "PreistInstructions" )
+instructState = Polygamy.state( "PriestInstructions" )
 function instructState.before() end
 function instructState.update(dt) 
  gui.Label{text = "Nun's Priest Minigame", align = "center", pos = gui.screenPercent({0.1,0.05}), size = gui.screenPercent({0.8,0.2})}

@@ -35,3 +35,6 @@ pkeyboard( "Credits" ):setConfig( "pressed", {
 
 function welcome.after() print"TEST" love.graphics.print("WHAT", 30, 10) love.timer.sleep(3) end
 
+-- http://s444.photobucket.com/user/grandmadeb_rmvx/media/fox.png.html
+-- see readme
+--http://s444.photobucket.com/user/grandmadeb_rmvx/media/chara07_2.png.html

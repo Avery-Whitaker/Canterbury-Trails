@@ -90,7 +90,7 @@ Polygamy.keyboard( "test" ):setConfig( "pressed", {
 	["2"] = function() Polygamy.state.goto("MillerInstructions")       end,
 	["3"] = function() Polygamy.state.goto("KinghtInstructions")       end,
 	["4"] = function() Polygamy.state.goto("WifeOfBathInstructions")       end,
-	["5"] = function() Polygamy.state.goto("PreistInstructions")       end,
+	["5"] = function() Polygamy.state.goto("PriestInstructions")       end,
 	["6"] = function() Polygamy.state.goto("-")       end,
 	["8"] = function() Polygamy.state.goto("-")       end,
 	["9"] = function() Polygamy.state.goto("-")       end,
