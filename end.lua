@@ -2,11 +2,11 @@ theEnd = Polygamy.state( "End" )
 
 function theEnd.before() 
   Polygamy.keyboard.use( "End" ); 
+  timer = 7
 end
 
   canterburyIMG = love.graphics.newImage("assets/cathedral.png")
   
-  timer = 7
 function theEnd.update(dt) 
 timer = timer - dt
 if timer < 0 then Polygamy.state.goto("Credits") end

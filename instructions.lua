@@ -22,7 +22,7 @@ instructState = Polygamy.state( "KnightInstructions" )
 function instructState.before() end
 function instructState.update(dt) 
  gui.Label{text = "Knight Minigame", align = "center", pos = gui.screenPercent({0.1,0.05}), size = gui.screenPercent({0.8,0.2})}
- gui.Panel{text = "A knight must be fast with the best reflexes. In order to win the girl, you will need to be fast! Press space as fast as you can when the enemy knight appears, but don't press it when your lady love appears!\n\n\nWould you like to pray for Victory? Or pray for love?", align = "center", pos = gui.screenPercent({0.1,0.4}), size = gui.screenPercent({0.8,0.4})}
+ gui.Panel{text = "Once upon a time, there were two sworn brothers named Arcite and Palamon who both loved a girl named Emily. The night before, they each prayed for two different blessings, and fought in a tournament for Emily’s hand. You get to choose which blessing to pray for, and then fight other knights for the hand of Emily! Press space as fast as you can when the enemy knight appears, but don't press it when your lady love appears!\n\n\nWould you like to pray for Victory? Or pray for love?", align = "center", pos = gui.screenPercent({0.1,0.4}), size = gui.screenPercent({0.8,0.4})}
   if gui.Button{text = "Pray for Victory", pos=gui.screenPercent({0.1,(0.90-(3*1*0.025))+1*3*0.025}), size=gui.screenPercent({0.35,0.05})} then
    Polygamy.state.goto("Knight") 
    end
