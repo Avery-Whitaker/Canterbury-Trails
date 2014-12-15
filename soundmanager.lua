@@ -1,4 +1,14 @@
---[[
+
+millerGameMusic = love.audio.newSource("assets/millerGame.mp3")
+
+knightGameMusic = love.audio.newSource("assets/knightGame.mp3")
+
+knightGameMusic = love.audio.newSource("assets/wifeOfBathGame.mp3")
+knightGameMusic = love.audio.newSource("assets/nunsPriestGame.mp3")
+town= love.audio.newSource("assets/in a small town.mp3")
+road = love.audio.newSource("assets/OnTheRoadMusic.mp3")
+marching = love.audio.newSource("assets/marching.mp3")
+
 
 Copyright (c) 2011, Bart van Strien and Tommy Brunn
 All rights reserved.
@@ -24,8 +34,6 @@ LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
 ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-
---]]
 
 soundmanager = {}
 soundmanager.queue = {}
