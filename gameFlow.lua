@@ -28,6 +28,15 @@ stages[4].characterAction = {}
 stages[5].characterAction = {}
 stages[6].characterAction = {}
 stages[7].characterAction = {}
+
+
+stages[1].stageMusic = town
+stages[2].stageMusic = town
+stages[3].stageMusic = road
+stages[4].stageMusic = town
+stages[5].stageMusic = road
+stages[6].stageMusic = town
+stages[7].stageMusic = road
  
 --Emilys version dont have
 stages[1].bckImg = love.graphics.newImage("assets/trailBackground.png")

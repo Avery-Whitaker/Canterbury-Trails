@@ -25,7 +25,7 @@ for key,value in pairs(characters) do --actualcode
 end
 
 function traveling.before() 
-
+soundmanager:play(marching)
 pkeyboard.use( "Traveling" )
 shade = 0 
 

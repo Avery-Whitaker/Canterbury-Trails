@@ -3,6 +3,7 @@ knightGame = Polygamy.state( "Knight" )
 prayForLove=false
 
 function knightGame.before()
+soundmanager:play(knightGameMusic)
   Polygamy.keyboard.use( "Knight" )
   ladyIMG = love.graphics.newImage("assets/lady.png")
   enemyIMG = love.graphics.newImage("assets/enemyKnight.png")

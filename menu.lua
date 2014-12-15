@@ -23,6 +23,7 @@ stateMapText = a.stateMapText
 introMapText = a.introMapText
 nextStage = a.nextStage
 continueRejection = a.continueRejection
+stageMusic = a.stageMusic
 
 justHunted = false
 
@@ -33,6 +34,7 @@ end
 
 function welcome.before()
 
+soundmanager:play(stageMusic)
 mapText=stateMapText
  pkeyboard.use( "Menu" ); 
  

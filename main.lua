@@ -100,6 +100,7 @@ Polygamy.keyboard( "test" ):setConfig( "pressed", {
 	[Polygamy.default] = print
 })
 
+require "soundmanager"
 require "end"
 require "chatState"
 require "character"

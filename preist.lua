@@ -33,6 +33,7 @@ bonusIMG = love.graphics.newImage("assets/egg.png")
 
 function preistGame.before()
 
+soundmanager:play(priestMusic)
 foxCurrent = foxRight
 
 foxX = 66.173611111111
