@@ -1,37 +1,26 @@
 millerGame = Polygamy.state( "Miller" )
 
-men = {}
-
-playerX=0.5
-womanX=0.5
-womanTarget=0.5
-
-local playerW=0.05
-local gameScore = 0
-
-powX=-1
-heartX=-1
-heartBadX=-1
-
-lose = false
 
 function newMan(i,j)
 	table.insert(men, {x = i, y = j, status = "down"})
 end
 
 function millerGame.before()
+    men = {}
+
     
-	manIMG = love.graphics.newImage("assets/man.png")
-	evilIMG = love.graphics.newImage("assets/evil man.png")
-	powIMG = love.graphics.newImage("assets/POW.png")
-	millerBackIMG = love.graphics.newImage("assets/millerBack.png")
-	womanIMG = love.graphics.newImage("assets/woman.png")
-	heartIMG = love.graphics.newImage("assets/heart.png")
-  heartBadIMG = love.graphics.newImage("assets/heartBad.png")
-	Polygamy.keyboard.use( "Miller" )
-    physicsWorld = love.physics.newWorld(-800,-600,800,600,0,1.1)
-    
-end
+playerX=0.5
+womanX=0.5
+womanTarget=0.5
+
+playerW=0.05
+gameScore = 0
+
+powX=-1
+heartX=-1
+heartBadX=-1
+
+lose = false
 
 
 powTimer = 0
@@ -41,6 +30,19 @@ womanTimer = 0
 womanTime = 1
 spawnCounter = 0
 speed = 0.001
+
+	manIMG = love.graphics.newImage("assets/reeve.png")
+	evilIMG = love.graphics.newImage("assets/enemyKnight.png")
+	powIMG = love.graphics.newImage("assets/POW.png")
+	millerBackIMG = love.graphics.newImage("assets/millerBack.png")
+	womanIMG = love.graphics.newImage("assets/lady.png")
+	heartIMG = love.graphics.newImage("assets/heart.png")
+  heartBadIMG = love.graphics.newImage("assets/heartBad.png")
+	Polygamy.keyboard.use( "Miller" )
+    physicsWorld = love.physics.newWorld(-800,-600,800,600,0,1.1)
+    
+end
+
 function millerGame.update(dt)
 if lose == false then
     gameScore = gameScore + dt*speed*10000
@@ -130,7 +132,7 @@ gui.Panel{text = "GAME OVER", pos = gui.screenPercent({0.4,0.2}), size=gui.scree
 --   gui.Panel{ pos = gui.screenPercent({0.4,0.2}), size= gui.screenPercent({0.4,0.2}), text = "YOU LOSE Score: " .. math.floor(gameScore) }
   end
   
-	gui.Image{ pos = gui.screenPercent({powX,0.7}), size= gui.imageSize(playerW*1.5, powIMG), image=powIMG }
+	gui.Image{ pos = gui.screenPercent({powX,0.6}), size= gui.imageSize(playerW*1.5, powIMG), image=powIMG }
 	gui.Image{ pos = gui.screenPercent({heartX,0.65}), size= gui.imageSize(playerW*1.5, heartIMG), image=heartIMG }
   gui.Image{ pos = gui.screenPercent({heartBadX,0.75}), size= gui.imageSize(playerW*1.5, heartBadIMG), image=heartBadIMG }
     for key, value in ipairs(men) do
@@ -144,7 +146,7 @@ gui.Panel{text = "GAME OVER", pos = gui.screenPercent({0.4,0.2}), size=gui.scree
  
 	else
 if gui.Button{text = "Continue", pos=gui.screenPercent({0.4,0.6}), size=gui.screenPercent({0.2,0.5/4}),}
- then Polygamy.state.goto("Welcome Screen") end
+ then Polygamy.state.goto("Menu") end
    gui.Panel{ pos = gui.screenPercent({0.2,0.4}), size= gui.screenPercent({0.2,0.05}), text = "Score: " .. math.floor(gameScore) }
 	end
 	gui.Image{ pos = gui.screenPercent({playerX,0.6}), size= gui.imageSize(playerW, manIMG), image=manIMG }

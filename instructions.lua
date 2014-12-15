@@ -79,18 +79,21 @@ function instructState.after() end
 
 
 instructState = Polygamy.state( "PriestInstructions" )
-function instructState.before() end
+function instructState.before() 
+  Polygamy.keyboard.use( "PriestInstructions" )
+  end
 function instructState.update(dt) 
  gui.Label{text = "Nun's Priest Minigame", align = "center", pos = gui.screenPercent({0.1,0.05}), size = gui.screenPercent({0.8,0.2})}
- gui.Panel{text = "TODO WRITE THIS", align = "center", pos = gui.screenPercent({0.1,0.4}), size = gui.screenPercent({0.8,0.4})}
-  if gui.Button{text = "Play", pos=gui.screenPercent({0.1,(0.90-(3*1*0.025))+1*3*0.025}), size=gui.screenPercent({0.8,0.05})} then
-   Polygamy.state.goto("nunsPreist") 
-   end
+ gui.Panel{text = "Keep safe from the fox! Use your mouse to move chanteclear. Survive as long as you can without hitting a wall or being caught. Grab eggs for bonus points!5\nPress space to begin!", align = "center", pos = gui.screenPercent({0.1,0.4}), size = gui.screenPercent({0.8,0.4})}
  end
 function instructState.draw()
   gui.preDraw()
   gui.postDraw() 
 end
+
+Polygamy.keyboard( "PriestInstructions" ):setConfig( "pressed", {
+  [" "]     = function() Polygamy.state.goto("nunsPreist") end 
+})
 
 function instructState.after() end
 

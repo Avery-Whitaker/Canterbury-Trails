@@ -154,7 +154,7 @@ gui.preDraw()
   else
     gui.Panel{text = "GAME OVER", pos = gui.screenPercent({0.4,0.2}), size=gui.screenPercent({0.4,0.2})}
     if gui.Button{text = "Continue", pos=gui.screenPercent({0.4,0.6}), size=gui.screenPercent({0.2,0.5/4}),}
-    then Polygamy.state.goto("Welcome Screen") end
+    then Polygamy.state.goto("Menu") end
      gui.Panel{ pos = gui.screenPercent({0.2,0.4}), size= gui.screenPercent({0.2,0.05}), text = "Score: " .. math.floor(gameScore) }
   end
   

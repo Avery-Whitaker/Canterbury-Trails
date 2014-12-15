@@ -29,13 +29,21 @@ stages[6].characterAction = {}
 stages[7].characterAction = {}
  
 --Emilys version dont have
-stages[1].mapImg = love.graphics.newImage("assets/trail.JPG")
-stages[2].mapImg = love.graphics.newImage("assets/trail.JPG")
-stages[3].mapImg = love.graphics.newImage("assets/trail.JPG")
-stages[4].mapImg = love.graphics.newImage("assets/trail.JPG")
-stages[5].mapImg = love.graphics.newImage("assets/trail.JPG")
-stages[6].mapImg = love.graphics.newImage("assets/trail.JPG")
-stages[7].mapImg = love.graphics.newImage("assets/trail.JPG")
+stages[1].mapImg = love.graphics.newImage("assets/trailBackground.png")
+stages[2].mapImg = love.graphics.newImage("assets/trailBackground.png") --village
+stages[3].mapImg = love.graphics.newImage("assets/trailBackground.png")
+stages[4].mapImg = love.graphics.newImage("assets/trailBackground.png") --village
+stages[5].mapImg = love.graphics.newImage("assets/trailBackground.png")
+stages[6].mapImg = love.graphics.newImage("assets/trailBackground.png") --village
+stages[7].mapImg = love.graphics.newImage("assets/trailBackground.png")
+
+stages[1].merchentShopUnlocked = false
+stages[2].merchentShopUnlocked = true
+stages[3].merchentShopUnlocked = false
+stages[4].merchentShopUnlocked = true
+stages[5].merchentShopUnlocked = false
+stages[6].merchentShopUnlocked = true
+stages[7].merchentShopUnlocked = false
 
 stages[1].stateMapText = "Your party is taking a short break."
 stages[1].introMapText = "Your journey continues... Your party decides to take a short break."
@@ -263,8 +271,10 @@ end
  
 newChatState({ name = "Pardoner1-9", character = characters.pardoner, text = "Well, I never knew our host could be so rude. So, do you want to buy a pardon? You never know when you might need it!\n\n*******PARDONER’S SHOP UNLOCKED*******", choices = {
 {"Yes,please.", function()
+pardonerShopUnlocked = true
   Polygamy.state.goto("pardonerShop") end}, --this should go to the pardoner's shop
   {"No thank you. Goodbye.", function()
+pardonerShopUnlocked = true
   
      talkedToPardoner = true
      if talkedToPardoner and talkedToReeve then

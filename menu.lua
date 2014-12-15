@@ -14,7 +14,8 @@ nextStage = stages[1]
 menu = {}
 
 function menu.setStage(a) 
-
+mapImg = a.mapImg
+merchentShopUnlocked = a.merchentShopUnlocked
 avalibleCharacters = a.avalibleCharacters
 characterAction =  a.characterAction
 stateMapText = a.stateMapText
@@ -85,8 +86,13 @@ function welcome.update(dt)
   Polygamy.state.goto("Map") 
   end
   
+  if pardonerShopUnlocked then
   gui.Button{text= "Pardanor Shop", pos = gui.screenPercent({0.05, 0.25}), size= gui.screenPercent({0.2,0.1})}
+  end
+  
+  if merchentShopUnlocked then
   gui.Button{text= "Merchant Shop", pos = gui.screenPercent({0.05, 0.4}), size= gui.screenPercent({0.2,0.1})}
+  end
   
   if gui.Button{text= "Go Hunting", pos = gui.screenPercent({0.05, 0.55}), size= gui.screenPercent({0.2,0.10})} then 
    if canHunt == true and justHunted == false then
@@ -121,6 +127,7 @@ function welcome.update(dt)
 end
   gui.Panel({text = "", align="left", pos = gui.screenPercent({0, 0}), size=gui.screenPercent({0.3, 1})})
 
+  gui.Image{ pos = {0,0}, size= gui.screenPercent({1,1}), image=mapImg }
 end
 
 function welcome.draw()  
