@@ -285,7 +285,13 @@ end
   Polygamy.state.goto("Pardoner1-6") end}
 }})
  
-  newChatState({ name = "Pardoner1-6", character = characters.host, text = "Who do you think you are?!? Why I oughta… I’d rather hold your severed testicles than any holy object of yours! \nKnight: Calm down, calm down. Come on you two, be gracious to each other. We still have quite a ways to go. \nHost: ...Alright, fine. I guess I’ll let it slide this time.", choices = {
+  newChatState({ name = "Pardoner1-6", character = characters.host, text = "Who do you think you are?!? Why I oughta… I’d rather hold your severed testicles than any holy object of yours!", choices = {
+{"...", function()
+  Polygamy.state.goto("Pardoner1-6b") end},
+}})  newChatState({ name = "Pardoner1-6b", character = characters.knight, text = "Calm down, calm down. Come on you two, be gracious to each other. We still have quite a ways to go.", choices = {
+{"...", function()
+  Polygamy.state.goto("Pardoner1-6c") end},
+}})  newChatState({ name = "Pardoner1-6c", character = characters.host, text = "...Alright, fine. I guess I’ll let it slide this time.", choices = {
 {"...", function()
   Polygamy.state.goto("Pardoner1-7") end},
 }})
@@ -300,11 +306,7 @@ end
   Polygamy.state.goto("Pardoner1-9") end},
 }})
  --[[
-newChatState({ name = "Pardoner1-9", character = characters.pardoner, text = "Well, I never knew our host could be so rude. So, do you want to buy a pardon? You never know when you might need it!\n\n*******PARDONER’S SHOP UNLOCKED*******", choices = {
-{"Yes,please.", function()
-pardonerShopUnlocked = true
-stages[4].continueRejection = "You should talk to the Reeve first!"
-  Polygamy.state.goto("pardonerShop") end}, --this should go to the pardoner's shop
+newChatState({ name = "Pardoner1-9", character = characters.pardoner, text = "Well, I never knew our host could be so rude. So, do you want to buy a pardon? You never know when you might need it!", choices = {
   {"No thank you. Goodbye.", function()
 pardonerShopUnlocked = true
   
@@ -432,7 +434,7 @@ end
   Polygamy.state.goto("Menu") end}
 }})
  
-  newChatState({ name = "Wife-3", character = characters.wifeOfBath, text = "Of course I can tell you a little about myself, love. I’ve had five husbands since I was twelve years old, so I find myself very qualified to discuss the important matters of chastity, bla and bla. I believe first and foremost that chastity is overrated. The Apostle only suggests that chastity is a good idea. The people who want to remain chaste can go right ahead. As the Bible states, a lord has wooden dishes in his house as well as gold. I say that if we have the organs for it, we should use them! God gave us reproductive capabilities for a reason. I also say that the woman should have control over her husband’s body for all his life, just as the Apostle says. (You think to yourself that her Bible interpretations are a bit of a stretch.)", choices = {
+  newChatState({ name = "Wife-3", character = characters.wifeOfBath, text = "Of course I can tell you a little about myself, love. I’ve had five husbands since I was twelve years old, so I find myself very qualified to discuss the important matters of chastity and marriage. I believe first and foremost that chastity is overrated. The Apostle only suggests that chastity is a good idea. The people who want to remain chaste can go right ahead. As the Bible states, a lord has wooden dishes in his house as well as gold. I say that if we have the organs for it, we should use them! God gave us reproductive capabilities for a reason. I also say that the woman should have control over her husband’s body for all his life, just as the Apostle says. (You think to yourself that her Bible interpretations are a bit of a stretch.)", choices = {
 {"...", function()
   Polygamy.state.goto("Wife-4") end}
 }})

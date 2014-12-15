@@ -84,7 +84,7 @@ beginLogo = love.graphics.newImage("assets/splashLogo.png")
 function begin.before() pkeyboard.use( "Map" ); end
 function begin.update(dt) 
  gui.Panel{text = "You met a lot of people, and thought they were all wonderful characters. You’ll learn more about them later. They invite you to join their party when they realize you also plan to travel to Canterbury.", align = "center", pos = gui.screenPercent({0.1,0.4}), size = gui.screenPercent({0.8,0.4})}
-  if   gui.Button{text = "Begin Journy", pos=gui.screenPercent({0.1,(0.90-(3*1*0.025))+1*3*0.025}), size=gui.screenPercent({0.8,0.05})} then
+  if   gui.Button{text = "Begin Journey", pos=gui.screenPercent({0.1,(0.90-(3*1*0.025))+1*3*0.025}), size=gui.screenPercent({0.8,0.05})} then
    Polygamy.state.goto("Traveling") 
    end
 

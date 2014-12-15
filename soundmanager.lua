@@ -2,6 +2,8 @@
 millerGameMusic = "assets/millerGame.mp3"
 
 knightGameMusic = "assets/knightGame.mp3"
+mainMenu = "assets/menuMusic.mp3"
+
 
 wifeOfBathGameMusic = "assets/wifeOfBathGame.mp3"
 priestMusic = "assets/nunsPriestGame.mp3"
@@ -21,6 +23,7 @@ end
 
 --do the magic
 function soundmanager:play(sndData)
+love.audio.stop( )
    --make a source out of the sound data
    local src = love.audio.newSource(sndData, "static")
    --put it in the queue
