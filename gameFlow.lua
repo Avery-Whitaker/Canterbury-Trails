@@ -12,7 +12,8 @@ stages[2].nextStage = stages[3]
 stages[3].nextStage = stages[4]
 stages[4].nextStage = stages[5]
 stages[5].nextStage = stages[6]
-stages[6].nextStage = nil
+stages[6].nextStage = stages[7]
+stages[7].nextStage = nil
 stages[1].avalibleCharacters = {}
 stages[2].avalibleCharacters = {}
 stages[3].avalibleCharacters = {}
@@ -530,10 +531,10 @@ end
  
 ------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-stages[7].avalibleCharacters[1] = characters.nunsPriest
+stages[7].avalibleCharacters[1] = characters.nunsPreist
 stages[7].stateMapText = "Your party is taking a short break."
 stages[7].introMapText = "Your journey continues... Your party decides to take a short break."
-stages[7].continueRejection = "You should talk to the Wife of Bath first!"
+stages[7].continueRejection = "You should talk to the Nun's Preist first!"
 
 
 stages[7].characterAction[1] = function()
@@ -551,21 +552,22 @@ end
 
 }})
  
-  newChatState({ name = "Priest-3", character = characters.nunsPriest, text = "Thanks for getting me out of there. I really appreciate it.", choices = {
+  newChatState({ name = "Priest-3", character = characters.nunsPreist, text = "Thanks for getting me out of there. I really appreciate it.", choices = {
 {"Tell me about yourself.", function()
   Polygamy.state.goto("Priest-4") end},
 {"Tell me a story.", function()
+      canContinue = true
   Polygamy.state.goto("PriestInstructions") end},
 {"Goodbye.", function()
-  Polygamy.state.goto("Main") end}
+  Polygamy.state.goto("Menu") end}
 }})
  
-  newChatState({ name = "Priest-4", character = characters.nunsPriest, text = "Oh, I don’t do much. I just assist the Prioress.", choices = {
+  newChatState({ name = "Priest-4", character = characters.nunsPreist, text = "Oh, I don’t do much. I just assist the Prioress.", choices = {
 {"Tell me a story.", function()
   canContinue = true;
   Polygamy.state.goto("PriestInstructions") end},
 {"Goodbye.", function()
-  Polygamy.state.goto("Main") end}
+  Polygamy.state.goto("Menu") end}
 }})
  
  

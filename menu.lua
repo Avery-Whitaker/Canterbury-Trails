@@ -9,7 +9,7 @@ avalibleCharacters = {}
 canHunt = false
 justHunted = false
 
-nextStage = stages[1]
+nextStage = stages[7]
 
 menu = {}
 
