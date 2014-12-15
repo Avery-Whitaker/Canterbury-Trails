@@ -4,7 +4,7 @@ function theEnd.before()
   Polygamy.keyboard.use( "End" ); 
 end
 
-  canterburyIMG = love.graphics.newImage("assets/trailBackground.png")
+  canterburyIMG = love.graphics.newImage("assets/cathedral.png")
   
   timer = 7
 function theEnd.update(dt) 

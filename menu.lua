@@ -15,6 +15,7 @@ menu = {}
 
 function menu.setStage(a) 
 mapImg = a.mapImg
+bckImg = a.bckImg
 merchentShopUnlocked = a.merchentShopUnlocked
 avalibleCharacters = a.avalibleCharacters
 characterAction =  a.characterAction
@@ -135,7 +136,7 @@ function welcome.update(dt)
 end
   gui.Panel({text = "", align="left", pos = gui.screenPercent({0, 0}), size=gui.screenPercent({0.3, 1})})
 
-  gui.Image{ pos = {0,0}, size= gui.screenPercent({1,1}), image=mapImg }
+  gui.Image{ pos = {0,0}, size= gui.screenPercent({1,1}), image=bckImg }
 end
 
 function welcome.draw()  

@@ -3,7 +3,7 @@ local state, goto, pkeyboard = Polygamy.state, Polygamy.state.goto, Polygamy.key
 
 welcome = state( "Map" )
 
-  mapIMG = love.graphics.newImage("assets/trail.JPG")
+  mapImg = love.graphics.newImage("assets/trail.JPG")
 
 mapText = "Your journy conintues... until you stop for a rest at a small tavern...."
 
@@ -14,7 +14,7 @@ function welcome.update(dt)
    Polygamy.state.goto("Menu") 
    end
 
- gui.Image{ pos = gui.screenPercent({0.2,0.2}), size= gui.screenPercent({0.6,0.6}), image=mapIMG }
+ gui.Image{ pos = gui.screenPercent({0.2,0.2}), size= gui.screenPercent({0.6,0.6}), image=mapImg }
  
  end
 function welcome.draw()

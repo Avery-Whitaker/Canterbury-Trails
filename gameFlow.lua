@@ -29,13 +29,22 @@ stages[6].characterAction = {}
 stages[7].characterAction = {}
  
 --Emilys version dont have
-stages[1].mapImg = love.graphics.newImage("assets/trailBackground.png")
-stages[2].mapImg = love.graphics.newImage("assets/village.png") --village
-stages[3].mapImg = love.graphics.newImage("assets/trailBackground.png")
-stages[4].mapImg = love.graphics.newImage("assets/village.png") --village
-stages[5].mapImg = love.graphics.newImage("assets/trailBackground.png")
-stages[6].mapImg = love.graphics.newImage("assets/village.png") --village
-stages[7].mapImg = love.graphics.newImage("assets/trailBackground.png")
+stages[1].bckImg = love.graphics.newImage("assets/trailBackground.png")
+stages[2].bckImg = love.graphics.newImage("assets/village.png") --village
+stages[3].bckImg = love.graphics.newImage("assets/trailBackground.png")
+stages[4].bckImg = love.graphics.newImage("assets/village.png") --village
+stages[5].bckImg = love.graphics.newImage("assets/trailBackground.png")
+stages[6].bckImg = love.graphics.newImage("assets/village.png") --village
+stages[7].bckImg = love.graphics.newImage("assets/trailBackground.png")
+ 
+--Emilys version dont have
+stages[1].mapImg = love.graphics.newImage("assets/map1.png")
+stages[2].mapImg = love.graphics.newImage("assets/map2.png") --village
+stages[3].mapImg = love.graphics.newImage("assets/map3.png")
+stages[4].mapImg = love.graphics.newImage("assets/map4.png") --village
+stages[5].mapImg = love.graphics.newImage("assets/map5.png")
+stages[6].mapImg = love.graphics.newImage("assets/map6.png") --village
+stages[7].mapImg = love.graphics.newImage("assets/map7.png")
 
 stages[1].merchentShopUnlocked = false
 stages[2].merchentShopUnlocked = true
