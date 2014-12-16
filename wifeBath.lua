@@ -66,7 +66,6 @@ function newProspectState(w)
 prospectState = Polygamy.state( w.name )
 
 function prospectState.before()
-soundmanager:play(wifeOfBathGameMusic)
     
 prospect[1].currentText = ""
 prospect[2].currentText = ""

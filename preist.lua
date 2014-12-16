@@ -33,7 +33,6 @@ bonusIMG = love.graphics.newImage("assets/egg.png")
 
 function preistGame.before()
 
-soundmanager:play(priestMusic)
 foxCurrent = foxRight
 
 foxX = 66.173611111111
@@ -122,9 +121,9 @@ foxY = foxY + modY
 if safe(x,y) == false then
        lose = true
 love.mouse.setVisible( true )
-      gui.Label{text="HIT", pos = {0,0}, size = {100,100}} 
+--      gui.Label{text="HIT", pos = {0,0}, size = {100,100}} 
 else
-      gui.Label{text="SAFE", pos = {0,0}, size = {100,100}}
+  --    gui.Label{text="SAFE", pos = {0,0}, size = {100,100}}
 end
   
   
@@ -164,8 +163,8 @@ if lose == false then
   love.graphics.draw( maze, gui.screenPercent({0.2,0})[1], 0,0,  gui.screenHeight()/maze:getHeight(),gui.screenHeight()/maze:getHeight()) --gui.screenPercent({0.2,0})[2], 0, 1, 1, 1, 1, 0, 0 )
 
  scale = gui.screenHeight()/rooster:getHeight() * 0.05
-  love.graphics.draw(rooster, love.mouse.getX(), love.mouse.getY(), 0, scale, scale, scale*rooster:getWidth()/2, scale*rooster:getHeight()/2)
-  --love.graphics.circle( "fill", love.mouse.getX(), love.mouse.getY(), 5, 20 )
+  love.graphics.draw(rooster, love.mouse.getX(), love.mouse.getY(), 0, scale, scale, scale*rooster:getWidth()/4, scale*rooster:getHeight()/4)
+  love.graphics.circle( "fill", love.mouse.getX(), love.mouse.getY(), 5, 20 )
   
   
   love.graphics.setColor(255,255,255)  

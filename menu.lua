@@ -34,7 +34,6 @@ end
 
 function welcome.before()
 
-soundmanager:play(stageMusic)
 mapText=stateMapText
  pkeyboard.use( "Menu" ); 
  

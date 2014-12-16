@@ -7,7 +7,7 @@ welcome = state( "Credits" )
 function welcome.before() h = 1
  pkeyboard.use( "Credits" ); print"menu" end
 function welcome.update(dt)  --[[ your title update callback ]] h = h- dt*0.1 
-if (h < -2 ) then
+if (h < -3 ) then
 Polygamy.state.goto("Splash Screen") 
 end
 

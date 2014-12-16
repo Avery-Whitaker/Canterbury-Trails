@@ -60,6 +60,7 @@ function gui.screenPercentY(a)
 end
 
 function gui.preDraw()
+  soundmanager:update()
   love.graphics.setColor(255,255,255,255)
 	love.graphics.push()
 	love.graphics.translate(gui.xModification(),gui.yModification());
@@ -68,7 +69,7 @@ end
 function gui.postDraw()
 	gui.core.draw()
 	love.graphics.pop()
-	love.graphics.setColor(122,122,122,255)
+	love.graphics.setColor(122,122,180,255)
 	love.graphics.rectangle("fill", 0, 0, love.graphics.getWidth(), gui.yModification())
 	love.graphics.rectangle("fill", 0, love.graphics.getHeight(), love.graphics.getWidth(),  -1*gui.yModification())
 	love.graphics.rectangle("fill", 0, 0, gui.xModification(), love.graphics.getHeight())

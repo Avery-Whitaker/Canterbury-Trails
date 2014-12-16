@@ -112,5 +112,6 @@ pkeyboard( "Traveling" ):setConfig( "pressed", {
 })
 
 
-function traveling.after() end
+function traveling.after()
+soundmanager:play(stageMusic) end
 

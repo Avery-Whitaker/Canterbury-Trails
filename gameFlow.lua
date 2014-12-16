@@ -288,13 +288,7 @@ end
   newChatState({ name = "Pardoner1-6", character = characters.host, text = "Who do you think you are?!? Why I oughta… I’d rather hold your severed testicles than any holy object of yours!", choices = {
 {"...", function()
   Polygamy.state.goto("Pardoner1-6b") end},
-}})  newChatState({ name = "Pardoner1-6b", character = characters.knight, text = "Calm down, calm down. Come on you two, be gracious to each other. We still have quite a ways to go.", choices = {
-{"...", function()
-  Polygamy.state.goto("Pardoner1-6c") end},
-}})  newChatState({ name = "Pardoner1-6c", character = characters.host, text = "...Alright, fine. I guess I’ll let it slide this time.", choices = {
-{"...", function()
-  Polygamy.state.goto("Pardoner1-7") end},
-}})
+}})  
  
   newChatState({ name = "Pardoner1-7", character = characters.knight, text = "Calm down, calm down. Come on you two, be gracious to each other. We still have quite a ways to go.", choices = {
 {"...", function()

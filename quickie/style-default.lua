@@ -86,7 +86,7 @@ local function Panel(state, title, x, y, w, h)
 end
 
 local function Image(state, img, x, y, w, h)
-  love.graphics.setColor(255,255,255)
+  love.graphics.setColor(128,128,128)
   love.graphics.draw(img, x, y, 0, w/img:getWidth(), h/img:getHeight())
 end
 

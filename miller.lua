@@ -7,7 +7,6 @@ end
 
 function millerGame.before()
     men = {}
-soundmanager:play(millerGameMusic)
     
 playerX=0.5
 womanX=0.5

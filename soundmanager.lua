@@ -1,86 +1,24 @@
-
-millerGameMusic = "assets/millerGame.mp3"
-
-knightGameMusic = "assets/knightGame.mp3"
-mainMenu = "assets/menuMusic.mp3"
-
-
-wifeOfBathGameMusic = "assets/wifeOfBathGame.mp3"
-priestMusic = "assets/nunsPriestGame.mp3"
-town= "assets/in a small town.mp3"
-road = "assets/OnTheRoadMusic.mp3"
-marching = "assets/marching.mp3"
-
-
+millerGameMusic = love.audio.newSource("assets/millerGame.mp3", "static")
+knightGameMusic = love.audio.newSource("assets/knightGame.mp3", "static")
+mainMenu = love.audio.newSource("assets/menuMusic.mp3", "static")
+wifeOfBathGameMusic = love.audio.newSource("assets/wifeOfBathGame.mp3", "static")
+priestMusic = love.audio.newSource("assets/nunsPriestGame.mp3", "static")
+town= love.audio.newSource("assets/in a small town.mp3", "static")
+road = love.audio.newSource("assets/OnTheRoadMusic.mp3", "static")
+marching = love.audio.newSource("assets/marching.mp3", "static")
 soundmanager = {}
-soundmanager.queue = {}
-soundmanager.playlist = {}
-soundmanager.currentsong = -1
+soundmanager.currentsong = nil
 
-local function shuffle(a, b)
-   return math.random(1, 2) == 1
-end
 
---do the magic
 function soundmanager:play(sndData)
-love.audio.stop( )
-   --make a source out of the sound data
-   local src = love.audio.newSource(sndData, "static")
-   --put it in the queue
-   table.insert(self.queue, src)
-   --and play it
-   love.audio.play(src)
-end
-
---do the music magic
-function soundmanager:playMusic(first, ...)
-   --stop all currently playing music
-   for i, v in ipairs(self.playlist) do
-      love.audio.stop(v)
-   end
-   --decide if we were passed a table or a vararg,
-   --and assemble the playlist
-   if type(first) == "table" then
-      self.playlist = first
-   else
-      self.playlist = {first, ...}
-   end
-   self.currentsong = 1
-   --play
-   love.audio.play(self.playlist[1])
-end
-
---do some shufflin'
-function soundmanager:shuffle(first, ...)
-   local playlist
-   if type(first) == "table" then
-      playlist = first
-   else
-      playlist = {first, ...}
-   end
-   table.sort(playlist, shuffle)
-   return unpack(playlist)
+if  currentsong ~= nil then
+  love.audio.stop(currentsong)
+  end
+  soundmanager.currentSong = sndData
+  love.audio.play(sndData)
 end
 
 --update
-function soundmanager:update(dt)
-   --check which sounds in the queue have finished, and remove them
-   local removelist = {}
-   for i, v in ipairs(self.queue) do
-      if v:isStopped() then
-         table.insert(removelist, i)
-      end
-   end
-   --we can't remove them in the loop, so use another loop
-   for i, v in ipairs(removelist) do
-      table.remove(self.queue, v-i+1)
-   end
-   --advance the playlist if necessary
-   if self.currentsong ~= -1 and self.playlist and self.playlist[self.currentsong]:isStopped() then
-      self.currentsong = self.currentsong + 1
-      if self.currentsong > #self.playlist then
-         self.currentsong = 1
-      end
-      love.audio.play(self.playlist[self.currentsong])
-   end
+function soundmanager:update()
+if soundmanager.currentSong:isStopped() then love.audio.play(soundmanager.currentSong) end
 end
