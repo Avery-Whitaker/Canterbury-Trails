@@ -7,7 +7,10 @@ display as large as can fit in box rather then font
 
 fonts={}
 
-function gui.preloadFonts()
+function gui.preloadFont(style)
+for i = 1, 200, 1 do
+    fonts[style .. "|".. i] = love.graphics.newFont(style, i)
+end
 --[[
 fonts={}
 for i = 1, 100, 1 do

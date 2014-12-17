@@ -1,7 +1,6 @@
 splash = Polygamy.state( "Splash Screen" )
 
 function splash.before() 
-	Polygamy.keyboard.use( "Splash Screen" ); 
 loveFont = love.graphics.newFont("assets/ThrowMyHandsUpintheAirBold.ttf", 30)
 love.graphics.setFont(loveFont)
 intro.logox = intro.logo:getWidth()
@@ -52,11 +51,6 @@ function splash.draw()
 	love.graphics.setColor(255,255,255,255)
 end
 
-
-Polygamy.keyboard( "Splash Screen" ):setConfig( "pressed", {
-	escape            = function() love.event.push('quit') end,
-	[Polygamy.default] = print
-})
 
 function splash.after() 
 w,h = love.window.getDesktopDimensions()

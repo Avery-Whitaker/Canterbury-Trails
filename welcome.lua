@@ -2,7 +2,6 @@ welcome = Polygamy.state( "Welcome Screen" )
 
 function welcome.before() 
 soundmanager:play(mainMenu)
-	Polygamy.keyboard.use( "Welcome Screen" ); 
 end
 
 local str
@@ -26,12 +25,6 @@ function welcome.draw()
 	gui.preDraw()
 	gui.postDraw()
 end
-
-Polygamy.keyboard( "Welcome Screen" ):setConfig( "pressed", {
-	[{" ", "return"}] = function() Polygamy.state.goto("Character Select")       end,
-	escape            = function() Polygamy.state.goto("Test Screen") end,
-	[Polygamy.default] = print
-})
 
 function welcome.after() 
 end

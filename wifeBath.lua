@@ -72,7 +72,6 @@ prospect[2].currentText = ""
 prospect[3].currentText = ""
 prospect[4].currentText = ""
 prospect[5].currentText = ""
-  Polygamy.keyboard.use( w.name )
 
 
 end
@@ -110,11 +109,6 @@ function prospectState.update(dt)
  
 end
 
-Polygamy.keyboard( w.name ):setConfig( "held", {
-  ["right"] = function() if playerX + playerMove < 1-playerW then playerX = playerX + playerMove end end,
-  ["left"]     = function() if playerX + playerMove > 0 then playerX = playerX - playerMove end end 
-})
-
 function prospectState.draw()
 gui.preDraw()
  
@@ -137,7 +131,6 @@ wifeBathGame = Polygamy.state( "wifeBath" )
 
 function wifeBathGame.before()
     decision = 0
-  Polygamy.keyboard.use( "wifeBath" )
 
 
 end
@@ -163,11 +156,6 @@ end
   gui.Image{image = prospectsImage,  pos = gui.screenPercent({0,0}), size = gui.imageSize(1,prospectsImage)}
 end
 
-Polygamy.keyboard( "wifeBath" ):setConfig( "held", {
-  ["right"] = function() if playerX + playerMove < 1-playerW then playerX = playerX + playerMove end end,
-  ["left"]     = function() if playerX + playerMove > 0 then playerX = playerX - playerMove end end 
-})
-
 function wifeBathGame.draw()
 gui.preDraw()
 
@@ -180,11 +168,11 @@ wifeBathDecision = Polygamy.state( "wifeBathDecision" )
 
 function wifeBathDecision.before()
     
-  Polygamy.keyboard.use( "wifeBathDecision" )
-
-
 end
 
+function wifeBathDecision.after()
+soundmanager:play(stageMusic)
+end
 
 function wifeBathDecision.update(dt)
 
@@ -199,11 +187,6 @@ function wifeBathDecision.update(dt)
 
   gui.Image{image = decision.image,  pos = gui.screenPercent({0.1,0.1}), size = gui.imageSize(0.3,decision.image)}
 end
-
-Polygamy.keyboard( "wifeBathDecision" ):setConfig( "held", {
-  ["right"] = function() if playerX + playerMove < 1-playerW then playerX = playerX + playerMove end end,
-  ["left"]     = function() if playerX + playerMove > 0 then playerX = playerX - playerMove end end 
-})
 
 function wifeBathDecision.draw()
 gui.preDraw()

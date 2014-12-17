@@ -1,4 +1,4 @@
-
+--[[
 local state, goto, pkeyboard = Polygamy.state, Polygamy.state.goto, Polygamy.keyboard   -- for convenience
 
 welcome = state( "Inventory" )
@@ -33,7 +33,7 @@ end
 --[[	if gui.Image{ pos = gui.screenPercent({0.15,0.25}), size= gui.screenPercent({.1,.1}), image=boxIMG } then
 print("yes hello there")
 end--]]
-
+--[[
  end
 function welcome.draw()
 	gui.preDraw()
@@ -51,3 +51,4 @@ pkeyboard( "Inventory" ):setConfig( "pressed", {
 
 function welcome.after() end
 
+--]]

@@ -1,9 +1,7 @@
 
-local state, goto, pkeyboard = Polygamy.state, Polygamy.state.goto, Polygamy.keyboard   -- for convenience
+welcome = Polygamy.state( "Options" )
 
-welcome = state( "Options" )
-
-function welcome.before() pkeyboard.use( "Options" ); end
+function welcome.before()  end
 fullCheck = false
 
 sliderData = {value = 1, min = 0, max = 1, step = 1/20}
@@ -37,11 +35,6 @@ function welcome.draw()
 
 	gui.postDraw()
 end
-
-pkeyboard( "Options" ):setConfig( "pressed", {
-	escape            = function() goto("Welcome Screen")        end,
-	[Polygamy.default] = print
-})
 
 
 function welcome.after() 

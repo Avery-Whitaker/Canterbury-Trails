@@ -1,10 +1,7 @@
 
-local state, goto, pkeyboard = Polygamy.state, Polygamy.state.goto, Polygamy.keyboard   -- for convenience
-
-
   travelIMG = love.graphics.newImage("assets/trailBackgroundLong.png")
   
-traveling = state( "Traveling" )
+traveling = Polygamy.state( "Traveling" )
 
 for key,value in pairs(characters) do --actualcode
   value.angle = math.random()*0.26179938779*2-0.26179938779
@@ -26,7 +23,6 @@ end
 
 function traveling.before() 
 soundmanager:play(marching)
-pkeyboard.use( "Traveling" )
 shade = 0 
 
 backOff = 0
@@ -104,13 +100,6 @@ n = 0
  
   gui.postDraw() 
 end
-
-pkeyboard( "Traveling" ):setConfig( "pressed", {
-  [{" ", "return"}] = function() backOff=0.7       end,
-  escape            = function() love.event.push('quit') end,
-  [Polygamy.default] = print
-})
-
 
 function traveling.after()
 soundmanager:play(stageMusic) end

@@ -14,6 +14,8 @@ Pardons from the book (I will look them up after hanging out with family is over
 --]]
 
 -- Keep track of inventory by number has of each item
+
+--[[
 inventory = {}
 
 inventory.aleSmall = {}
@@ -62,3 +64,4 @@ inventory.foodLarge.count = 0
 inventory.foodLarge.row = 2
 inventory.foodLarge.col = 2
 newItemState(inventory.foodLarge)
+--]]

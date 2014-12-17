@@ -1,19 +1,17 @@
-local state, goto, pkeyboard = Polygamy.state, Polygamy.state.goto, Polygamy.keyboard   -- for convenience
+welcome = Polygamy.state( "Credits" )
 
-welcome = state( "Credits" )
-
-
-
-function welcome.before() h = 1
- pkeyboard.use( "Credits" ); print"menu" end
-function welcome.update(dt)  --[[ your title update callback ]] h = h- dt*0.1 
-if (h < -3 ) then
-Polygamy.state.goto("Splash Screen") 
+function welcome.before() 
+  h = 1 
+end
+  
+function welcome.update(dt)  
+  h = h- dt*0.1 
+  if h < -3.5 then
+    Polygamy.state.goto("Splash Screen") 
+  end
 end
 
-end
 function welcome.draw()  
-
 	gui.preDraw()
 
 	gui.Label{text = "Canterbury Trails", align="center", pos = gui.screenPercent({0,h}), size=gui.screenPercent({1,0.1}) }
@@ -34,28 +32,14 @@ function welcome.draw()
 	gui.Label{text = "Maravillos et piadosos by Trouvere", align="center", pos = gui.screenPercent({0,h+1.7}), size=gui.screenPercent({1,0.05}) }
 	gui.Label{text = "Rokatanc by Vox Vulgaris", align="center", pos = gui.screenPercent({0,h+1.8}), size=gui.screenPercent({1,0.05}) }
 
-	gui.Label{text = "Video Game Credit", align="center", pos = gui.screenPercent({0,h+2.0}), size=gui.screenPercent({1,0.1}) }
-	gui.Label{text = "Game Engine: Love2D https://www.love2d.org/", align="center", pos = gui.screenPercent({0,h+2.1}), size=gui.screenPercent({1,0.05}) }
-	gui.Label{text = "Love2D Wiki: https://www.love2d.org/wiki/Main_Page ", align="center", pos = gui.screenPercent({0,h+2.2}), size=gui.screenPercent({1,0.05}) }
-	gui.Label{text = "Polygamy library: user pygy", align="center", pos = gui.screenPercent({0,h+2.3}), size=gui.screenPercent({1,0.05}) }
-	gui.Label{text = "SoundManager: Bart van Strien and Tommy Brunn", align="center", pos = gui.screenPercent({0,h+2.4}), size=gui.screenPercent({1,0.05}) }
+	gui.Label{text = "Made with LÖVE", align="center", pos = gui.screenPercent({0,h+2.0}), size=gui.screenPercent({1,0.1}) }
+	gui.Label{text = "Game Engine: love2D https://www.love2d.org/", align="center", pos = gui.screenPercent({0,h+2.1}), size=gui.screenPercent({1,0.05}) }
+	gui.Label{text = "Polygamy library: Pierre-Yves Gérardy", align="center", pos = gui.screenPercent({0,h+2.2}), size=gui.screenPercent({1,0.05}) }
+  gui.Label{text = "Deborah Alexander: Fox, Egg and Chicken Sprites", align="center", pos = gui.screenPercent({0,h+2.3}), size=gui.screenPercent({1,0.05}) }
 
-
-
-	gui.Label{text = "-", align="center", pos = gui.screenPercent({0,h+2.8}), size=gui.screenPercent({1,0.1}) }
-
+	gui.Label{text = "-", align="center", pos = gui.screenPercent({0,h+2.4}), size=gui.screenPercent({1,0.1}) }
+	
 	gui.postDraw()
 end
 
-pkeyboard( "Credits" ):setConfig( "pressed", {
-	[{" ", "return"}] = function() goto("Credits")       end,
-	escape            = function() love.event.push('quit') end,
-	[Polygamy.default] = print
-})
-
-
-function welcome.after() print"TEST" love.graphics.print("WHAT", 30, 10) love.timer.sleep(3) end
-
--- http://s444.photobucket.com/user/grandmadeb_rmvx/media/fox.png.html
--- see readme
---http://s444.photobucket.com/user/grandmadeb_rmvx/media/chara07_2.png.html
+function welcome.after() end

@@ -1,9 +1,7 @@
 
-local state, goto, pkeyboard = Polygamy.state, Polygamy.state.goto, Polygamy.keyboard   -- for convenience
+scores = Polygamy.state( "High Scores" )
 
-scores = state( "High Scores" )
-
-function scores.before() pkeyboard.use( "High Scores" ); end
+function scores.before()  end
 fullCheck = false
 volume=0
 
@@ -22,11 +20,6 @@ function scores.draw()
 
 	gui.postDraw()
 end
-
-pkeyboard( "High Scores" ):setConfig( "pressed", {
-	escape            = function() goto("Welcome Screen")        end,
-	[Polygamy.default] = print
-})
 
 
 function welcome.after() 

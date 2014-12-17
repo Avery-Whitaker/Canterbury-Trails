@@ -131,6 +131,8 @@ end
 
 function preistGame.after()
 love.mouse.setVisible( true )
+  Polygamy.keyboard.use( "" )
+soundmanager:play(stageMusic)
 end
 
 Polygamy.keyboard( "Preist" ):setConfig( "pressed", {

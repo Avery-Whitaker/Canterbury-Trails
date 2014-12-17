@@ -43,6 +43,11 @@ speed = 0.001
     
 end
 
+function millerGame.after()
+  Polygamy.keyboard.use( "" )
+soundmanager:play(stageMusic)
+end
+
 function millerGame.update(dt)
 if lose == false then
     gameScore = gameScore + dt*speed*1000

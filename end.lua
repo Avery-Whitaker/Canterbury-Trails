@@ -1,7 +1,6 @@
 theEnd = Polygamy.state( "End" )
 
 function theEnd.before() 
-  Polygamy.keyboard.use( "End" ); 
   timer = 7
 end
 
@@ -19,12 +18,6 @@ function theEnd.draw()
   gui.preDraw()
   gui.postDraw()
 end
-
-Polygamy.keyboard( "End" ):setConfig( "pressed", {
-  [{" ", "return"}] = function() Polygamy.state.goto("Character Select")       end,
-  escape            = function() Polygamy.state.goto("Test Screen") end,
-  [Polygamy.default] = print
-})
 
 function theEnd.after() 
 end

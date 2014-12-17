@@ -1,4 +1,3 @@
-local state, goto, pkeyboard = Polygamy.state, Polygamy.state.goto, Polygamy.keyboard   -- for convenience
 
 instructState = Polygamy.state( "MillerInstructions" )
 function instructState.before() 
@@ -103,6 +102,8 @@ Polygamy.keyboard( "PriestInstructions" ):setConfig( "pressed", {
   [" "]     = function() Polygamy.state.goto("nunsPreist") end 
 })
 
-function instructState.after() end
+function instructState.after()
+  Polygamy.keyboard.use( "" )
+   end
 
 

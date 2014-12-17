@@ -5,7 +5,6 @@ function newChatState(w)
 state = Polygamy.state(w.name)
 
 state.before = function()
-	Polygamy.keyboard.use("Chat State"); 
 end
 
 state.update = function(dt)
@@ -37,10 +36,6 @@ state.draw = function()
 
 	gui.postDraw()
 end
-
-Polygamy.keyboard( "Chat State" ):setConfig( "pressed", {
-	[Polygamy.default] = print
-})
 
 state.after = function()
 

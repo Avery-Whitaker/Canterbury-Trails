@@ -12,6 +12,7 @@ function knightGame.before()
   speedMod = 0.5
   loseText = ""
   lose = false
+  popup = "none"
   if prayForLove == true then
   prayText = "You faught valiatly, you were defeated, but your oponet fell of his horse! You get the girl and 50 bonus points!"
   else
@@ -19,7 +20,11 @@ function knightGame.before()
   end
 end
 
-popup = "none"
+function knightGame.after()
+  Polygamy.keyboard.use( "" )
+soundmanager:play(stageMusic)
+end
+
 -- lady
 -- enemy
 

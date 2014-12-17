@@ -1,5 +1,5 @@
 --{name, character, text, options = {{"string", functioN() 2 3...}, resault = {1 2, 3...} }
-
+--[[
 function newItemState(w)
 
 state = Polygamy.state(w.name)
@@ -47,3 +47,4 @@ end
 
 return state
 end
+--]]
