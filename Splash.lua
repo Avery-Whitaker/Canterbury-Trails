@@ -1,21 +1,22 @@
 splash = Polygamy.state( "Splash Screen" )
 
 function splash.before() 
-loveFont = love.graphics.newFont("assets/ThrowMyHandsUpintheAirBold.ttf", 30)
-love.graphics.setFont(loveFont)
-intro.logox = intro.logo:getWidth()
-intro.logoy = intro.logo:getHeight()
-intro.cColor = {0,0,0,255}
-intro.tColor = {131,192,240,0}
-intro.lColor = {255,255,255,255}
-time = 0
+  loveFont = love.graphics.newFont("assets/ThrowMyHandsUpintheAirBold.ttf", 30)
+  love.graphics.setFont(loveFont)
+  intro.logox = intro.logo:getWidth()
+  intro.logoy = intro.logo:getHeight()
+  intro.cColor = {0,0,0,255}
+  intro.tColor = {131,192,240,0}
+  intro.lColor = {255,255,255,255}
+  time = 0
 end
 
 intro = {logo = love.graphics.newImage("assets/splashLogo.png"),
-		r = 0,
-		scalex = 0.75,
-		scaley = 0.75,
-	}
+	r = 0,
+	scalex = 0.75,
+	scaley = 0.75,
+}
+
 function splash.update(dt) 
 	intro.sizex = intro.logox * intro.scalex
 	intro.sizey = intro.logoy * intro.scaley
@@ -51,15 +52,7 @@ function splash.draw()
 	love.graphics.setColor(255,255,255,255)
 end
 
-
 function splash.after() 
-w,h = love.window.getDesktopDimensions()
-love.window.setMode(w,h, {resizable = true, borderless = false, minwidth = 400, minheight = 300, x = 0, y = 0})
-   -- t.window.width = 1280              -- The window width (number)
-   -- t.window.height = 720              -- The window height (number)
-   -- t.window.borderless = false        -- Remove all border visuals from the window (boolean)
-   -- t.window.resizable = true         -- Let the window be user-resizable (boolean)
-   -- t.window.minwidth = 400              -- Minimum window width if the window is resizable (number)
-  --  t.window.minheight = 300             -- Minimum window height if the window is resizable (number)
-    
+  w,h = love.window.getDesktopDimensions()
+  love.window.setMode(w,h, {resizable = true, borderless = false, minwidth = 400, minheight = 300, x = 0, y = 0})
 end

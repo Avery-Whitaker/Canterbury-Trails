@@ -1,4 +1,3 @@
-
 prospectsImage = love.graphics.newImage("assets/prospects.png")
 
 prospect = {}
@@ -60,65 +59,49 @@ prospect[5].chosenText = "Despite his faults, the Wife of Bath loves him dearly.
 prospect[5].points = 500
 
 function newProspectState(w)
---name
+  prospectState = Polygamy.state( w.name )
+
+  prospectState.before = function()    
+    prospect[1].currentText = ""
+    prospect[2].currentText = ""
+    prospect[3].currentText = ""
+    prospect[4].currentText = ""
+    prospect[5].currentText = ""
+  end
 
 
-prospectState = Polygamy.state( w.name )
+  prospectState.update = function(dt)
+    gui.Label{text = w.name, align = "center", pos = gui.screenPercent({0.1,0.05}), size = gui.screenPercent({0.4,0.1})}
+    if gui.Button{text = "Look at other men", pos = gui.screenPercent({0.4,0.9}), size = gui.screenPercent({0.5,0.05}) } then
+      Polygamy.state.goto( "wifeBath" )
+    end
+    if gui.Button{text = "CHOOSE " .. w.name .. "!", pos = gui.screenPercent({0.4,0.8}), size = gui.screenPercent({0.5,0.05}) } then
+      decision = w
+      Polygamy.state.goto( "wifeBathDecision" )
+    end
+    if gui.Button{text = "How much money do you have?", pos = gui.screenPercent({0.6,0.05}), size = gui.screenPercent({0.3,0.05}) } then
+      w.currentText = w.text[1]
+    end
+   
+    if gui.Button{text = "Would you give money to your wife?", pos = gui.screenPercent({0.6,0.15}), size = gui.screenPercent({0.3,0.05}) } then
+      w.currentText = w.text[2]
+    end
+   
+    if gui.Button{text = "Would you marry for love or for looks?", pos = gui.screenPercent({0.6,0.25}), size = gui.screenPercent({0.3,0.05}) } then
+      w.currentText = w.text[3]
+    end
+   
+    if gui.Button{text = "Talk about your personality?", pos = gui.screenPercent({0.6,0.35}), size = gui.screenPercent({0.3,0.05}) } then
+      w.currentText = w.text[4]
+    end
+    gui.Panel{text = w.currentText, pos =  gui.screenPercent({0.6,0.45}), size = gui.screenPercent({0.3,0.3}) }
+  end
 
-function prospectState.before()
-    
-prospect[1].currentText = ""
-prospect[2].currentText = ""
-prospect[3].currentText = ""
-prospect[4].currentText = ""
-prospect[5].currentText = ""
-
-
-end
-
-
-function prospectState.update(dt)
-
- gui.Label{text = w.name, align = "center", pos = gui.screenPercent({0.1,0.05}), size = gui.screenPercent({0.4,0.1})}
- if gui.Button{text = "Look at other men", pos = gui.screenPercent({0.4,0.9}), size = gui.screenPercent({0.5,0.05}) } then
-   Polygamy.state.goto( "wifeBath" )
- end
- 
-  if gui.Button{text = "CHOOSE " .. w.name .. "!", pos = gui.screenPercent({0.4,0.8}), size = gui.screenPercent({0.5,0.05}) } then
-    decision = w
-   Polygamy.state.goto( "wifeBathDecision" )
- end
- 
-  if gui.Button{text = "How much money do you have?", pos = gui.screenPercent({0.6,0.05}), size = gui.screenPercent({0.3,0.05}) } then
-    w.currentText = w.text[1]
- end
- 
-  if gui.Button{text = "Would you give money to your wife?", pos = gui.screenPercent({0.6,0.15}), size = gui.screenPercent({0.3,0.05}) } then
-    w.currentText = w.text[2]
- end
- 
-  if gui.Button{text = "Would you marry for love or for looks?", pos = gui.screenPercent({0.6,0.25}), size = gui.screenPercent({0.3,0.05}) } then
-    w.currentText = w.text[3]
- end
- 
-  if gui.Button{text = "Talk about your personality?", pos = gui.screenPercent({0.6,0.35}), size = gui.screenPercent({0.3,0.05}) } then
-    w.currentText = w.text[4]
- end
- 
- gui.Panel{text = w.currentText, pos =  gui.screenPercent({0.6,0.45}), size = gui.screenPercent({0.3,0.3}) }
- 
-end
-
-function prospectState.draw()
-gui.preDraw()
- 
- 
- 
-  gui.Image{image = w.image,  pos = gui.screenPercent({0.1,0.1}), size = gui.imageSize(0.3,w.image)}
-gui.postDraw()
-    
-end
-
+  prospectState.draw = function()
+    gui.preDraw()
+    gui.Image{image = w.image,  pos = gui.screenPercent({0.1,0.1}), size = gui.imageSize(0.3,w.image)}
+    gui.postDraw()   
+  end
 end
 
 newProspectState(prospect[1])
@@ -130,74 +113,51 @@ newProspectState(prospect[5])
 wifeBathGame = Polygamy.state( "wifeBath" )
 
 function wifeBathGame.before()
-    decision = 0
-
-
+  decision = 0
 end
 
 
 function wifeBathGame.update(dt)
-
-if love.mouse.isDown("l") then
-  if love.mouse.getX() > gui.screenPercentX(0) and love.mouse.getX() < gui.screenPercentX(0.2) then
-   Polygamy.state.goto(prospect[1].name)   
-  elseif love.mouse.getX() > gui.screenPercentX(0.2) and love.mouse.getX() < gui.screenPercentX(0.4) then
-   Polygamy.state.goto(prospect[2].name)    
-  elseif love.mouse.getX() > gui.screenPercentX(0.4) and love.mouse.getX() < gui.screenPercentX(0.6) then
-   Polygamy.state.goto(prospect[3].name)    
-  elseif love.mouse.getX() > gui.screenPercentX(0.6) and love.mouse.getX() < gui.screenPercentX(0.8) then
-   Polygamy.state.goto(prospect[4].name)    
-  elseif love.mouse.getX() > gui.screenPercentX(0.8) and love.mouse.getX() < gui.screenPercentX(1) then
-   Polygamy.state.goto(prospect[5].name)   
-   end
-  
-end
-
+  if love.mouse.isDown("l") then
+    if love.mouse.getX() > gui.screenPercentX(0) and love.mouse.getX() < gui.screenPercentX(0.2) then
+      Polygamy.state.goto(prospect[1].name)   
+    elseif love.mouse.getX() > gui.screenPercentX(0.2) and love.mouse.getX() < gui.screenPercentX(0.4) then
+      Polygamy.state.goto(prospect[2].name)    
+    elseif love.mouse.getX() > gui.screenPercentX(0.4) and love.mouse.getX() < gui.screenPercentX(0.6) then
+      Polygamy.state.goto(prospect[3].name)    
+    elseif love.mouse.getX() > gui.screenPercentX(0.6) and love.mouse.getX() < gui.screenPercentX(0.8) then
+      Polygamy.state.goto(prospect[4].name)    
+    elseif love.mouse.getX() > gui.screenPercentX(0.8) and love.mouse.getX() < gui.screenPercentX(1) then
+      Polygamy.state.goto(prospect[5].name)   
+    end
+  end
   gui.Image{image = prospectsImage,  pos = gui.screenPercent({0,0}), size = gui.imageSize(1,prospectsImage)}
 end
 
 function wifeBathGame.draw()
-gui.preDraw()
-
-gui.postDraw()
-    
+  gui.preDraw()
+  gui.postDraw()  
 end
-
 
 wifeBathDecision = Polygamy.state( "wifeBathDecision" )
 
 function wifeBathDecision.before()
-    
 end
 
 function wifeBathDecision.after()
-soundmanager:play(stageMusic)
+  soundmanager:play(stageMusic)
 end
 
 function wifeBathDecision.update(dt)
-
- gui.Label{text = decision.name .. " married!", align = "center", pos = gui.screenPercent({0.1,0.05}), size = gui.screenPercent({0.4,0.1})}
- if gui.Button{text = "Done", pos = gui.screenPercent({0.4,0.9}), size = gui.screenPercent({0.5,0.05}) } then
-   Polygamy.state.goto( "Menu" )
- end
- 
- gui.Panel{text = "YOU CHOOSE " ..  decision.name .. ".\n\n" .. decision.chosenText .. "\n\nYour score: " .. decision.points, pos =  gui.screenPercent({0.6,0.45}), size = gui.screenPercent({0.3,0.3}) }
- 
-
-
+  gui.Label{text = decision.name .. " married!", align = "center", pos = gui.screenPercent({0.1,0.05}), size = gui.screenPercent({0.4,0.1})}
+  if gui.Button{text = "Done", pos = gui.screenPercent({0.4,0.9}), size = gui.screenPercent({0.5,0.05}) } then
+    Polygamy.state.goto( "Menu" )
+  end
+  gui.Panel{text = "YOU CHOOSE " ..  decision.name .. ".\n\n" .. decision.chosenText .. "\n\nYour score: " .. decision.points, pos =  gui.screenPercent({0.6,0.45}), size = gui.screenPercent({0.3,0.3}) }
   gui.Image{image = decision.image,  pos = gui.screenPercent({0.1,0.1}), size = gui.imageSize(0.3,decision.image)}
 end
 
 function wifeBathDecision.draw()
-gui.preDraw()
-
-gui.postDraw()
-    
+  gui.preDraw()
+  gui.postDraw()   
 end
-
---[[States
-  Main (the five guys and option to explore one
-    person n
-      option to marry person
-      ask question
-      How much money do you have? --]] 

@@ -1,11 +1,3 @@
-millerGameMusic = love.audio.newSource("assets/millerGame.mp3", "static")
-knightGameMusic = love.audio.newSource("assets/knightGame.mp3", "static")
-mainMenu = love.audio.newSource("assets/menuMusic.mp3", "static")
-wifeOfBathGameMusic = love.audio.newSource("assets/wifeOfBathGame.mp3", "static")
-priestMusic = love.audio.newSource("assets/nunsPriestGame.mp3", "static")
-town= love.audio.newSource("assets/in a small town.mp3", "static")
-road = love.audio.newSource("assets/OnTheRoadMusic.mp3", "static")
-marching = love.audio.newSource("assets/marching.mp3", "static")
 soundmanager = {}
 soundmanager.currentsong = nil
 

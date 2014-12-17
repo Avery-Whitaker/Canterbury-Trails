@@ -18,7 +18,6 @@ function welcome.draw()
   gui.postDraw() 
 end
 
-
 function welcome.after() 
 end
 

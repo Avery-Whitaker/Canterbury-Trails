@@ -7,6 +7,7 @@ stages[4] = {}
 stages[5] = {}
 stages[6] = {}
 stages[7] = {}
+
 stages[1].nextStage = stages[2]
 stages[2].nextStage = stages[3]
 stages[3].nextStage = stages[4]
@@ -14,6 +15,7 @@ stages[4].nextStage = stages[5]
 stages[5].nextStage = stages[6]
 stages[6].nextStage = stages[7]
 stages[7].nextStage = nil
+
 stages[1].avalibleCharacters = {}
 stages[2].avalibleCharacters = {}
 stages[3].avalibleCharacters = {}
@@ -21,6 +23,7 @@ stages[4].avalibleCharacters = {}
 stages[5].avalibleCharacters = {}
 stages[6].avalibleCharacters = {}
 stages[7].avalibleCharacters = {}
+
 stages[1].characterAction = {}
 stages[2].characterAction = {}
 stages[3].characterAction = {}
@@ -29,7 +32,6 @@ stages[5].characterAction = {}
 stages[6].characterAction = {}
 stages[7].characterAction = {}
 
-
 stages[1].stageMusic = town
 stages[2].stageMusic = town
 stages[3].stageMusic = road
@@ -37,24 +39,6 @@ stages[4].stageMusic = town
 stages[5].stageMusic = road
 stages[6].stageMusic = town
 stages[7].stageMusic = road
- 
---Emilys version dont have
-stages[1].bckImg = love.graphics.newImage("assets/trailBackground.png")
-stages[2].bckImg = love.graphics.newImage("assets/village.png") --village
-stages[3].bckImg = love.graphics.newImage("assets/trailBackground.png")
-stages[4].bckImg = love.graphics.newImage("assets/village.png") --village
-stages[5].bckImg = love.graphics.newImage("assets/trailBackground.png")
-stages[6].bckImg = love.graphics.newImage("assets/village.png") --village
-stages[7].bckImg = love.graphics.newImage("assets/trailBackground.png")
- 
---Emilys version dont have
-stages[1].mapImg = love.graphics.newImage("assets/map1.png")
-stages[2].mapImg = love.graphics.newImage("assets/map2.png") --village
-stages[3].mapImg = love.graphics.newImage("assets/map3.png")
-stages[4].mapImg = love.graphics.newImage("assets/map4.png") --village
-stages[5].mapImg = love.graphics.newImage("assets/map5.png")
-stages[6].mapImg = love.graphics.newImage("assets/map6.png") --village
-stages[7].mapImg = love.graphics.newImage("assets/map7.png")
 
 stages[1].merchentShopUnlocked = false
 stages[2].merchentShopUnlocked = true
@@ -113,19 +97,18 @@ end
   Polygamy.state.goto("Menu") end}
 }})
  
- 
-
- 
 ----------------------------------------------------------------------------------------------------------------------------
  
 stages[2].avalibleCharacters[1] = characters.squire
 stages[2].avalibleCharacters[2] = characters.monk
 stages[2].characterAction[1] = function()
-Polygamy.state.goto("Squire1-1") end
+  Polygamy.state.goto("Squire1-1") 
+end
 stages[2].characterAction[2] = function()
-Polygamy.state.goto("Monk1-1") end
-talkedtoMonk=false--this used in canContinue
-talkedtoSquire=false --thisused in canContinue
+  Polygamy.state.goto("Monk1-1") 
+end
+talkedtoMonk = false
+talkedtoSquire = false
  
 stages[2].stateMapText = "You are resting at a small tavern"
 stages[2].introMapText = "Your journey continues... Your party rests at a small tavern."
@@ -163,9 +146,6 @@ stages[2].continueRejection = "You should talk to the Monk first!"
   Polygamy.state.goto("Menu") end}
 }})
  
- 
---MONK
- 
   newChatState({ name = "Monk1-1", character = characters.monk, text = "Greetings, Mr. Pilgrim. Pleasure to meet you again.", choices = {
 {"Tell me about yourself.", function()
   Polygamy.state.goto("Monk1-2") end},
@@ -182,7 +162,6 @@ stages[2].continueRejection = "You should talk to the Monk first!"
   Polygamy.state.goto("Menu") end}
 }})
  
---this is supposed to unlock hunting...
   newChatState({ name = "Monk1-3", character = characters.monk, text = "Sure thing...\n\n***HUNTING UNLOCKED***", choices = {
 {"Thank you so much. Goodbye.", function()
   canHunt = true
@@ -194,15 +173,11 @@ stages[2].continueRejection = "You should talk to the Monk first!"
   Polygamy.state.goto("Menu") end}
 }})
  
- 
-
- 
 ----------------------------------------------------------------------------------------------------------------------------------------------------
- 
  
 stages[3].avalibleCharacters[1] = characters.miller
 stages[3].characterAction[1] = function()
-Polygamy.state.goto("Miller1-1")
+  Polygamy.state.goto("Miller1-1")
 end
  
 stages[3].stateMapText = "Your party is taking a short break."
@@ -227,22 +202,17 @@ stages[3].continueRejection = "You should talk to the Miller first!"
   Polygamy.state.goto("Menu") end}
 }})
  
- 
 ----------------------------------------------------------------------------------------------------------------------------------------------------------
  
 stages[4].avalibleCharacters[1] = characters.pardoner
 stages[4].avalibleCharacters[2] = characters.reeve
- 
 stages[4].stateMapText = "You are resting at a small tavern"
 stages[4].introMapText = "Your journey continues... Your party rests at a small tavern."
 stages[4].continueRejection = "You should talk to the Pardoner and the Reeve first!"
- 
- talkedToPardoner = false
- talkedToReeve = false
- 
- 
+talkedToPardoner = false
+talkedToReeve = false
 stages[4].characterAction[1] = function()
-Polygamy.state.goto("Pardoner1-1")
+  Polygamy.state.goto("Pardoner1-1")
 end
   newChatState({ name = "Pardoner1-1", character = characters.pardoner, text = "Well, hello there, good sir.", choices = {
 {"Tell me about yourself.", function()
@@ -259,14 +229,6 @@ end
 {"Goodbye.", function()
   Polygamy.state.goto("Menu") end}
 }})
- --[[
-  newChatState({ name = "Pardoner1-3", character = characters.pardoner, text = "You’re going to need to hand me a draught of moist and malty ale before I tell you any stories.", choices = {
-{"Give the Pardoner a DRAUGHT OF ALE", function() --This should detract ale from your inbox...
-  Polygamy.state.goto("Pardoner1-4") end},
-{"I don't have any ale. Goodbye.", function()
-  Polygamy.state.goto("Menu") end}
-}})
- --]]
  
   newChatState({ name = "Pardoner1-3", character = characters.pardoner, text = "You’re going to need to hand me a draught of moist and malty ale before I tell you any stories.", choices = {
 {"Give the Pardoner some of your Ale", function() --This should detract ale from your inbox...
@@ -299,43 +261,25 @@ end
 {"...", function()
   Polygamy.state.goto("Pardoner1-9") end},
 }})
- --[[
-newChatState({ name = "Pardoner1-9", character = characters.pardoner, text = "Well, I never knew our host could be so rude. So, do you want to buy a pardon? You never know when you might need it!", choices = {
-  {"No thank you. Goodbye.", function()
-pardonerShopUnlocked = true
-  
-     talkedToPardoner = true
-     if talkedToPardoner and talkedToReeve then
-      canContinue = true
-    end
-  Polygamy.state.goto("Menu") end}
-}})
- 
- --]]
  
 newChatState({ name = "Pardoner1-9", character = characters.pardoner, text = "Well, I never knew our host could be so rude. So, do you want to buy a pardon? You never know when you might need it!", choices = {
   {"No thank you. Goodbye.", function()
-pardonerShopUnlocked = true
-  
-     talkedToPardoner = true
-     if talkedToPardoner and talkedToReeve then
-      canContinue = true
-    end
+  pardonerShopUnlocked = true
+  talkedToPardoner = true
+  if talkedToPardoner and talkedToReeve then
+    canContinue = true
+  end
   Polygamy.state.goto("Menu") end}
 }})
- 
- 
- 
 
 stages[4].characterAction[2] = function()
-Polygamy.state.goto("Reeve1-1")
+  Polygamy.state.goto("Reeve1-1")
 end
-  newChatState({ name = "Reeve1-1", character = characters.reeve, text = "grumble grumble… mutter… that stupid Miller, oh how i hate him… grumble", choices = {
+newChatState({ name = "Reeve1-1", character = characters.reeve, text = "grumble grumble… mutter… that stupid Miller, oh how i hate him… grumble", choices = {
 {"Hello?", function()
   Polygamy.state.goto("Reeve1-2") end}
 }})
 
- 
   newChatState({ name = "Reeve1-2", character = characters.reeve, text = "What? Huh? Oh, it’s you. You’re a pretty decent fellow.", choices = {
 {"How are you doing?", function()
   Polygamy.state.goto("Reeve1-3") end},
@@ -393,16 +337,12 @@ end
   Polygamy.state.goto("Menu") end}
 }})
 
-
-
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
- 
  
 stages[5].avalibleCharacters[1] = characters.wifeOfBath
 stages[5].stateMapText = "Your party is taking a short break."
 stages[5].introMapText = "Your journey continues... Your party decides to take a short break."
 stages[5].continueRejection = "You should talk to the Wife of Bath first!"
- 
  
  stages[5].characterAction[1] = function()
 Polygamy.state.goto("Wife-1")
@@ -446,9 +386,7 @@ end
   Polygamy.state.goto("Menu") end}
 }})
 
- 
  --------------------------------------------------------------------------------------------------------------------------------------------------------------
-
 
 stages[6].avalibleCharacters[1] = characters.prioress
 stages[6].avalibleCharacters[2] = characters.host
@@ -457,9 +395,8 @@ stages[6].stateMapText = "You are resting at a small tavern"
 stages[6].introMapText = "Your journey continues... Your party rests at a small tavern."
 stages[6].continueRejection = "You should talk to the Prioress and the Host first!"
  
-talkedToPrioress=false
-talkedToHost=false
- 
+talkedToPrioress = false
+talkedToHost = false
 
 stages[6].characterAction[1] = function()
 Polygamy.state.goto("Prioress-1")
@@ -487,16 +424,15 @@ end
  
   newChatState({ name = "Prioress-4", character = characters.prioress, text = "Me? Oh, well my name is Madam Eglantine, and I absolutely adore the French language. I have never been to Paris proper, but I’ve studied French and can speak it quite well, vous ne pensez pas? It’s very important to be a proper lady, such as the ladies in the courts of France. Naturally, I always eat politely, and finish every last crumb on my plate, for to do otherwise would be rude. I also have several pups, who are only to be fed with the finest bread and meat possible. They’re absolutely adorable, aren’t they, poochy smoochy wooch! \n(She blows more kisses to her dog.) \nOh yes, and I have a nun and three priests accompanying me. They help me fetch food for my dogs.", choices = {
 {"Thank you. Goodbye.", function()
-     talkedToPrioress = true
-     if talkedToPrioress and talkedToHost then
-      canContinue = true
-    end
+  talkedToPrioress = true
+  if talkedToPrioress and talkedToHost then
+    canContinue = true
+  end
   Polygamy.state.goto("Menu") end}
 }})
 
-
 stages[6].characterAction[2] = function()
-Polygamy.state.goto("Host-1")
+  Polygamy.state.goto("Host-1")
 end
   newChatState({ name = "Host-1", character = characters.host, text = "Well, hello there! Are you enjoying the trip so far?", choices = {
 {"Yes, it’s quite nice.", function()
@@ -541,9 +477,8 @@ stages[7].stateMapText = "Your party is taking a short break."
 stages[7].introMapText = "Your journey continues... Your party decides to take a short break."
 stages[7].continueRejection = "You should talk to the Nun's Preist first!"
 
-
 stages[7].characterAction[1] = function()
-Polygamy.state.goto("Priest-1")
+  Polygamy.state.goto("Priest-1")
 end
   newChatState({ name = "Priest-1", character = characters.prioress, text = "Priest, fetch me a new steak and the finest bread for my pooch! Immediately- oh, hello, Mr. Geoffrey. I didn’t see you there. How are you?", choices = {
 {"Fine, thanks. Mind if I borrow your priest for a bit?", function()
@@ -574,6 +509,3 @@ end
 {"Goodbye.", function()
   Polygamy.state.goto("Menu") end}
 }})
- 
- 
- -----STAGE 8 -- ENDGAME -----

@@ -13,7 +13,6 @@ end
 
 function welcome.draw()  
 	gui.preDraw()
-
 	gui.Label{text = "Canterbury Trails", align="center", pos = gui.screenPercent({0,h}), size=gui.screenPercent({1,0.1}) }
 	gui.Label{text = "Avery Whitaker - Executive Software Producer", align="center", pos = gui.screenPercent({0,h+0.2}), size=gui.screenPercent({1,0.05}) }
 	gui.Label{text = "Emily Newman - Executive Writer and Occasional Codemonkey", align="center", pos = gui.screenPercent({0,h+0.3}), size=gui.screenPercent({1,0.05}) }
@@ -31,15 +30,13 @@ function welcome.draw()
 	gui.Label{text = "Impromptus II by Miezul Noptii", align="center", pos = gui.screenPercent({0,h+1.6}), size=gui.screenPercent({1,0.05}) }
 	gui.Label{text = "Maravillos et piadosos by Trouvere", align="center", pos = gui.screenPercent({0,h+1.7}), size=gui.screenPercent({1,0.05}) }
 	gui.Label{text = "Rokatanc by Vox Vulgaris", align="center", pos = gui.screenPercent({0,h+1.8}), size=gui.screenPercent({1,0.05}) }
-
 	gui.Label{text = "Made with LÖVE", align="center", pos = gui.screenPercent({0,h+2.0}), size=gui.screenPercent({1,0.1}) }
 	gui.Label{text = "Game Engine: love2D https://www.love2d.org/", align="center", pos = gui.screenPercent({0,h+2.1}), size=gui.screenPercent({1,0.05}) }
 	gui.Label{text = "Polygamy library: Pierre-Yves Gérardy", align="center", pos = gui.screenPercent({0,h+2.2}), size=gui.screenPercent({1,0.05}) }
   gui.Label{text = "Deborah Alexander: Fox, Egg and Chicken Sprites", align="center", pos = gui.screenPercent({0,h+2.3}), size=gui.screenPercent({1,0.05}) }
-
 	gui.Label{text = "-", align="center", pos = gui.screenPercent({0,h+2.4}), size=gui.screenPercent({1,0.1}) }
-	
 	gui.postDraw()
 end
 
-function welcome.after() end
+function welcome.after()
+end

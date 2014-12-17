@@ -55,7 +55,6 @@ function welcome.update(dt)
     gui.Panel({text = "You don't know how to hunt. Maybe someone will teach you?", align="left", pos = gui.screenPercent({0.25, 0.25}), size=gui.screenPercent({0.5, 0.5})})
     gui.Panel({text = "", align="left", pos = gui.screenPercent({0, 0}), size=gui.screenPercent({1, 1})})
   end
-
   if justHuntAlert == true then
     if gui.Button{text= "Close", pos = gui.screenPercent({0.5-0.075, 0.75-0.075}), size= gui.screenPercent({0.15,0.15})} then
       justHuntAlert = false
@@ -63,7 +62,6 @@ function welcome.update(dt)
   gui.Panel({text = "You just went hunting! You should wait a while", align="left", pos = gui.screenPercent({0.25, 0.25}), size=gui.screenPercent({0.5, 0.5})})
   gui.Panel({text = "", align="left", pos = gui.screenPercent({0, 0}), size=gui.screenPercent({1, 1})})
   end
-  
   n = 1
   nMax = #avalibleCharacters
   for key,value in pairs(avalibleCharacters) do
@@ -73,13 +71,10 @@ function welcome.update(dt)
     gui.Image{ pos = gui.screenPercent({0.3+(n-1)*(0.7/nMax) + 0.025, 0}), size= gui.imageSize(0.7/nMax - 0.05,value.image), image=value.image }
     n = n +1
   end
-
   gui.Label{text= "Canterbury Trails", pos = gui.screenPercent({0.05, 0}), size= gui.screenPercent({0.2,0.1})}
   if gui.Button{text= "Look at Map", pos = gui.screenPercent({0.05, 0.1}), size= gui.screenPercent({0.2,0.1})} then
-  
-  Polygamy.state.goto("Map") 
+    Polygamy.state.goto("Map") 
   end
-  
   if gui.Button{text= "Go Hunting", pos = gui.screenPercent({0.05, 0.55}), size= gui.screenPercent({0.2,0.10})} then 
     if canHunt == true and justHunted == false then
       justHunted = true
@@ -90,10 +85,9 @@ function welcome.update(dt)
       justHuntAlert = true
     end
   end
-   
   if gui.Button{text= "Continue Journey", pos = gui.screenPercent({0.05, 0.85}), size= gui.screenPercent({0.2,0.1})} then
     if canContinue == false then
-     foodAlert = true
+      foodAlert = true
     else
       Polygamy.state.goto("Traveling")   
     end
@@ -106,7 +100,6 @@ function welcome.draw()
   gui.preDraw()
   gui.postDraw()
 end
-
 
 function welcome.after()
 end
