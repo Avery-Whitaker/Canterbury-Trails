@@ -3,8 +3,8 @@ soundmanager.currentsong = nil
 
 
 function soundmanager:play(sndData)
-if  soundmanager.currentSong ~= nil then
-  love.audio.stop(soundmanager.currentSong)
+  if  soundmanager.currentSong ~= nil then
+    love.audio.stop(soundmanager.currentSong)
   end
   soundmanager.currentSong = sndData
   love.audio.play(sndData)

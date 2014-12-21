@@ -2,6 +2,10 @@ welcome = Polygamy.state( "Welcome Screen" )
 
 function welcome.before() 
   soundmanager:play(mainMenu)
+canHunt = false
+justHunted = false
+
+nextStage = stages[1]
 end
 
 function welcome.update(dt) 
@@ -27,5 +31,6 @@ function welcome.draw()
 end
 
 function welcome.after() 
+
 end
 

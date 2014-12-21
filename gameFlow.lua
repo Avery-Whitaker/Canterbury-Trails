@@ -7,6 +7,7 @@ stages[4] = {}
 stages[5] = {}
 stages[6] = {}
 stages[7] = {}
+stages[8] = {}
 
 stages[1].nextStage = stages[2]
 stages[2].nextStage = stages[3]
@@ -14,7 +15,8 @@ stages[3].nextStage = stages[4]
 stages[4].nextStage = stages[5]
 stages[5].nextStage = stages[6]
 stages[6].nextStage = stages[7]
-stages[7].nextStage = nil
+stages[7].nextStage = stages[8]
+stages[8].nextStage = nil --actualy makes it go straight to end skips stage 8
 
 stages[1].avalibleCharacters = {}
 stages[2].avalibleCharacters = {}
@@ -32,13 +34,14 @@ stages[5].characterAction = {}
 stages[6].characterAction = {}
 stages[7].characterAction = {}
 
-stages[1].stageMusic = town
-stages[2].stageMusic = town
-stages[3].stageMusic = road
-stages[4].stageMusic = town
-stages[5].stageMusic = road
-stages[6].stageMusic = town
-stages[7].stageMusic = road
+stages[1].stageMusic = love.audio.newSource("assets/in a small town.mp3", "static")
+stages[2].stageMusic = love.audio.newSource("assets/in a small town.mp3", "static")
+stages[3].stageMusic = love.audio.newSource("assets/OnTheRoadMusic.mp3", "static")
+stages[4].stageMusic = love.audio.newSource("assets/in a small town.mp3", "static")
+stages[5].stageMusic = love.audio.newSource("assets/OnTheRoadMusic.mp3", "static")
+stages[6].stageMusic = love.audio.newSource("assets/in a small town.mp3", "static")
+stages[7].stageMusic = love.audio.newSource("assets/OnTheRoadMusic.mp3", "static" )
+stages[8].stageMusic = love.audio.newSource("assets/exciting bagpipe music.mp3", "static" )
 
 stages[1].merchentShopUnlocked = false
 stages[2].merchentShopUnlocked = true
@@ -353,6 +356,7 @@ end
 {"Tell me more about yourself.", function()
   Polygamy.state.goto("Wife-3") end},
 {"Tell me a story.", function()
+      canContinue = true
   Polygamy.state.goto("WifeOfBathInstructions") end},
 {"Goodbye.", function()
   Polygamy.state.goto("Menu") end}

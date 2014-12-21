@@ -1,0 +1,2057 @@
+
+
+require "library.Polygamy.init" "./library/Polygamy/"
+gui = require "quickie"
+soundmanager = {}
+soundmanager.currentsong = nil
+
+function love.conf(t)
+  t.identity = "Canterbury Trails"                   -- The name of the save directory (string)
+  t.version = "0.9.1"                -- The LÖVE version this game was made for (string)
+  t.console = false                  -- Attach a console (boolean, Windows only)
+  t.window.title = "Canterbury Trails"        -- The window title (string)
+  t.window.icon = "assets/splashLogo.png"                -- Filepath to an image to use as the window's icon (string)
+  t.window.width = 800              -- The window width (number)
+  t.window.height = 600              -- The window height (number)
+  t.window.borderless = true        -- Remove all border visuals from the window (boolean)
+  t.window.resizable = false         -- Let the window be user-resizable (boolean)
+  t.window.minwidth = 800              -- Minimum window width if the window is resizable (number)
+  t.window.minheight = 600             -- Minimum window height if the window is resizable (number)
+  t.window.fullscreen = false        -- Enable fullscreen (boolean)
+  t.window.fullscreentype = "normal" -- Standard fullscreen or desktop fullscreen mode (string)
+  t.window.vsync = true              -- Enable vertical sync (boolean)
+  t.window.fsaa = 8                  -- The number of samples to use with multi-sampled antialiasing (number)
+  t.window.display = 1               -- Index of the monitor to show the window in (number)
+  t.window.highdpi = true           -- Enable high-dpi mode for the window on a Retina display (boolean). Added in 0.9.1
+  t.window.srgb = true              -- Enable sRGB gamma correction when drawing to the screen (boolean). Added in 0.9.1
+end
+
+function soundmanager:play(sndData)
+if  soundmanager.currentSong ~= nil then
+  love.audio.stop(soundmanager.currentSong)
+  end
+  soundmanager.currentSong = sndData
+  love.audio.play(sndData)
+end
+
+--update
+function soundmanager:update()
+if soundmanager.currentSong:isStopped() then love.audio.play(soundmanager.currentSong) end
+end
+theEnd = Polygamy.state( "End" )
+
+function theEnd.before() 
+  timer = 7
+end
+
+function theEnd.update(dt) 
+timer = timer - dt
+if timer < 0 then 
+Polygamy.state.polyStateSet("Credits") end
+  gui.Label{text = "The End", align="center", pos = gui.screenPercent({0.25,0.1}), size=gui.screenPercent({0.5,0.3}) }
+  gui.Image{ pos = {0,0}, size= gui.screenPercent({1,1}), image=canterburyIMG }
+end
+
+function theEnd.draw()
+  gui.preDraw()
+  gui.postDraw()
+end
+
+function theEnd.after() 
+end
+
+--{name, character, text, options = {{"string", functioN() 2 3...}, resault = {1 2, 3...} }
+function newChatState(w)
+  state = Polygamy.state(w.name)
+  state.before = function()
+  end
+
+  state.update = function(dt)
+    if(type(w.choices) == "table")
+    then
+      n = #w.choices
+    else
+      n = 0
+    end
+    panelTop = (0.6-(n*0.075))
+    gui.Panel({text = w.character.name, align="left", pos = gui.screenPercent({0.1, panelTop}), size=gui.screenPercent({0.2, 0.05})})
+    gui.Panel({text = w.text, pos = gui.screenPercent({0.1, panelTop+0.05}), size=gui.screenPercent({0.8, 0.3})})
+    if n>0 then
+      for key,value in pairs(w.choices) do
+        if gui.Button{text = w.choices[key][1], pos=gui.screenPercent({0.1,(0.90-(3*n*0.025))+key*3*0.025}), size=gui.screenPercent({0.8,0.05}), widgetHit=nil, draw=nil} then 
+          w.choices[key][2]()
+        end
+      end
+    end
+    gui.Image{ pos = {(gui.screenWidth()-(gui.imageSizeH(panelTop+0.35,w.character.image)[1]))/2, 0}, size= gui.imageSizeH(panelTop+0.35,w.character.image), image=w.character.image }
+    gui.Image{ pos = gui.screenPercent({0,0}), size= gui.screenPercent({1,1}), image=backgroundIMG }
+  end
+
+  state.draw = function()
+    gui.preDraw()
+    gui.postDraw()
+  end
+
+  state.after = function()
+  end
+
+  return state
+end
+--[[Geoffrey Pilgrim
+Host
+Reeve
+Knight
+Squire
+Merchant
+Monk
+Miller
+Prioress
+Nun's Priest
+Wife of Bath 
+Prioress
+--]]
+
+characters = {}
+
+characters.host = {}
+characters.host.image = love.graphics.newImage("assets/host.png")
+characters.host.name = "The Host"
+
+characters.reeve = {}
+characters.reeve.image = love.graphics.newImage("assets/reeve.png")
+characters.reeve.name = "The Reeve"
+
+characters.knight = {}
+characters.knight.image = love.graphics.newImage("assets/knight.png")
+characters.knight.name = "Knight"
+
+characters.squire = {}
+characters.squire.image = love.graphics.newImage("assets/squire.png")
+characters.squire.name = "The Squire"
+
+characters.merchant = {}
+characters.merchant.image = love.graphics.newImage("assets/merchent.png")
+characters.merchant.name = "The Merchant"
+
+characters.monk = {}
+characters.monk.image = love.graphics.newImage("assets/monk.png")
+characters.monk.name = "The Monk"
+
+characters.miller = {}
+characters.miller.image = love.graphics.newImage("assets/miller.png")
+characters.miller.name = "The Miller"
+
+characters.prioress = {}
+characters.prioress.image = love.graphics.newImage("assets/prioress.png")
+characters.prioress.name = "The Prioress"
+
+characters.nunsPreist = {}
+characters.nunsPreist.image = love.graphics.newImage("assets/nunPriest.png")
+characters.nunsPreist.name = "Nun's Priest"
+
+characters.wifeOfBath = {}
+characters.wifeOfBath.image = love.graphics.newImage("assets/wife.png")
+characters.wifeOfBath.name = "Wife of Bath"
+
+characters.pardoner = {}
+characters.pardoner.image = love.graphics.newImage("assets/pardoner.png")
+characters.pardoner.name = "The Pardoner"
+stages = {}
+ 
+stages[1] = {}
+stages[2] = {}
+stages[3] = {}
+stages[4] = {}
+stages[5] = {}
+stages[6] = {}
+stages[7] = {}
+
+stages[1].nextStage = stages[2]
+stages[2].nextStage = stages[3]
+stages[3].nextStage = stages[4]
+stages[4].nextStage = stages[5]
+stages[5].nextStage = stages[6]
+stages[6].nextStage = stages[7]
+stages[7].nextStage = nil
+
+stages[1].avalibleCharacters = {}
+stages[2].avalibleCharacters = {}
+stages[3].avalibleCharacters = {}
+stages[4].avalibleCharacters = {}
+stages[5].avalibleCharacters = {}
+stages[6].avalibleCharacters = {}
+stages[7].avalibleCharacters = {}
+
+stages[1].characterAction = {}
+stages[2].characterAction = {}
+stages[3].characterAction = {}
+stages[4].characterAction = {}
+stages[5].characterAction = {}
+stages[6].characterAction = {}
+stages[7].characterAction = {}
+
+stages[1].stageMusic = town
+stages[2].stageMusic = town
+stages[3].stageMusic = road
+stages[4].stageMusic = town
+stages[5].stageMusic = road
+stages[6].stageMusic = town
+stages[7].stageMusic = road
+
+stages[1].merchentShopUnlocked = false
+stages[2].merchentShopUnlocked = true
+stages[3].merchentShopUnlocked = false
+stages[4].merchentShopUnlocked = true
+stages[5].merchentShopUnlocked = false
+stages[6].merchentShopUnlocked = true
+stages[7].merchentShopUnlocked = false
+
+stages[1].stateMapText = "Your party is taking a short break."
+stages[1].introMapText = "Your journey continues... Your party decides to take a short break."
+stages[1].continueRejection = "Shouldn't you talk to the knight first?"
+ 
+stages[1].avalibleCharacters[1] = characters.knight
+
+stages[1].characterAction[1] = function()
+Polygamy.state.polyStateSet("Knight1-1")
+end
+  newChatState({ name = "Knight1-1", character = characters.knight, text = "Hello, Geoffrey! A pleasure to see you, as always.", choices = {
+{"Hello, Sir Knight. How are you doing?", function()
+  Polygamy.state.polyStateSet("Knight1-2") end},
+{"Tell me more about yourself.", function()
+  Polygamy.state.polyStateSet("Knight1-3") end},
+{"Tell me a story.", function()
+  canContinue = true
+  Polygamy.state.polyStateSet("KnightInstructions") end},
+{"Goodbye.", function()
+  Polygamy.state.polyStateSet("Menu") end}
+}})
+ 
+  newChatState({ name = "Knight1-2", character = characters.knight, text = "I’m fairly good, thanks. Just worried about my son. Prancing around like he’s the salt of the earth. You know how kids are…", choices = {
+{"So, tell me more about yourself.", function()
+  Polygamy.state.polyStateSet("Knight1-3") end},
+{"Tell me a story.", function()
+  canContinue = true
+  Polygamy.state.polyStateSet("KnightInstructions") end},
+{"Goodbye.", function()
+  Polygamy.state.polyStateSet("Menu") end}
+}})
+ 
+  newChatState({ name = "Knight1-3", character = characters.knight, text = "Myself? Well, I’ve seen many a battle. I was at the conquering of Alexandria, quite by accident actually. I’m honestly not as great of a knight as others seem to think I am. I was only at the table in Prussia because I was invited by a friend. I actually served most of my time as a mercenary. I’m really not a great knight.", choices = {
+{"...", function()
+  Polygamy.state.polyStateSet("Knight1-4") end}
+}})
+ 
+  newChatState({ name = "Knight1-4", character = characters.squire, text = "Dad, stop being so humble! I’ll tell you myself: he was at Ayas and Attalia when they were won. He’s fought more in Lithuania and Russia than any other Christian Knight. He’s fought in Turkey, Granada, Benmarin, and the Mediterranean, all with great success. He’s an amazing knight! Of course, he’s far too meek to tell you any of this himself.", choices = {
+{"...", function()
+  Polygamy.state.polyStateSet("Knight1-5") end}
+}})
+ 
+  newChatState({ name = "Knight1-5", character = characters.knight, text = "[The Knight seems embarrassed by this exposition of his talents. You shouldn’t press him much further.]", choices = {
+{"Tell me a story.", function()
+  canContinue = true
+  Polygamy.state.polyStateSet("KnightInstructions") end},
+  {"Goodbye.", function()
+  Polygamy.state.polyStateSet("Menu") end}
+}})
+ 
+----------------------------------------------------------------------------------------------------------------------------
+ 
+stages[2].avalibleCharacters[1] = characters.squire
+stages[2].avalibleCharacters[2] = characters.monk
+stages[2].characterAction[1] = function()
+  Polygamy.state.polyStateSet("Squire1-1") 
+end
+stages[2].characterAction[2] = function()
+  Polygamy.state.polyStateSet("Monk1-1") 
+end
+talkedtoMonk = false
+talkedtoSquire = false
+ 
+stages[2].stateMapText = "You are resting at a small tavern"
+stages[2].introMapText = "Your journey continues... Your party rests at a small tavern."
+stages[2].continueRejection = "You should talk to the Squire and the Monk first!"
+ 
+  newChatState({ name = "Squire1-1", character = characters.squire, text = "Hullo, Mr. Pilgrim. Seen any young women about lately?", choices = {
+{"No, why do yo ask?", function()
+  Polygamy.state.polyStateSet("Squire1-2") end},
+{"Tell me about yourself.", function()
+  Polygamy.state.polyStateSet("Squire1-3") end},
+{"Goodbye.", function()
+  Polygamy.state.polyStateSet("Menu") end}
+}})
+ 
+  newChatState({ name = "Squire1-2", character = characters.squire, text = "Darn. I just wrote this amazing love ballad and I was hoping that you’d know of a nice lady I could court. Do you want to hear it?", choices = {
+{"No, that's okay. Tell me about yourself.", function()
+  Polygamy.state.polyStateSet("Squire1-3") end},
+{"No thanks. Goodbye.", function()
+  Polygamy.state.polyStateSet("Menu") end}
+}})
+ 
+  newChatState({ name = "Squire1-3", character = characters.squire, text = "Oh, okay! Well, I’m a great songwriter and musician, if I do say so myself. I’ve been on several cavalry raids already, and I even have a lady waiting for me back home! Of course, that doesn’t mean that I can’t flirt once or twice while I’m on the road with my father. I can even draw and write. Are you sure you don’t want to hear that song?", choices = {
+{"Sure, I'd love to hear it.", function()
+  Polygamy.state.polyStateSet("Squire1-4") end}
+}})
+ 
+  newChatState({ name = "Squire1-4", character = characters.squire, text = "Wonderous! *The Squire begins to sing a song.* Thanks for listening!", choices = {
+{"A pleasure. Goodbye.", function()
+     talkedToSquire = true
+stages[2].continueRejection = "You should talk to the Monk first!"
+     stages[2].continueRejection = "You should talk to the Monk first!"
+     if talkedToSquire and talkedToMonk then
+      canContinue = true
+    end
+  Polygamy.state.polyStateSet("Menu") end}
+}})
+ 
+  newChatState({ name = "Monk1-1", character = characters.monk, text = "Greetings, Mr. Pilgrim. Pleasure to meet you again.", choices = {
+{"Tell me about yourself.", function()
+  Polygamy.state.polyStateSet("Monk1-2") end},
+{"Teach me how to hunt.", function()
+  Polygamy.state.polyStateSet("Monk1-3") end},
+{"Goodbye.", function()
+  Polygamy.state.polyStateSet("Menu") end}
+}})
+ 
+  newChatState({ name = "Monk1-2", character = characters.monk, text = " Well, the first thing that you should know about me is that I do enjoy a good spot of hunting every once in a while. All those books that those old stuffy monks wrote about living in cells aren’t worth an oyster! Why shouldn’t we get out and do good in the world once in a while? There are many sights to see in the world, and many beautiful women to meet. My favorite activity, above all, is hunting. The thrill of the chase is like no other.", choices = {
+{"Teach me how to hunt.", function()
+  Polygamy.state.polyStateSet("Monk1-3") end},
+{"Interesting. Goodbye.", function()
+  Polygamy.state.polyStateSet("Menu") end}
+}})
+ 
+  newChatState({ name = "Monk1-3", character = characters.monk, text = "Sure thing...\n\n***HUNTING UNLOCKED***", choices = {
+{"Thank you so much. Goodbye.", function()
+  canHunt = true
+     stages[2].continueRejection = "You should talk to the Squire first!"
+     talkedToMonk = true
+     if talkedToSquire and talkedToMonk then
+      canContinue = true
+    end
+  Polygamy.state.polyStateSet("Menu") end}
+}})
+ 
+----------------------------------------------------------------------------------------------------------------------------------------------------
+ 
+stages[3].avalibleCharacters[1] = characters.miller
+stages[3].characterAction[1] = function()
+  Polygamy.state.polyStateSet("Miller1-1")
+end
+ 
+stages[3].stateMapText = "Your party is taking a short break."
+stages[3].introMapText = "Your journey continues... Your party decides to take a short break."
+stages[3].continueRejection = "You should talk to the Miller first!"
+ 
+  newChatState({ name = "Miller1-1", character = characters.miller, text = "Hey! Who bothers me now - oh, it’s just you. Well, I guess you’re alright.", choices = {
+{"Tell me about yourself.", function()
+  Polygamy.state.polyStateSet("Miller1-2") end},
+{"Tell me a story.", function()
+  canContinue=true
+  Polygamy.state.polyStateSet("MillerInstructions") end},
+{"Goodbye.", function()
+  Polygamy.state.polyStateSet("Menu") end}
+}})
+ 
+  newChatState({ name = "Miller1-2", character = characters.miller, text = "Oh, well I like to play the bagpipes, and I’m quite good at grinding grain for folks. Sometimes I even grind too much, and end up with the leftovers! On the other hand, when I don’t grind enough, I mix some old grain in with the new, but don’t tell the customers that… (He nudges you and winks.) I do love a good joke, as well. Have you heard the one about the cuckold and the eunuch? So, an eunuch, a cuckold, and a wench walk into a tavern… \n(You really don’t want to hear this joke. It’s bound to be absolutely vulgar. )", choices = {
+{"Nevermind that. Tell me a story.", function()
+  canContinue=true
+  Polygamy.state.polyStateSet("MillerInstructions") end},
+{"Goodbye.", function()
+  Polygamy.state.polyStateSet("Menu") end}
+}})
+ 
+----------------------------------------------------------------------------------------------------------------------------------------------------------
+ 
+stages[4].avalibleCharacters[1] = characters.pardoner
+stages[4].avalibleCharacters[2] = characters.reeve
+stages[4].stateMapText = "You are resting at a small tavern"
+stages[4].introMapText = "Your journey continues... Your party rests at a small tavern."
+stages[4].continueRejection = "You should talk to the Pardoner and the Reeve first!"
+talkedToPardoner = false
+talkedToReeve = false
+stages[4].characterAction[1] = function()
+  Polygamy.state.polyStateSet("Pardoner1-1")
+end
+  newChatState({ name = "Pardoner1-1", character = characters.pardoner, text = "Well, hello there, good sir.", choices = {
+{"Tell me about yourself.", function()
+  Polygamy.state.polyStateSet("Pardoner1-2") end},
+{"Tell me a story.", function()
+  Polygamy.state.polyStateSet("Pardoner1-3") end},
+{"Goodbye.", function()
+  Polygamy.state.polyStateSet("Menu") end}
+}})
+ 
+  newChatState({ name = "Pardoner1-2", character = characters.pardoner, text = "I have all sorts of relics. I have everything from the shoulder bone of a holy Jew’s sheep to a piece of the shroud of the Virgin Mary herself. Would you be interested in buying a pardon?... is what I would say if you were in the crowds of people that throng about when I visit churches. You seem to have a good head about you, lad, so I won’t try to sell you anything just yet.", choices = {
+{"Tell me a story.", function()
+  Polygamy.state.polyStateSet("Pardoner1-3") end},
+{"Goodbye.", function()
+  Polygamy.state.polyStateSet("Menu") end}
+}})
+ 
+  newChatState({ name = "Pardoner1-3", character = characters.pardoner, text = "You’re going to need to hand me a draught of moist and malty ale before I tell you any stories.", choices = {
+{"Give the Pardoner some of your Ale", function() --This should detract ale from your inbox...
+  Polygamy.state.polyStateSet("Pardoner1-4") end},
+{"I don't have any ale. Goodbye.", function()
+  Polygamy.state.polyStateSet("Menu") end}
+}})
+
+  newChatState({ name = "Pardoner1-4", character = characters.pardoner, text = "Alright, I’ve had some ale, so I’ll show you a bit of my sermon. ", choices = {
+{"...", function()
+  Polygamy.state.polyStateSet("Pardoner1-5") end}
+}})
+ 
+  newChatState({ name = "Pardoner1-5", character = characters.pardoner, text = "I usually tell them this story about these three guys who find “death” underneath a tree, but death is really a pile of gold. The moral of the story is that you should never give in to the evils of greed and avarice. Of course, my very job involves greed, since the pardons I sell aren’t actually real. The people are so gullible, aren’t they? In all seriousness, you do want to buy a pardon, don’t you? (He calls over to the Host.) Hey, most gracious host, why don’t you  become the first customer? Step right up and open up your purse!", choices = {
+{"...", function()
+  Polygamy.state.polyStateSet("Pardoner1-6") end}
+}})
+ 
+  newChatState({ name = "Pardoner1-6", character = characters.host, text = "Who do you think you are?!? Why I oughta… I’d rather hold your severed testicles than any holy object of yours!", choices = {
+{"...", function()
+  Polygamy.state.polyStateSet("Pardoner1-7") end},
+}})  
+ 
+  newChatState({ name = "Pardoner1-7", character = characters.knight, text = "Calm down, calm down. Come on you two, be gracious to each other. We still have quite a ways to go.", choices = {
+{"...", function()
+  Polygamy.state.polyStateSet("Pardoner1-8") end},
+}})
+ 
+  newChatState({ name = "Pardoner1-8", character = characters.host, text = "...Alright, fine. I guess I’ll let it slide this time.", choices = {
+{"...", function()
+  Polygamy.state.polyStateSet("Pardoner1-9") end},
+}})
+ 
+newChatState({ name = "Pardoner1-9", character = characters.pardoner, text = "Well, I never knew our host could be so rude. So, do you want to buy a pardon? You never know when you might need it!", choices = {
+  {"No thank you. Goodbye.", function()
+  pardonerShopUnlocked = true
+  talkedToPardoner = true
+  if talkedToPardoner and talkedToReeve then
+    canContinue = true
+  end
+  Polygamy.state.polyStateSet("Menu") end}
+}})
+
+stages[4].characterAction[2] = function()
+  Polygamy.state.polyStateSet("Reeve1-1")
+end
+newChatState({ name = "Reeve1-1", character = characters.reeve, text = "grumble grumble… mutter… that stupid Miller, oh how i hate him… grumble", choices = {
+{"Hello?", function()
+  Polygamy.state.polyStateSet("Reeve1-2") end}
+}})
+
+  newChatState({ name = "Reeve1-2", character = characters.reeve, text = "What? Huh? Oh, it’s you. You’re a pretty decent fellow.", choices = {
+{"How are you doing?", function()
+  Polygamy.state.polyStateSet("Reeve1-3") end},
+{"Tell me more about yourself.", function()
+  Polygamy.state.polyStateSet("Reeve1-8") end},
+{"Tell me a story.", function()
+  Polygamy.state.polyStateSet("Reeve1-9") end},
+{"Goodbye.", function()
+  Polygamy.state.polyStateSet("Menu") end}
+}})
+ 
+  newChatState({ name = "Reeve1-3", character = characters.reeve, text = "To tell the truth, I’m pretty angry right now. That Miller just made a complete fool of me. ", choices = {
+{"...", function()
+  Polygamy.state.polyStateSet("Reeve1-4") end}
+}})
+ 
+  newChatState({ name = "Reeve1-4", character = characters.miller, text = "Hey, Oswald, you still beating yourself up over that story? Calm down, it was just a joke!", choices = {
+{"...", function()
+  Polygamy.state.polyStateSet("Reeve1-5") end}
+}})
+
+  newChatState({ name = "Reeve1-5", character = characters.reeve, text = "Go away, or I might tell a story of a miller being tricked as well.", choices = {
+{"...", function()
+  Polygamy.state.polyStateSet("Reeve1-6") end}
+}})
+
+  newChatState({ name = "Reeve1-6", character = characters.miller, text = "What harm can that do? I should say that you should be proud of the carpenter in my story! He managed to snag himself a beautiful woman, and what do you have? ", choices = {
+{"...", function()
+  Polygamy.state.polyStateSet("Reeve1-7") end}
+}})
+
+  newChatState({ name = "Reeve1-7", character = characters.reeve, text = "You’re making a fool of yourself. Go away; you’re drunk. \n\n(The Miller leaves.)\n\nHe makes me so angry!", choices = {
+{"Tell me about yourself.", function()
+  Polygamy.state.polyStateSet("Reeve1-8") end},
+{"Tell me a story.", function()
+  Polygamy.state.polyStateSet("Reeve1-9") end},
+{"Goodbye.", function()
+  Polygamy.state.polyStateSet("Menu") end}
+}})
+
+  newChatState({ name = "Reeve1-8", character = characters.reeve, text = "I used to be a carpenter, but I managed to get a job as a reeve quite a few years back. I’m quite feared by the common people, and I do a very good job of keeping tabs on my lord’s property. He actually rewarded me with this cloak I’m wearing. I originally hail from Norfolk, near the town of Bawdswell. I always try to stay as far away from that stupid Miller as possible, since he always manages to infuriate me.", choices = {
+{"Tell me a story.", function()
+  Polygamy.state.polyStateSet("Reeve1-9") end},
+{"Goodbye.", function()
+  Polygamy.state.polyStateSet("Menu") end}
+}})
+
+  newChatState({ name = "Reeve1-9", character = characters.reeve, text = "Agh, I’m so mad, I don’t think I can tell a coherent story right now. I’m certainly too old for this. It would probably be a story about making a cuckold and a fool out of a miller.", choices = {
+{"Goodbye.", function()
+  stages[4].continueRejection = "You should talk to the Pardoner first!"
+     talkedToReeve = true
+     if talkedToPardoner and talkedToReeve then
+      canContinue = true
+    end
+  Polygamy.state.polyStateSet("Menu") end}
+}})
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ 
+stages[5].avalibleCharacters[1] = characters.wifeOfBath
+stages[5].stateMapText = "Your party is taking a short break."
+stages[5].introMapText = "Your journey continues... Your party decides to take a short break."
+stages[5].continueRejection = "You should talk to the Wife of Bath first!"
+ 
+ stages[5].characterAction[1] = function()
+Polygamy.state.polyStateSet("Wife-1")
+end
+  newChatState({ name = "Wife-1", character = characters.wifeOfBath, text = "Well, hello there, love. You seem like a fine young man. ", choices = {
+{"How are you doing?", function()
+  Polygamy.state.polyStateSet("Wife-2") end},
+{"Tell me more about yourself.", function()
+  Polygamy.state.polyStateSet("Wife-3") end},
+{"Tell me a story.", function()
+  Polygamy.state.polyStateSet("WifeOfBathInstructions") end},
+{"Goodbye.", function()
+  Polygamy.state.polyStateSet("Menu") end}
+}})
+ 
+  newChatState({ name = "Wife-2", character = characters.wifeOfBath, text = "Oh, quite well, thank you. This trip is turning out to be fun, isn’t it? (The Wife of Bath winks at the Squire, who blushes and turns away.)", choices = {
+{"So, tell me more about yourself.", function()
+  Polygamy.state.polyStateSet("Wife-3") end},
+{"Tell me a story.", function()
+      canContinue = true
+  Polygamy.state.polyStateSet("WifeOfBathInstructions") end},
+{"Goodbye.", function()
+  Polygamy.state.polyStateSet("Menu") end}
+}})
+ 
+  newChatState({ name = "Wife-3", character = characters.wifeOfBath, text = "Of course I can tell you a little about myself, love. I’ve had five husbands since I was twelve years old, so I find myself very qualified to discuss the important matters of chastity and marriage. I believe first and foremost that chastity is overrated. The Apostle only suggests that chastity is a good idea. The people who want to remain chaste can go right ahead. As the Bible states, a lord has wooden dishes in his house as well as gold. I say that if we have the organs for it, we should use them! God gave us reproductive capabilities for a reason. I also say that the woman should have control over her husband’s body for all his life, just as the Apostle says. (You think to yourself that her Bible interpretations are a bit of a stretch.)", choices = {
+{"...", function()
+  Polygamy.state.polyStateSet("Wife-4") end}
+}})
+ 
+  newChatState({ name = "Wife-4", character = characters.pardoner, text = "Now, Miss, you are quite good at preaching on this subject. I might even say you are a better preacher than myself. I was actually about to take a wife, but your story has convinced me that it would be more punishment than reward to do so!", choices = {
+{"...", function()
+  Polygamy.state.polyStateSet("Wife-5") end}
+}})
+ 
+  newChatState({ name = "Wife-5", character = characters.wifeOfBath, text = "My story hasn’t even started yet! Return to your spot in line. I will tell you after I’ve finished talking to the kind Pilgrim here.\n(The Pardoner leaves.)\nWhat a poor sap. You remember what I said about having the organs for it? Well, he is one that was... meant to be chaste. Poor soul.\nAny questions?", choices = {
+{"Tell me more about your husbands.", function()
+  canContinue = true
+  Polygamy.state.polyStateSet("WifeOfBathInstructions") end},
+  {"Goodbye.", function()
+  Polygamy.state.polyStateSet("Menu") end}
+}})
+
+ --------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+stages[6].avalibleCharacters[1] = characters.prioress
+stages[6].avalibleCharacters[2] = characters.host
+ 
+stages[6].stateMapText = "You are resting at a small tavern"
+stages[6].introMapText = "Your journey continues... Your party rests at a small tavern."
+stages[6].continueRejection = "You should talk to the Prioress and the Host first!"
+ 
+talkedToPrioress = false
+talkedToHost = false
+
+stages[6].characterAction[1] = function()
+Polygamy.state.polyStateSet("Prioress-1")
+end
+  newChatState({ name = "Prioress-1", character = characters.prioress, text = "BONJOUR, MON AMI. COMMENT ALLEZ-VOUS?", choices = {
+{"Please talk in English.", function()
+  Polygamy.state.polyStateSet("Prioress-2") end},
+}})
+ 
+  newChatState({ name = "Prioress-2", character = characters.prioress, text = "Oh, JE ME EXCUSE, dear. I was just practicing my French. Hello, dear. How are you doing?", choices = {
+{"Fine, thanks. And you?", function()
+  Polygamy.state.polyStateSet("Prioress-3") end},
+{"Tell me about yourself.", function()
+  Polygamy.state.polyStateSet("Prioress-4") end},
+{"Goodbye.", function()
+  Polygamy.state.polyStateSet("Menu") end}
+}})
+ 
+  newChatState({ name = "Prioress-3", character = characters.prioress, text = " I’m doing quite well myself, thank you for asking. My pooch and I were about to share a nice piece of fantaisie dried steak. (She pulls out a piece of beef jerky.) They told me not to bring any pups, but I managed to sneak my favorite dog with me on the trip. Isn’t that right, poochy woochy? \n(She blows kisses inside her bag. A small yelp comes from inside.)", choices = {
+{"Tell me about yourself.", function()
+  Polygamy.state.polyStateSet("Prioress-4") end},
+{"Goodbye.", function()
+  Polygamy.state.polyStateSet("Menu") end}
+}})
+ 
+  newChatState({ name = "Prioress-4", character = characters.prioress, text = "Me? Oh, well my name is Madam Eglantine, and I absolutely adore the French language. I have never been to Paris proper, but I’ve studied French and can speak it quite well, vous ne pensez pas? It’s very important to be a proper lady, such as the ladies in the courts of France. Naturally, I always eat politely, and finish every last crumb on my plate, for to do otherwise would be rude. I also have several pups, who are only to be fed with the finest bread and meat possible. They’re absolutely adorable, aren’t they, poochy smoochy wooch! \n(She blows more kisses to her dog.) \nOh yes, and I have a nun and three priests accompanying me. They help me fetch food for my dogs.", choices = {
+{"Thank you. Goodbye.", function()
+  talkedToPrioress = true
+  if talkedToPrioress and talkedToHost then
+    canContinue = true
+  end
+  Polygamy.state.polyStateSet("Menu") end}
+}})
+
+stages[6].characterAction[2] = function()
+  Polygamy.state.polyStateSet("Host-1")
+end
+  newChatState({ name = "Host-1", character = characters.host, text = "Well, hello there! Are you enjoying the trip so far?", choices = {
+{"Yes, it’s quite nice.", function()
+  Polygamy.state.polyStateSet("Host-2") end},
+{"Yes. How are you doing?", function()
+  Polygamy.state.polyStateSet("Host-3") end},
+{"Tell me about yourself.", function()
+  Polygamy.state.polyStateSet("Host-4") end},
+{"Goodbye.", function()
+  Polygamy.state.polyStateSet("Menu") end}
+}})
+ 
+  newChatState({ name = "Host-2", character = characters.host, text = "It truly is. You know, I doubted myself at first when I decided to lead all of you to Canterbury, but I figured that everyone would return to my inn afterwards if I came along. It’s good business, good business indeed.", choices = {
+{"How are you doing?", function()
+  Polygamy.state.polyStateSet("Host-3") end},
+{"Tell me about yourself.", function()
+  Polygamy.state.polyStateSet("Host-4") end},
+{"Goodbye.", function()
+  Polygamy.state.polyStateSet("Menu") end}
+}})
+ 
+  newChatState({ name = "Host-3", character = characters.host, text = "I’m doing quite well, thank you. It’s nice to get out of the inn once in a while.", choices = {
+{"Tell me about yourself.", function()
+  Polygamy.state.polyStateSet("Host-4") end},
+{"Goodbye.", function()
+  Polygamy.state.polyStateSet("Menu") end}
+}})
+ 
+  newChatState({ name = "Host-4", character = characters.host, text = "Alright! As you know, I am the owner of the inn that you met this group at. I love to tell jokes, and I came up with the idea for everyone to tell stories to one another. It really makes the trip go by faster. I’m certainly glad I came along with you all, as long as you buy a nice hearty supper the minute we get back to the inn! (He laughs)", choices = {
+{"Thank you. Goodbye.", function()
+     talkedToHost = true
+     if talkedToPrioress and talkedToHost then
+      canContinue = true
+    end
+  Polygamy.state.polyStateSet("Menu") end}
+}})
+ 
+------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+stages[7].avalibleCharacters[1] = characters.nunsPreist
+stages[7].stateMapText = "Your party is taking a short break."
+stages[7].introMapText = "Your journey continues... Your party decides to take a short break."
+stages[7].continueRejection = "You should talk to the Nun's Preist first!"
+
+stages[7].characterAction[1] = function()
+  Polygamy.state.polyStateSet("Priest-1")
+end
+  newChatState({ name = "Priest-1", character = characters.prioress, text = "Priest, fetch me a new steak and the finest bread for my pooch! Immediately- oh, hello, Mr. Geoffrey. I didn’t see you there. How are you?", choices = {
+{"Fine, thanks. Mind if I borrow your priest for a bit?", function()
+  Polygamy.state.polyStateSet("Priest-2") end},
+
+}})
+ 
+  newChatState({ name = "Priest-2", character = characters.prioress, text = "Oh, PAS DU TOUT, not at all! As they say in France, L'EAU SOUS LE PONT.", choices = {
+{"...", function()
+  Polygamy.state.polyStateSet("Priest-3") end},
+
+}})
+ 
+  newChatState({ name = "Priest-3", character = characters.nunsPreist, text = "Thanks for getting me out of there. I really appreciate it.", choices = {
+{"Tell me about yourself.", function()
+  Polygamy.state.polyStateSet("Priest-4") end},
+{"Tell me a story.", function()
+      canContinue = true
+  Polygamy.state.polyStateSet("PriestInstructions") end},
+{"Goodbye.", function()
+  Polygamy.state.polyStateSet("Menu") end}
+}})
+ 
+  newChatState({ name = "Priest-4", character = characters.nunsPreist, text = "Oh, I don’t do much. I just assist the Prioress.", choices = {
+{"Tell me a story.", function()
+  canContinue = true;
+  Polygamy.state.polyStateSet("PriestInstructions") end},
+{"Goodbye.", function()
+  Polygamy.state.polyStateSet("Menu") end}
+}})
+
+welcome = Polygamy.state( "Welcome Screen" )
+
+function welcome.before() 
+  soundmanager:play(mainMenu)
+end
+
+function welcome.update(dt) 
+	gui.Label{text = "Canterbury Trails", align="center", pos = gui.screenPercent({0.25,0.1}), size=gui.screenPercent({0.5,0.3}) }
+	if gui.Button{text = "Begin Your Pilgrimage", pos=gui.screenPercent({0.25,0.5}), size=gui.screenPercent({0.5,0.5/4}), widgetHit=nil, draw=nil} then 
+	  Polygamy.state.polyStateSet("Character Select")
+	end
+	if gui.Button{text = "Options", pos=gui.screenPercent({0.25,0.5+(0.5/4)*2}), size=gui.screenPercent({0.5/5,0.5/4}), widgetHit=nil, draw=nil} then
+	  Polygamy.state.polyStateSet("Options") 
+	end
+	if gui.Button{text = "High Scores", pos=gui.screenPercent({0.25+0.5/5*4,0.5+(0.5/4)*2}), size=gui.screenPercent({0.5/5,0.5/4}), widgetHit=nil, draw=nil} then
+	  Polygamy.state.polyStateSet("High Scores")
+	end
+	if gui.Button{text = "Credits", pos=gui.screenPercent({0.25+0.5/5*2,0.5+(0.5/4)*2}), size=gui.screenPercent({0.5/5,0.5/4}), widgetHit=nil, draw=nil} then
+	  Polygamy.state.polyStateSet("Credits") 
+	end
+	gui.Image{ pos = {0,0}, size= gui.screenPercent({1,1}), image=backgroundIMG }
+end
+
+function welcome.draw()
+	gui.preDraw()
+	gui.postDraw()
+end
+
+function welcome.after() 
+end
+
+welcome = Polygamy.state( "Map" )
+
+mapText = "Your journy conintues... until you stop for a rest at a small tavern...."
+
+function welcome.before()
+end
+
+function welcome.update(dt) 
+  gui.Label{text = mapText, align = "center", pos = gui.screenPercent({0.1,0}), size = gui.screenPercent({0.8,0.2})}
+  if gui.Button{text = "Close map", pos=gui.screenPercent({0.1,(0.90-(3*1*0.025))+1*3*0.025}), size=gui.screenPercent({0.8,0.05})} then
+    Polygamy.state.polyStateSet("Menu") 
+  end
+  gui.Image{ pos = gui.screenPercent({0.2,0.2}), size= gui.screenPercent({0.6,0.6}), image=mapImg }
+end
+
+function welcome.draw()
+  gui.preDraw()
+  gui.postDraw() 
+end
+
+function welcome.after() 
+end
+
+scores = Polygamy.state( "Character Select" )
+
+function scores.before() 
+end
+
+function scores.update(dt)  
+  if gui.Button{text = "Select", pos=gui.screenPercent({0.21-0.128,0.888-.1077}), size=gui.screenPercent({0.138,0.1277}),} then 
+    Polygamy.state.polyStateSet("Begin")
+  end
+	gui.Image{ pos = {0,0}, size= gui.screenPercent({1,1}), image=selectIMG }
+end
+
+function scores.draw() 
+	gui.preDraw()
+	gui.postDraw()
+end
+
+function welcome.after() 
+end
+welcome = Polygamy.state( "Options" )
+
+function welcome.before()
+end
+
+fullCheck = false
+sliderData = {value = 1, min = 0, max = 1, step = 1/20}
+
+function welcome.update(dt)  
+  if gui.Checkbox{checked= fullCheck, nil, "CENTER", pos=gui.screenPercent({0.40,0.4}), size=gui.screenPercent({0.1,0.1})} then
+    fullCheck = not fullCheck
+    love.window.setFullscreen(fullCheck)
+  end
+	gui.Label{text = "Fullscreen", align="left", pos = gui.screenPercent({0.25,0.4}), size=gui.screenPercent({0.15,0.1}) }
+	gui.Label{text = "Volume", align="left", pos = gui.screenPercent({0.25,0.5}), size=gui.screenPercent({0.15,0.1}) }
+  if gui.Slider{info = sliderData, vertical=false, pos = gui.screenPercent({0.40,0.5}), size=gui.screenPercent({0.3,0.1})} then
+    love.audio.setVolume(sliderData.value) 
+  end
+	if gui.Button{text = "Back", pos=gui.screenPercent({0.25+0.5/5*2,0.5+(0.5/4)*2}), size=gui.screenPercent({0.5/5,0.5/4}),} then
+	  Polygamy.state.polyStateSet("Welcome Screen")
+	end
+	gui.Image{ pos = {0,0}, size= gui.screenPercent({1,1}), image=optionsIMG }
+end
+
+function welcome.draw() 
+	gui.preDraw()
+	gui.postDraw()
+end
+
+function welcome.after() 
+end
+
+welcome = Polygamy.state( "Credits" )
+
+function welcome.before() 
+  h = 1 
+end
+  
+function welcome.update(dt)  
+  h = h- dt*0.1 
+  if h < -3.5 then
+    Polygamy.state.polyStateSet("Splash Screen") 
+  end
+end
+
+function welcome.draw()  
+	gui.preDraw()
+	gui.Label{text = "Canterbury Trails", align="center", pos = gui.screenPercent({0,h}), size=gui.screenPercent({1,0.1}) }
+	gui.Label{text = "Avery Whitaker - Executive Software Producer", align="center", pos = gui.screenPercent({0,h+0.2}), size=gui.screenPercent({1,0.05}) }
+	gui.Label{text = "Emily Newman - Executive Writer and Occasional Codemonkey", align="center", pos = gui.screenPercent({0,h+0.3}), size=gui.screenPercent({1,0.05}) }
+	gui.Label{text = "Ada Seger-Brown - Executive Artist", align="center", pos = gui.screenPercent({0,h+0.4}), size=gui.screenPercent({1,0.05}) }
+	gui.Label{text = "Ms. Vail - Commissioner and Bestower of A+s", align="center", pos = gui.screenPercent({0,h+0.5}), size=gui.screenPercent({1,0.05}) }
+	gui.Label{text = "Geoffrey Chaucer - Chief Author", align="center", pos = gui.screenPercent({0,h+0.6}), size=gui.screenPercent({1,0.05}) }
+	gui.Label{text = "Music", align="center", pos = gui.screenPercent({0,h+0.8}), size=gui.screenPercent({1,0.1}) }
+	gui.Label{text = "Oizen by Barbarian Pipe Band ", align="center", pos = gui.screenPercent({0,h+0.9}), size=gui.screenPercent({1,0.05}) }
+	gui.Label{text = "Mitdans by Barbarian Pipe Band", align="center", pos = gui.screenPercent({0,h+1.0}), size=gui.screenPercent({1,0.05}) }
+	gui.Label{text = "Der Trollentanz by Castle Dreams", align="center", pos = gui.screenPercent({0,h+1.1}), size=gui.screenPercent({1,0.05}) }
+	gui.Label{text = "Anon by Firesea ", align="center", pos = gui.screenPercent({0,h+1.2}), size=gui.screenPercent({1,0.05}) }
+	gui.Label{text = "Gweharall by Mervent", align="center", pos = gui.screenPercent({0,h+1.3}), size=gui.screenPercent({1,0.05}) }
+	gui.Label{text = "Cantec din vremea ciumei by Miezul Noptii", align="center", pos = gui.screenPercent({0,h+1.4}), size=gui.screenPercent({1,0.05}) } 
+	gui.Label{text = "Cetatea de Colt by Miezul Noptii", align="center", pos = gui.screenPercent({0,h+1.5}), size=gui.screenPercent({1,0.05}) }
+	gui.Label{text = "Impromptus II by Miezul Noptii", align="center", pos = gui.screenPercent({0,h+1.6}), size=gui.screenPercent({1,0.05}) }
+	gui.Label{text = "Maravillos et piadosos by Trouvere", align="center", pos = gui.screenPercent({0,h+1.7}), size=gui.screenPercent({1,0.05}) }
+	gui.Label{text = "Rokatanc by Vox Vulgaris", align="center", pos = gui.screenPercent({0,h+1.8}), size=gui.screenPercent({1,0.05}) }
+	gui.Label{text = "Made with LÖVE", align="center", pos = gui.screenPercent({0,h+2.0}), size=gui.screenPercent({1,0.1}) }
+	gui.Label{text = "Game Engine: love2D https://www.love2d.org/", align="center", pos = gui.screenPercent({0,h+2.1}), size=gui.screenPercent({1,0.05}) }
+	gui.Label{text = "Polygamy library: Pierre-Yves Gérardy", align="center", pos = gui.screenPercent({0,h+2.2}), size=gui.screenPercent({1,0.05}) }
+  gui.Label{text = "Deborah Alexander: Fox, Egg and Chicken Sprites", align="center", pos = gui.screenPercent({0,h+2.3}), size=gui.screenPercent({1,0.05}) }
+	gui.Label{text = "-", align="center", pos = gui.screenPercent({0,h+2.4}), size=gui.screenPercent({1,0.1}) }
+	gui.postDraw()
+end
+
+function welcome.after()
+end
+scores = Polygamy.state( "High Scores" )
+
+function scores.before()  end
+  fullCheck = false
+  volume=0
+function scores.update(dt)  
+	
+if gui.Button{text = "Back", pos=gui.screenPercent({0.25+0.5/5*2,0.5+(0.5/4)*2}), size=gui.screenPercent({0.5/5,0.5/4}),} then
+  Polygamy.state.polyStateSet("Welcome Screen") end
+  gui.Image{ pos = {0,0}, size= gui.screenPercent({1,1}), image=scoreIMG }
+end
+
+function scores.draw() 
+	gui.preDraw()
+	gui.postDraw()
+end
+
+function welcome.after() 
+end
+
+
+splash = Polygamy.state( "Splash Screen" )
+
+function splash.before() 
+  loveFont = love.graphics.newFont("assets/ThrowMyHandsUpintheAirBold.ttf", 30)
+  love.graphics.setFont(loveFont)
+  intro.logox = intro.logo:getWidth()
+  intro.logoy = intro.logo:getHeight()
+  intro.cColor = {0,0,0,255}
+  intro.tColor = {131,192,240,0}
+  intro.lColor = {255,255,255,255}
+  time = 0
+end
+
+intro = {logo = love.graphics.newImage("assets/splashLogo.png"),
+	r = 0,
+	scalex = 0.75,
+	scaley = 0.75,
+}
+
+function splash.update(dt) 
+	intro.sizex = intro.logox * intro.scalex
+	intro.sizey = intro.logoy * intro.scaley
+	intro.x = (love.graphics.getWidth()/2) - (intro.sizex/2)
+	intro.y = (love.graphics.getHeight()/2) - (intro.sizey/2)
+	intro.cx = love.graphics.getWidth()/2
+	intro.cy = love.graphics.getHeight()/2
+	if time > 70 and time <= 120 then
+		intro.cColor[1] = intro.cColor[1] + (1 * 255/51)
+		intro.cColor[2] = intro.cColor[2] + (1 * 255/51)
+		intro.cColor[3] = intro.cColor[3] + (1 * 255/51)
+	elseif time > 150 and time < 250 then
+		intro.cColor[4] = intro.cColor[4] - (1 * 256/99) 
+	elseif time > 300 and time < 400 then
+		intro.tColor[4] = intro.tColor[4] + (1 * 255/100)
+	elseif time > 800 and time < 1000 then
+		intro.lColor[4] = intro.lColor[4] - (1 * 255/200)
+		intro.tColor[4] = intro.tColor[4] - (1 * 255/201)
+	elseif time > 1100 then
+		Polygamy.state.polyStateSet("Welcome Screen")
+	end
+	time = time + 1
+	delta = dt
+end
+
+function splash.draw()
+	love.graphics.setColor(intro.lColor)
+	love.graphics.draw(intro.logo, intro.x, intro.y, 0, intro.scalex, intro.scaley, 0,0)
+	love.graphics.setColor(intro.cColor)
+	love.graphics.circle("fill", intro.cx-2, intro.cy-2, (intro.sizex/2)+5, 100)
+	love.graphics.setColor(intro.tColor)
+	love.graphics.printf( "Brought to you by the Humanities", (love.graphics.getWidth()/2) - (intro.sizex - 50), (love.graphics.getHeight()/2) + (intro.sizey/2), 600, "center", 0, 1, 1, 0, 0, 0, 0 )
+	love.graphics.setColor(255,255,255,255)
+end
+
+function splash.after() 
+  w,h = love.window.getDesktopDimensions()
+  love.window.setMode(w,h, {resizable = true, borderless = false, minwidth = 400, minheight = 300, x = 0, y = 0})
+end
+
+millerGame = Polygamy.state( "Miller" )
+
+function newMan(i,j, t)
+	table.insert(men, {x = i, y = j, status = "down", type = t})
+end
+
+function millerGame.before()
+  men = {}   
+  playerX=0.5
+  womanX=0.5
+  womanTarget=0.5
+  playerW=0.05
+  gameScore = 0
+  powX=-1
+  heartX=-1
+  heartBadX=-1
+  lose = false
+  powTimer = 0
+  heartTimer = 0
+  womanTimer = 0
+  womanTime = 1
+  spawnCounter = 0
+  speed = 0.001
+	Polygamy.keyboard.use( "Miller" )
+  physicsWorld = love.physics.newWorld(-800,-600,800,600,0,1.1)
+end
+
+function millerGame.after()
+  Polygamy.keyboard.use( "" )
+  soundmanager:play(stageMusic)
+end
+
+function millerGame.update(dt)
+  if lose == false then
+    gameScore = gameScore + dt*speed*1000
+  end
+	playerMove = dt*7*0.1
+  physicsWorld:update(dt)
+	spawnCounter = spawnCounter + dt
+	womanTimer = womanTimer - dt
+	if womanTimer < 0 and lose == false then
+		heartX=womanX
+		heartTimer = 0
+		womanTarget = math.random()*0.8+0.1
+		womanTimer = (math.random()*4+6)*(speed*1000)
+		womanTime = womanTimer
+	end
+	womanX = womanX+ (womanTarget-womanX)*((womanTime-womanTimer)/womanTime)
+	if spawnCounter > 1 then
+		spawnCounter = spawnCounter - 1
+		if math.random() < 0.2 then
+		  newMan(math.random()*0.8+0.1, -0.25,"super")
+		else
+      newMan(math.random()*0.8+0.1, -0.25,"normal")
+		end
+		speed = speed*1.01
+	end
+	powTimer = powTimer + dt
+	heartTimer = heartTimer + dt
+	if(powTimer > 0.1) then 
+	  powX = -1 
+	end
+	if(heartX+playerW > playerX and heartX < playerX+playerW) then
+		heartX = -1
+		gameScore = gameScore + 20
+	end
+	if(heartTimer > 3) then
+    heartX = -1 
+  end
+  for key, value in ipairs(men) do
+		if(value.y > 0.8) then
+			value.status="lost"
+			lose = true
+			heartBadX = value.x-0.025
+			womanTarget = value.x-0.05
+		end
+		if(value.x+playerW > playerX and value.x < playerX+playerW and value.y > 0.45 and value.status == "down") then
+			value.status = "hit"
+			powX = value.x
+			powTimer = 0
+		end    
+    if(value.status == "down" and lose == false) then
+      if value.type == "super" then
+        value.y = value.y + speed*2
+      else
+        value.y = value.y + speed
+      end
+		elseif value.status == "hit" or value.status == "down" and lose == true then
+      value.y = value.y - speed * 10
+		else
+		  value.y = 0.8
+		end
+	end
+end
+
+Polygamy.keyboard( "Miller" ):setConfig( "held", {
+	["right"] = function() if playerX + playerMove < 1-playerW then playerX = playerX + playerMove end end,
+	["left"]     = function() if playerX + playerMove > 0 then playerX = playerX - playerMove end end 
+})
+
+function millerGame.draw()
+  gui.preDraw()
+  if lose == true then
+    gui.Panel{text = "GAME OVER", pos = gui.screenPercent({0.4,0.2}), size=gui.screenPercent({0.4,0.2})}
+  end
+  
+	gui.Image{ pos = gui.screenPercent({powX,0.6}), size= gui.imageSize(playerW*1.5, powIMG), image=powIMG }
+	gui.Image{ pos = gui.screenPercent({heartX,0.65}), size= gui.imageSize(playerW*1.5, heartIMG), image=heartIMG }
+  gui.Image{ pos = gui.screenPercent({heartBadX,0.75}), size= gui.imageSize(playerW*1.5, heartBadIMG), image=heartBadIMG }
+  for key, value in ipairs(men) do
+    if value.type == "super" then
+    	gui.Image{ pos = gui.screenPercent({value.x,value.y}), size= gui.imageSize(0.05, manIMG), image=evilBIMG }
+	  else
+      gui.Image{ pos = gui.screenPercent({value.x,value.y}), size= gui.imageSize(0.05, manIMG), image=evilAIMG }
+	  end
+	end
+  if lose == false then
+	  gui.Panel{ pos = gui.screenPercent({0.2,0}), size= gui.screenPercent({0.2,0.05}), text = "Score: " .. math.floor(gameScore) }
+	else
+    if gui.Button{text = "Continue", pos=gui.screenPercent({0.4,0.6}), size=gui.screenPercent({0.2,0.5/4}),} then
+      Polygamy.state.polyStateSet("Menu")
+    end
+    gui.Panel{ pos = gui.screenPercent({0.2,0.4}), size= gui.screenPercent({0.2,0.05}), text = "Score: " .. math.floor(gameScore) }
+	end
+	gui.Image{ pos = gui.screenPercent({playerX,0.6}), size= gui.imageSize(playerW, manIMG), image=manIMG }
+	gui.Image{ pos = gui.screenPercent({womanX,0.8}), size= gui.imageSize(playerW, womanIMG), image=womanIMG }
+	gui.Image{ pos = gui.screenPercent({0,0}), size= gui.screenPercent({1,1}), image=millerBackIMG }
+  gui.postDraw()  
+end
+
+welcome = Polygamy.state( "Menu" )
+
+avalibleCharacters = {}
+
+canHunt = false
+justHunted = false
+
+nextStage = stages[1]
+
+menu = {}
+
+function menu.setStage(a) 
+  mapImg = a.mapImg
+  bckImg = a.bckImg
+  merchentShopUnlocked = a.merchentShopUnlocked
+  avalibleCharacters = a.avalibleCharacters
+  characterAction =  a.characterAction
+  stateMapText = a.stateMapText
+  introMapText = a.introMapText
+  nextStage = a.nextStage
+  continueRejection = a.continueRejection
+  stageMusic = a.stageMusic
+  justHunted = false
+  canContinue = false
+  mapText = introMapText
+end
+
+function welcome.before()
+  mapText=stateMapText
+end
+
+foodAlert = false
+huntingAlert = false
+wentHunting = false
+
+function welcome.update(dt) 
+  if foodAlert == true then
+    if gui.Button{text= "Oops", pos = gui.screenPercent({0.5-0.075, 0.75-0.075}), size= gui.screenPercent({0.15,0.15})} then
+      foodAlert = false
+    end
+    gui.Panel({text = continueRejection, align="left", pos = gui.screenPercent({0.25, 0.25}), size=gui.screenPercent({0.5, 0.5})})
+    gui.Panel({text = "", align="left", pos = gui.screenPercent({0, 0}), size=gui.screenPercent({1, 1})})
+  end  
+  if wentHunting == true then
+    if gui.Button{text= "Yay", pos = gui.screenPercent({0.5-0.075, 0.75-0.075}), size= gui.screenPercent({0.15,0.15})} then
+      wentHunting = false
+    end
+    gui.Panel({text = "You have a fun time hunting. No time to keep the meat though!", align="left", pos = gui.screenPercent({0.25, 0.25}), size=gui.screenPercent({0.5, 0.5})})
+    gui.Panel({text = "", align="left", pos = gui.screenPercent({0, 0}), size=gui.screenPercent({1, 1})})
+  end  
+  if huntingAlert == true then
+    if gui.Button{text= "Close", pos = gui.screenPercent({0.5-0.075, 0.75-0.075}), size= gui.screenPercent({0.15,0.15})} then
+      huntingAlert = false
+    end
+    gui.Panel({text = "You don't know how to hunt. Maybe someone will teach you?", align="left", pos = gui.screenPercent({0.25, 0.25}), size=gui.screenPercent({0.5, 0.5})})
+    gui.Panel({text = "", align="left", pos = gui.screenPercent({0, 0}), size=gui.screenPercent({1, 1})})
+  end
+  if justHuntAlert == true then
+    if gui.Button{text= "Close", pos = gui.screenPercent({0.5-0.075, 0.75-0.075}), size= gui.screenPercent({0.15,0.15})} then
+      justHuntAlert = false
+    end
+  gui.Panel({text = "You just went hunting! You should wait a while", align="left", pos = gui.screenPercent({0.25, 0.25}), size=gui.screenPercent({0.5, 0.5})})
+  gui.Panel({text = "", align="left", pos = gui.screenPercent({0, 0}), size=gui.screenPercent({1, 1})})
+  end
+  n = 1
+  nMax = #avalibleCharacters
+  for key,value in pairs(avalibleCharacters) do
+    if gui.Button{text= "Talk to " .. value.name, pos = gui.screenPercent({0.3+(n-1)*(0.7/nMax)+0.025, 0.8}), size= gui.screenPercent({0.7/nMax - 0.05,0.1}), image=value.image } then
+      characterAction[key]()
+    end
+    gui.Image{ pos = gui.screenPercent({0.3+(n-1)*(0.7/nMax) + 0.025, 0}), size= gui.imageSize(0.7/nMax - 0.05,value.image), image=value.image }
+    n = n +1
+  end
+  gui.Label{text= "Canterbury Trails", pos = gui.screenPercent({0.05, 0}), size= gui.screenPercent({0.2,0.1})}
+  if gui.Button{text= "Look at Map", pos = gui.screenPercent({0.05, 0.1}), size= gui.screenPercent({0.2,0.1})} then
+    Polygamy.state.polyStateSet("Map") 
+  end
+  if gui.Button{text= "Go Hunting", pos = gui.screenPercent({0.05, 0.55}), size= gui.screenPercent({0.2,0.10})} then 
+    if canHunt == true and justHunted == false then
+      justHunted = true
+      wentHunting = true
+    elseif canHunt == false then
+       huntingAlert = true
+    else
+      justHuntAlert = true
+    end
+  end
+  if gui.Button{text= "Continue Journey", pos = gui.screenPercent({0.05, 0.85}), size= gui.screenPercent({0.2,0.1})} then
+    if canContinue == false then
+      foodAlert = true
+    else
+      Polygamy.state.polyStateSet("Traveling")   
+    end
+  end
+  gui.Panel({text = "", align="left", pos = gui.screenPercent({0, 0}), size=gui.screenPercent({0.3, 1})})
+  gui.Image{ pos = {0,0}, size= gui.screenPercent({1,1}), image=bckImg }
+end
+
+function welcome.draw()  
+  gui.preDraw()
+  gui.postDraw()
+end
+
+function welcome.after()
+end
+
+traveling = Polygamy.state( "Traveling" )
+
+function traveling.before() 
+  soundmanager:play(marching)
+  shade = 0 
+  backOff = 0
+  for key,value in pairs(characters) do --actualcode
+    value.angle = math.random()*0.26179938779*2-0.26179938779
+    if math.floor(math.random()+0.5) == 1 then
+      value.angleSpeed = math.random()*0.5+0.5
+    else
+      value.angleSpeed = -math.random()*0.5+0.5
+    end
+    value.height = math.random()*0.01
+    if math.floor(math.random()+0.5) == 1 then
+      value.heightSpeed = math.random()*0.01
+    else
+      value.heightSpeed = -math.random()*0.01
+    end
+    value.scale = 0.1
+  end
+end
+
+function traveling.update(dt) 
+  nNum = 0
+  for key,value in pairs(characters) do --actualcode
+    nNum = nNum + 1
+  end
+  for key,value in pairs(characters) do --actualcode
+    if value.angle > 0.26179938779 then
+      value.angleSpeed = - value.angleSpeed 
+      value.angle = 0.26179938779
+    end
+    if value.angle < -0.26179938779 then
+      value.angleSpeed = - value.angleSpeed 
+      value.angle = -0.26179938779
+    end
+    value.angle = value.angle + value.angleSpeed*dt
+  end
+  for key,value in pairs(characters) do --actualcode
+    if value.height > 0.01 then
+      value.heightSpeed = - value.heightSpeed 
+      value.height = 0.01
+    end
+    if value.height < -0.01 then
+      value.heightSpeed = - value.heightSpeed 
+      value.height = -0.01
+    end
+    value.height = value.angle + value.angleSpeed*dt
+  end
+  backOff = backOff+dt/6
+  if backOff > 0.7 then
+    shade = (backOff-0.7)*0.5*255*5
+  end
+  if shade > 255 then 
+    if nextStage == nil then 
+      Polygamy.state.polyStateSet("End")
+    else
+      menu.setStage(nextStage)
+      Polygamy.state.polyStateSet("Map")
+    end
+  end
+end
+
+function traveling.draw()
+  gui.preDraw()
+  love.graphics.draw(travelIMG,gui.screenPercentX(-backOff),0, 0,gui.screenHeight()/travelIMG:getHeight(), gui.screenHeight()/travelIMG:getHeight())
+  n = 0
+  for key,value in pairs(characters) do --actualcode
+    love.graphics.draw(value.image, gui.screenPercentX(n/nNum), gui.screenPercentY(0.85), value.angle, gui.screenHeight()/value.image:getHeight()*0.2, gui.screenHeight()/value.image:getHeight()*0.2, 0, gui.screenPercentY(value.height))
+    n = n + 1
+  end
+  love.graphics.setColor(0,0,0,shade)
+  love.graphics.rectangle("fill",0,0,gui.screenWidth(),gui.screenHeight())
+  gui.postDraw() 
+end
+
+function traveling.after()
+  soundmanager:play(stageMusic) 
+end
+begin = Polygamy.state( "Begin" )
+
+function begin.before()
+end
+
+function begin.update(dt) 
+  gui.Label{text = "HERE BEGINS", align = "center", pos = gui.screenPercent({0.1,0.2}), size = gui.screenPercent({0.8,0.2})}
+  gui.Label{text = "THE TRAILS OF CANTERBURY", align = "center", pos = gui.screenPercent({0.1,0.4}), size = gui.screenPercent({0.8,0.2})}
+  if   gui.Button{text = "Next", pos=gui.screenPercent({0.1,(0.90-(3*1*0.025))+1*3*0.025}), size=gui.screenPercent({0.8,0.05})} then
+    Polygamy.state.polyStateSet("Begin2") 
+  end
+end
+
+function begin.draw()
+  gui.preDraw()
+  gui.postDraw() 
+end
+
+function welcome.after()
+end
+
+begin = Polygamy.state( "Begin2" )
+  
+function begin.before()
+end
+
+function begin.update(dt) 
+  gui.Panel{text = "Your name is Geoffrey Chaucer. It is currently the month of April. The sun is rising, the birds are chirping. Spring, your favorite season, is here, and you absolutely love everyone. You are currently residing at the Tabard in Southwark, on your way to the Canterbury Cathedral. The place is INN-credibly crowded, as a large, rowdy group of twenty-nine people have just arrived. ", align = "center", pos = gui.screenPercent({0.1,0.4}), size = gui.screenPercent({0.8,0.4})}
+  if   gui.Button{text = "Approach the group.", pos=gui.screenPercent({0.1,(0.90-(3*1*0.025))+1*3*0.025}), size=gui.screenPercent({0.8,0.05})} then
+    Polygamy.state.polyStateSet("Begin3") 
+  end
+end
+  
+function begin.draw()
+  gui.preDraw()
+  gui.postDraw() 
+end
+
+function welcome.after()
+end
+
+begin = Polygamy.state( "Begin3" )
+
+function begin.before()
+end
+
+function begin.update(dt) 
+  gui.Panel{text = "You met a lot of people, and thought they were all wonderful characters. You’ll learn more about them later. They invite you to join their party when they realize you also plan to travel to Canterbury.", align = "center", pos = gui.screenPercent({0.1,0.4}), size = gui.screenPercent({0.8,0.4})}
+  if gui.Button{text = "Begin Journey", pos=gui.screenPercent({0.1,(0.90-(3*1*0.025))+1*3*0.025}), size=gui.screenPercent({0.8,0.05})} then
+    Polygamy.state.polyStateSet("Traveling") 
+  end
+end
+
+function begin.draw()
+  gui.preDraw()
+  gui.postDraw() 
+end
+
+function welcome.after()
+end
+instructState = Polygamy.state( "MillerInstructions" )
+
+function instructState.before() 
+  soundmanager:play(millerGameMusic)
+end
+
+function instructState.update(dt) 
+  gui.Label{text = "Miller Minigame", align = "center", pos = gui.screenPercent({0.1,0.05}), size = gui.screenPercent({0.8,0.2})}
+  gui.Panel{text = "You are a carpenter, married to a beautiful young wife. However, there are all sorts of men chasing after her! Your job is to protect your wife from the men by punching them away from her. Watch out for Clever Nicolas and Absalom! Use the arrow keys to move the carpenter left and right. Pick up your wife's hearts for bonus points.", align = "center", pos = gui.screenPercent({0.1,0.4}), size = gui.screenPercent({0.8,0.4})}
+  if gui.Button{text = "Play", pos=gui.screenPercent({0.1,(0.90-(3*1*0.025))+1*3*0.025}), size=gui.screenPercent({0.8,0.05})} then
+    Polygamy.state.polyStateSet("Miller") 
+  end
+end
+
+function instructState.draw()
+  gui.preDraw()
+  gui.postDraw() 
+end
+
+function instructState.after()
+end
+
+instructState = Polygamy.state( "KnightInstructions" )
+  
+function instructState.before()
+  prayForLove=false
+  soundmanager:play(knightGameMusic)
+end
+
+function instructState.update(dt) 
+  gui.Label{text = "Knight Minigame", align = "center", pos = gui.screenPercent({0.1,0.05}), size = gui.screenPercent({0.8,0.2})}
+  gui.Panel{text = "Once upon a time, there were two sworn brothers named Arcite and Palamon who both loved a girl named Emily. The night before, they each prayed for two different blessings, and fought in a tournament for Emily’s hand. You get to choose which blessing to pray for, and then fight other knights for the hand of Emily! Press space as fast as you can when the enemy knight appears, but don't press it when your lady love appears!\n\n\nWould you like to pray for Victory? Or pray for love?", align = "center", pos = gui.screenPercent({0.1,0.4}), size = gui.screenPercent({0.8,0.4})}
+  if gui.Button{text = "Pray for Victory", pos=gui.screenPercent({0.1,(0.90-(3*1*0.025))+1*3*0.025}), size=gui.screenPercent({0.35,0.05})} then
+    Polygamy.state.polyStateSet("Knight") 
+  end
+  if gui.Button{text = "Pray for Love", pos=gui.screenPercent({0.1+0.45,(0.90-(3*1*0.025))+1*3*0.025}), size=gui.screenPercent({0.35,0.05})} then
+    Polygamy.state.polyStateSet("Knight") 
+    prayForLove = true
+  end
+end
+ 
+function instructState.draw()
+  gui.preDraw()
+  gui.postDraw() 
+end
+
+function instructState.after()
+end
+
+instructState = Polygamy.state( "WifeOfBathInstructions" )
+
+function instructState.before() 
+  soundmanager:play(wifeOfBathGameMusic)
+end
+
+function instructState.update(dt) 
+  gui.Label{text = "Wife of Bath Minigame", align = "center", pos = gui.screenPercent({0.1,0.05}), size = gui.screenPercent({0.8,0.2})}
+  gui.Panel{text = "Welcome to SPEED DATE! You represent the Wife of Bath. Today you have five lovely husbands to choose from. You’re going to ask them questions, and they will respond accordingly. Once you think you know which ones best, choose that one for the wife of bath.\nClick on a silhouette to talk to him.", align = "center", pos = gui.screenPercent({0.1,0.4}), size = gui.screenPercent({0.8,0.4})}
+  if gui.Button{text = "Play", pos=gui.screenPercent({0.1,(0.90-(3*1*0.025))+1*3*0.025}), size=gui.screenPercent({0.8,0.05})} then
+    Polygamy.state.polyStateSet("WifeOfBathInstructions2") 
+  end
+end
+ 
+function instructState.draw()
+  gui.preDraw()
+  gui.postDraw() 
+end
+
+function instructState.after() 
+end
+
+instructState = Polygamy.state( "WifeOfBathInstructions2" )
+
+function instructState.before()
+  timer = 5
+end
+
+function instructState.update(dt) 
+  timer = timer - dt
+  if timer < 0 then 
+     Polygamy.state.polyStateSet("wifeBath") 
+  end
+end
+
+function instructState.draw()
+  gui.preDraw()
+  love.graphics.draw(wifeBathGameIMG, (gui.screenWidth()-gui.screenWidth()/wifeBathGameIMG:getHeight()/wifeBathGameIMG:getWidth())/8,0, 0, gui.screenWidth()/wifeBathGameIMG:getHeight(), gui.screenHeight()/wifeBathGameIMG:getHeight())
+  love.graphics.setColor(0,0,0,255-(timer/5)*255)
+  love.graphics.rectangle("fill", gui.xModification(), gui.yModification(), gui.screenWidth(), gui.screenHeight())
+  gui.postDraw() 
+end
+
+function instructState.after()
+end
+
+instructState = Polygamy.state( "PriestInstructions" )
+function instructState.before() 
+soundmanager:play(priestMusic)
+  Polygamy.keyboard.use( "PriestInstructions" )
+  end
+function instructState.update(dt) 
+ gui.Label{text = "Nun's Priest Minigame", align = "center", pos = gui.screenPercent({0.1,0.05}), size = gui.screenPercent({0.8,0.2})}
+ gui.Panel{text = "Keep safe from the fox! Use your mouse to move Chaunticleer. Survive as long as you can without hitting a wall or being caught. Grab eggs for bonus points!\nPress space to begin!", align = "center", pos = gui.screenPercent({0.1,0.4}), size = gui.screenPercent({0.8,0.4})}
+ end
+function instructState.draw()
+  gui.preDraw()
+  gui.postDraw() 
+end
+
+Polygamy.keyboard( "PriestInstructions" ):setConfig( "pressed", {
+  [" "]     = function() Polygamy.state.polyStateSet("nunsPreist") end 
+})
+
+function instructState.after()
+  Polygamy.keyboard.use( "" )
+end
+preistGame = Polygamy.state( "nunsPreist" )
+
+spawns = {
+{66.173611111111,339.0125},
+{272.83888888889,75.336111111111},
+{223.97222222222,345.12083333333},
+{149.65416666667,583.34583333333},
+{75.336111111111 ,670.89861111111},
+{397.04166666667 , 581.30972222222},
+{621.01388888889  ,  578.25555555556},
+{628.14027777778  ,  415.36666666667},
+{615.92361111111  ,  236.18888888889},
+{398.05972222222  ,  236.18888888889},
+{389.91527777778  ,  432.67361111111},
+{511.06388888889  ,  77.372222222222},
+{864.32916666667  ,  148.63611111111},
+{964.09861111111  ,  69.227777777778},
+{878.58194444444  ,  337.99444444444},
+{772.70416666667  ,  266.73055555556},
+{953.91805555556  ,  410.27638888889},
+{955.95416666667  ,  410.27638888889},
+{798.15555555556  ,  537.53333333333},
+{945.77361111111  ,  669.88055555556}}
+
+function preistGame.before()
+  foxCurrent = foxRight
+  foxX = 66.173611111111
+  foxY = 339.0125
+  bonusX = 272.83888888889
+  bonusY = 75.336111111111
+  lose = false
+  gameScore = 0
+  love.mouse.setVisible( false )
+  n = math.floor(math.random()* 17) + 3
+  love.mouse.setPosition(colToScreen(spawns[n][1],spawns[n][2]))
+  Polygamy.keyboard.use( "Preist" )
+  speed = 1
+end
+
+function screenToCol(x,y)
+  x1 = (x-gui.screenPercent({0.2,0})[1])* (maze:getHeight()/gui.screenHeight())
+  y1 = y* (maze:getHeight()/gui.screenHeight())
+  return x1,y1
+end
+
+function safe(x,y)
+  if( x > 0 and x < mazeMap:getWidth() and y > 0 and y < mazeMap:getHeight()) then
+    r, g, b, a= mazeMap:getData():getPixel(x,y)
+    if a > 123 then
+      return false
+    end
+  end
+  return true
+end
+
+function colToScreen(x1,y1)
+  x = x1/(maze:getHeight()/gui.screenHeight())+gui.screenPercent({0.2,0})[1]
+  y = y1/(maze:getHeight()/gui.screenHeight())
+  return x,y
+end
+
+function preistGame.update(dt)
+  x, y = screenToCol(love.mouse.getPosition())
+  if x > bonusX-10 and x < bonusX+30 and y > bonusY-10 and y < bonusY+30 then
+    gameScore = gameScore + 20
+    n = math.floor(math.random()* 19) + 1
+    bonusX, bonusY = spawns[n][1],spawns[n][2]
+  end
+  speed = speed + dt*0.01
+  if lose == false then
+    gameScore = gameScore + dt * 0.5 * speed
+  end
+  x, y = screenToCol(love.mouse.getPosition())
+  modX = x - foxX
+  modY = y - foxY
+  mag = (modX^2+modY^2)^0.5
+  modX = (modX/mag)*speed
+  modY = (modY/mag)*speed
+  if mag < 10 then
+    lose = true
+    love.mouse.setVisible( true )
+  end
+  if (modX^2)^0.5 > (modY^2)^0.5 then
+    if modX < 0 then
+      foxCurrent = foxLeft
+    else
+     foxCurrent = foxRight
+    end
+  else
+    if modY < 0 then
+      foxCurrent = foxUp
+    else
+       foxCurrent = foxDown 
+     end
+  end
+  foxX = foxX + modX
+  foxY = foxY + modY
+  if safe(x,y) == false then
+    lose = true
+    love.mouse.setVisible( true )
+  end  
+end
+
+function preistGame.after()
+  love.mouse.setVisible( true )
+  Polygamy.keyboard.use( "" )
+  soundmanager:play(stageMusic)
+end
+
+Polygamy.keyboard( "Preist" ):setConfig( "pressed", {
+  ["right"] = function()  end,
+  ["left"]     = function()  end 
+})
+
+function preistGame.draw()
+  gui.preDraw()
+  if lose == false then
+    gui.Panel{ pos = gui.screenPercent({0,0}), size= gui.screenPercent({0.2,0.05}), text = "Score: " .. math.floor(gameScore) }
+  else
+    gui.Panel{text = "GAME OVER", pos = gui.screenPercent({0.4,0.2}), size=gui.screenPercent({0.4,0.2})}
+    if gui.Button{text = "Continue", pos=gui.screenPercent({0.4,0.6}), size=gui.screenPercent({0.2,0.5/4}),} then
+      Polygamy.state.polyStateSet("Menu") end
+      gui.Panel{ pos = gui.screenPercent({0.2,0.4}), size= gui.screenPercent({0.2,0.05}), text = "Score: " .. math.floor(gameScore) }
+  end
+  if lose == false then
+    love.graphics.setColor(255,255,255)
+    love.graphics.draw( maze, gui.screenPercent({0.2,0})[1], 0,0,  gui.screenHeight()/maze:getHeight(),gui.screenHeight()/maze:getHeight()) --gui.screenPercent({0.2,0})[2], 0, 1, 1, 1, 1, 0, 0 )
+    scale = gui.screenHeight()/rooster:getHeight() * 0.05
+    love.graphics.draw(rooster, love.mouse.getX(), love.mouse.getY(), 0, scale, scale, scale*rooster:getWidth()/4, scale*rooster:getHeight()/4)
+    love.graphics.circle( "fill", love.mouse.getX(), love.mouse.getY(), 5, 20 )
+    love.graphics.setColor(255,255,255)  
+    x, y = colToScreen(bonusX,bonusY)
+    scale = gui.screenHeight()/bonusIMG:getHeight() * 0.05
+    love.graphics.draw(bonusIMG, x, y, 0, scale, scale, scale*bonusIMG:getWidth()/2, scale*bonusIMG:getHeight()/2)
+    x, y = colToScreen(foxX,foxY)
+    scale = gui.screenHeight()/rooster:getHeight() * 0.025
+    if safe(foxX,foxY) then
+      love.graphics.draw(foxCurrent, x, y, 0, scale, scale, scale*foxCurrent:getWidth()/2, scale*foxCurrent:getHeight()/2)
+    else
+      love.graphics.draw(foxCurrent, x, y, 0, scale*1.2, scale*1.2, scale*1.2*foxCurrent:getWidth()/2, scale*1.2*foxCurrent:getHeight()/2)
+    end
+  end
+  gui.postDraw()
+end
+
+
+prospectsImage = love.graphics.newImage("assets/prospects.png")
+
+prospect = {}
+prospect[1] = {}
+prospect[2] = {}
+prospect[3] = {}
+prospect[4] = {}
+prospect[5] = {}
+prospect[1].text = {}
+prospect[2].text = {}
+prospect[3].text = {}
+prospect[4].text = {}
+prospect[5].text = {}
+
+prospect[1].image = love.graphics.newImage("assets/prospect1.png")
+prospect[1].text[1] = "Oh I am very rich, very rich indeed."
+prospect[1].text[2] = "Absolutely. I will not hold back from making sure my wife has a strong dowry."
+prospect[1].text[3] = "Looks, for sure."
+prospect[1].text[4] = " I don’t do much, but I certainly like spreading the wealth."
+prospect[1].name = "Mystery Man 1"
+prospect[2].name = "Mystery Man 2"
+prospect[3].name = "Mystery Man 3"
+prospect[4].name = "Mystery Man 4"
+prospect[5].name = "Mystery Man 5"
+
+prospect[2].image = love.graphics.newImage("assets/prospect2.png")
+prospect[2].text[1] = "I am the owner of huge tracts of land, and I have invested my wealth well."
+prospect[2].text[2] = "Certainly! She can have it all."
+prospect[2].text[3] = "Looks, definitely, as well as a meek personality."
+prospect[2].text[4] = "I’m fairly gullible, to be honest."
+
+prospect[3].image = love.graphics.newImage("assets/prospect3.png")
+prospect[3].text[1] = "I am old, and have accumulated much wealth over the span of my life."
+prospect[3].text[2] = "Yes, certainly. A woman must have riches."
+prospect[3].text[3] = "Looks, and I hope that my wife doesn’t have a strong will."
+prospect[3].text[4] = "I’m generally a nice guy."
+
+prospect[4].image = love.graphics.newImage("assets/prospect4.png")
+prospect[4].text[1] = "Enough to support myself and a wife."
+prospect[4].text[2] = "Not much, why would I need to?"
+prospect[4].text[3] = "Looks, all the way. I don’t even think marriage is that important. What if you find a woman prettier than your wife? Wouldn’t you make her your mistress?"
+prospect[4].text[4] = "I’m alright at lying, and I think cheating is okay."
+
+prospect[5].image = love.graphics.newImage("assets/prospect5.png")
+prospect[5].text[1] = "Not much, not much at all. I am a cleric from Oxford, though."
+prospect[5].text[2] = "I don’t have much to give! She should give money to me. Women don’t need wealth."
+prospect[5].text[3] = "Both, but love certainly is very important."
+prospect[5].text[4] = "I’m a pretty violent person, and I love to read books that put women in their proper place."
+
+prospect[1].chosenText = "This man provides the Wife of bath with money, but no more."
+prospect[1].points = 200
+prospect[2].chosenText = "This man provides the Wife of bath with money, but no more."
+prospect[2].points = 200
+prospect[3].chosenText = "This man provides the Wife of bath with money, but no more."
+prospect[3].points = 200
+prospect[4].chosenText = "Despite his personality, the Wife of Bath and him are sortof happy together."
+prospect[4].points = 300
+prospect[5].chosenText = "Despite his faults, the Wife of Bath loves him dearly."
+prospect[5].points = 500
+
+function newProspectState(w)
+  prospectState = Polygamy.state( w.name )
+
+  prospectState.before = function()    
+    prospect[1].currentText = ""
+    prospect[2].currentText = ""
+    prospect[3].currentText = ""
+    prospect[4].currentText = ""
+    prospect[5].currentText = ""
+  end
+
+
+  prospectState.update = function(dt)
+    gui.Label{text = w.name, align = "center", pos = gui.screenPercent({0.1,0.05}), size = gui.screenPercent({0.4,0.1})}
+    if gui.Button{text = "Look at other men", pos = gui.screenPercent({0.4,0.9}), size = gui.screenPercent({0.5,0.05}) } then
+      Polygamy.state.polyStateSet( "wifeBath" )
+    end
+    if gui.Button{text = "CHOOSE " .. w.name .. "!", pos = gui.screenPercent({0.4,0.8}), size = gui.screenPercent({0.5,0.05}) } then
+      decision = w
+      Polygamy.state.polyStateSet( "wifeBathDecision" )
+    end
+    if gui.Button{text = "How much money do you have?", pos = gui.screenPercent({0.6,0.05}), size = gui.screenPercent({0.3,0.05}) } then
+      w.currentText = w.text[1]
+    end
+   
+    if gui.Button{text = "Would you give money to your wife?", pos = gui.screenPercent({0.6,0.15}), size = gui.screenPercent({0.3,0.05}) } then
+      w.currentText = w.text[2]
+    end
+   
+    if gui.Button{text = "Would you marry for love or for looks?", pos = gui.screenPercent({0.6,0.25}), size = gui.screenPercent({0.3,0.05}) } then
+      w.currentText = w.text[3]
+    end
+   
+    if gui.Button{text = "Talk about your personality?", pos = gui.screenPercent({0.6,0.35}), size = gui.screenPercent({0.3,0.05}) } then
+      w.currentText = w.text[4]
+    end
+    gui.Panel{text = w.currentText, pos =  gui.screenPercent({0.6,0.45}), size = gui.screenPercent({0.3,0.3}) }
+  end
+
+  prospectState.draw = function()
+    gui.preDraw()
+    gui.Image{image = w.image,  pos = gui.screenPercent({0.1,0.1}), size = gui.imageSize(0.3,w.image)}
+    gui.postDraw()   
+  end
+end
+
+newProspectState(prospect[1])
+newProspectState(prospect[2])
+newProspectState(prospect[3])
+newProspectState(prospect[4])
+newProspectState(prospect[5])
+
+wifeBathGame = Polygamy.state( "wifeBath" )
+
+function wifeBathGame.before()
+  decision = 0
+end
+
+
+function wifeBathGame.update(dt)
+  if love.mouse.isDown("l") then
+    if love.mouse.getX() > gui.screenPercentX(0) and love.mouse.getX() < gui.screenPercentX(0.2) then
+      Polygamy.state.polyStateSet(prospect[1].name)   
+    elseif love.mouse.getX() > gui.screenPercentX(0.2) and love.mouse.getX() < gui.screenPercentX(0.4) then
+      Polygamy.state.polyStateSet(prospect[2].name)    
+    elseif love.mouse.getX() > gui.screenPercentX(0.4) and love.mouse.getX() < gui.screenPercentX(0.6) then
+      Polygamy.state.polyStateSet(prospect[3].name)    
+    elseif love.mouse.getX() > gui.screenPercentX(0.6) and love.mouse.getX() < gui.screenPercentX(0.8) then
+      Polygamy.state.polyStateSet(prospect[4].name)    
+    elseif love.mouse.getX() > gui.screenPercentX(0.8) and love.mouse.getX() < gui.screenPercentX(1) then
+      Polygamy.state.polyStateSet(prospect[5].name)   
+    end
+  end
+  gui.Image{image = prospectsImage,  pos = gui.screenPercent({0,0}), size = gui.imageSize(1,prospectsImage)}
+end
+
+function wifeBathGame.draw()
+  gui.preDraw()
+  gui.postDraw()  
+end
+
+wifeBathDecision = Polygamy.state( "wifeBathDecision" )
+
+function wifeBathDecision.before()
+end
+
+function wifeBathDecision.after()
+  soundmanager:play(stageMusic)
+end
+
+function wifeBathDecision.update(dt)
+  gui.Label{text = decision.name .. " married!", align = "center", pos = gui.screenPercent({0.1,0.05}), size = gui.screenPercent({0.4,0.1})}
+  if gui.Button{text = "Done", pos = gui.screenPercent({0.4,0.9}), size = gui.screenPercent({0.5,0.05}) } then
+    Polygamy.state.polyStateSet( "Menu" )
+  end
+  gui.Panel{text = "YOU CHOOSE " ..  decision.name .. ".\n\n" .. decision.chosenText .. "\n\nYour score: " .. decision.points, pos =  gui.screenPercent({0.6,0.45}), size = gui.screenPercent({0.3,0.3}) }
+  gui.Image{image = decision.image,  pos = gui.screenPercent({0.1,0.1}), size = gui.imageSize(0.3,decision.image)}
+end
+
+function wifeBathDecision.draw()
+  gui.preDraw()
+  gui.postDraw()   
+end
+knightGame = Polygamy.state( "Knight" )
+
+function knightGame.before()
+  Polygamy.keyboard.use( "Knight" )
+  ladyIMG = love.graphics.newImage("assets/lady.png")
+  enemyIMG = love.graphics.newImage("assets/enemyKnight.png")
+  gameScore = 0
+  timer = 0
+  flashTimer = 0
+  speedMod = 0.5
+  loseText = ""
+  lose = false
+  popup = "none"
+  if prayForLove == true then
+    prayText = "You faught valiatly, you were defeated, but your oponet fell of his horse! You get the girl and 50 bonus points!"
+  else
+    prayText = "You faught valiatly, but your lady love is not to be yours."
+  end
+end
+
+function knightGame.after()
+  Polygamy.keyboard.use( "" )
+  soundmanager:play(stageMusic)
+end
+
+function knightGame.update(dt)
+  timer = timer + dt*speedMod
+  speedMod = speedMod + dt/10
+  flashTimer = flashTimer - dt*speedMod
+  if lose == false then
+    gameScore = gameScore + dt*speedMod
+  end
+  if popup == "enemy" and timer > 2 and lose == false then
+    lose = true
+    loseText = "TOO SLOW"
+  end
+  if popup == "lady" and timer > 2 and lose == false then
+    popup = "none"
+    timer = 0
+  end
+  if popup == "none" and timer > 3 and lose == false then
+    if math.random() > 0.6 then
+      popup = "enemy"
+    else
+      popup = "lady"
+    end
+    timer = -math.random()*5
+  end
+end
+
+Polygamy.keyboard( "Knight" ):setConfig( "pressed", {
+  [" "] = function() 
+    if lose == false then
+      if popup == "none" then
+        flashTimer = 0.5
+        loseText = "TOO EARLY"
+        lose = true
+      elseif popup == "enemy" then
+        flashTimer = 0.5
+        popup = "none"
+        timer = -1
+      elseif popup == "lady" then
+       flashTimer = 0.5
+       loseText = "YOU HIT THE LADY"
+       lose = true
+      end
+    end
+  end
+})
+
+
+function knightGame.draw()
+  gui.preDraw()
+  if lose == true then
+    if prayForLove == true then gameScore = gameScore + 50
+      prayForLove = false
+    end
+  gui.Panel{text = "GAME OVER - " .. loseText .. "\n" .. prayText, pos = gui.screenPercent({0.4,0.2}), size=gui.screenPercent({0.4,0.2})}
+  end
+  if flashTimer > 0 then
+    love.graphics.setColor(255,255,255,(flashTimer/0.5)*255)
+    love.graphics.rectangle("fill", gui.xModification(), gui.yModification(), gui.screenWidth(), gui.screenHeight())
+  end  
+  if popup == "enemy" and lose == false then
+    gui.Image{ pos = gui.screenPercent({0.25,0.1}), align = "center", size= gui.imageSize(0.5, enemyIMG), image=enemyIMG }  
+  elseif popup == "lady" and lose == false then
+    gui.Image{ pos = gui.screenPercent({0.25,0.1}), size= gui.imageSize(0.5, ladyIMG), image=ladyIMG }
+  end
+  
+  if lose == false then
+    gui.Panel{text = "", pos = gui.screenPercent({0.25,0.1}), size=gui.screenPercent({0.5,0.9})}
+  end
+ 
+  if lose == false then
+    gui.Panel{ pos = gui.screenPercent({0.2,0}), size= gui.screenPercent({0.2,0.05}), text = "Score: " .. math.floor(gameScore) }
+  else
+    if gui.Button{text = "Continue", pos=gui.screenPercent({0.4,0.6}), size=gui.screenPercent({0.2,0.5/4}),}
+      then Polygamy.state.polyStateSet("Menu")
+    end
+    gui.Panel{ pos = gui.screenPercent({0.2,0.4}), size= gui.screenPercent({0.2,0.05}), text = "Score: " .. math.floor(gameScore) }
+  end 
+  gui.postDraw() 
+end
+-- Averages an arbitrary number of angles (in radians).
+function math.averageAngles(...)
+  local x,y = 0,0
+  for i=1,select('#',...) do local a= select(i,...) x, y = x+math.cos(a), y+math.sin(a) end
+  return math.atan2(y, x)
+end
+
+-- Returns the distance between two points.
+function math.dist(x1,y1, x2,y2) return ((x2-x1)^2+(y2-y1)^2)^0.5 end
+-- Distance between two 3D points:
+function math.dist(x1,y1,z1, x2,y2,z2) return ((x2-x1)^2+(y2-y1)^2+(z2-z1)^2)^0.5 end
+
+-- Returns the angle between two points.
+function math.angle(x1,y1, x2,y2) return math.atan2(y2-y1, x2-x1) end
+
+-- Returns the closest multiple of 'size' (defaulting to 10).
+function math.multiple(n, size) size = size or 10 return math.round(n/size)*size end
+
+function math.round(num)
+  if num >= 0 then return math.floor(num+.5)
+  else return math.ceil(num-.5) end
+end
+
+-- Clamps a number to within a certain range.
+function math.clamp(low, n, high) return math.min(math.max(low, n), high) end
+
+-- Linear interpolation between two numbers.
+function lerp(a,b,t) return a+(b-a)*t end
+
+-- Cosine interpolation between two numbers.
+function cerp(a,b,t) local f=(1-math.cos(t*math.pi))*.5 return a*(1-f)+b*f end
+
+-- Normalize two numbers.
+function math.normalize(x,y) local l=(x*x+y*y)^.5 if l==0 then return 0,0,0 else return x/l,y/l,l end end
+
+-- Returns 'n' rounded to the nearest 'deci'th (defaulting whole numbers).
+function math.round(n, deci) deci = 10^(deci or 0) return math.floor(n*deci+.5)/deci end
+
+-- Randomly returns either -1 or 1.
+function math.rsign() return math.random(2) == 2 and 1 or -1 end
+
+-- Returns 1 if number is positive, -1 if it's negative, or 0 if it's 0.
+function math.sign(n) return n>0 and 1 or n<0 and -1 or 0 end
+
+-- Gives a precise random decimal number given a minimum and maximum
+function math.prandom(min, max) return math.random() * (max - min) + min end
+
+-- Checks if two line segments intersect. Line segments are given in form of ({x,y},{x,y}, {x,y},{x,y}).
+function checkIntersect(l1p1, l1p2, l2p1, l2p2)
+  local function checkDir(pt1, pt2, pt3) return math.sign(((pt2.x-pt1.x)*(pt3.y-pt1.y)) - ((pt3.x-pt1.x)*(pt2.y-pt1.y))) end
+  return (checkDir(l1p1,l1p2,l2p1) ~= checkDir(l1p1,l1p2,l2p2)) and (checkDir(l2p1,l2p2,l1p1) ~= checkDir(l2p1,l2p2,l1p2))
+end
+
+-- Checks if two lines intersect (or line segments if seg is true)
+-- Lines are given as four numbers (two coordinates)
+function findIntersect(l1p1x,l1p1y, l1p2x,l1p2y, l2p1x,l2p1y, l2p2x,l2p2y, seg1, seg2)
+  local a1,b1,a2,b2 = l1p2y-l1p1y, l1p1x-l1p2x, l2p2y-l2p1y, l2p1x-l2p2x
+  local c1,c2 = a1*l1p1x+b1*l1p1y, a2*l2p1x+b2*l2p1y
+  local det,x,y = a1*b2 - a2*b1
+  if det==0 then return false, "The lines are parallel." end
+  x,y = (b2*c1-b1*c2)/det, (a1*c2-a2*c1)/det
+  if seg1 or seg2 then
+    local min,max = math.min, math.max
+    if seg1 and not (min(l1p1x,l1p2x) <= x and x <= max(l1p1x,l1p2x) and min(l1p1y,l1p2y) <= y and y <= max(l1p1y,l1p2y)) or
+      seg2 and not (min(l2p1x,l2p2x) <= x and x <= max(l2p1x,l2p2x) and min(l2p1y,l2p2y) <= y and y <= max(l2p1y,l2p2y)) then
+      return false, "The lines don't intersect."
+    end
+  end
+  return x,y
+end
+
+fonts={}
+
+function gui.preloadFont(style)
+  for i = 1, 200, 1 do
+    fonts[style .. "|".. i] = love.graphics.newFont(style, i)
+  end
+end
+
+function gui.printText(text, x, y, w, h, align, style, wrap)
+  if wrap == nil or wrap == false then
+    local imin = 1
+    local imax = math.floor(h)
+    while(imax > imin) do
+      imid = math.floor((imin+imax)/2)
+      if(fonts[style .. "|".. imid] == nil) then
+        fonts[style .. "|".. imid] = love.graphics.newFont(style, imid)
+      end
+      if(fonts[style .. "|" .. imid]:getWidth(text) < w) then
+        imin = imid +1
+      else
+        imax = imid
+      end
+    end
+    love.graphics.setFont(fonts[style .. "|".. imid])
+    y = y + (h - love.graphics.getFont():getHeight(text))/2
+    if (align == "center" )then
+      x = x + (w - love.graphics.getFont():getWidth(text))/2
+    elseif (align == "right") then
+      x = x + (w - love.graphics.getFont():getWidth(text))
+    end
+    love.graphics.print(text, x, y, 0, 1, 1)
+  else
+    local imin = 1
+    local imax = math.floor(h)
+    if imax > gui.screenHeight()*0.035 then imax = gui.screenHeight()*0.035 end
+    while(imax > imin) do
+      imid = math.floor((imin+imax)/2)
+      if(fonts[style .. "|".. imid] == nil) then
+        fonts[style .. "|".. imid] = love.graphics.newFont(style, imid)
+      end
+      tw, tl = fonts[style .. "|".. imid]:getWrap(text, w)
+      th = fonts[style .. "|".. imid]:getHeight()
+      tlh = fonts[style .. "|".. imid]:getLineHeight()
+      if(th*tlh*tl < h ) then  --and th*tlh*tl>h-th*tlh) then
+        imin = imid +1
+      else
+        imax = imid
+      end
+    end
+    love.graphics.setFont(fonts[style .. "|".. imid])
+    love.graphics.printf( text, x, y, w, align)
+  end
+end
+
+
+function gui.screenWidth()
+	if(love.graphics.getWidth()/love.graphics.getHeight() < 16/9) then
+		return love.graphics.getWidth()
+  end
+	return (love.graphics.getHeight()*16)/9
+end
+
+function gui.screenHeight()
+	if(love.graphics.getHeight()/love.graphics.getWidth() < 9/16) then
+		return love.graphics.getHeight()
+  end
+	return (love.graphics.getWidth()*9)/16
+end
+
+function gui.xModification()
+	return (love.graphics.getWidth()-gui.screenWidth())/2
+end
+
+function gui.yModification()
+	return (love.graphics.getHeight()-gui.screenHeight())/2
+end
+
+function gui.imageSize(screenPercentWidth, img)
+  w = gui.screenWidth()*screenPercentWidth
+  h = w/img:getWidth() * img:getHeight()
+  return {w,h}
+end
+
+function gui.imageSizeH(screenPercentHeight, img)
+  h = gui.screenHeight()*screenPercentHeight
+  w = h/img:getHeight() * img:getWidth()
+  return {w,h}
+end
+
+function gui.screenPercent(a)
+	a[1] = a[1]*gui.screenWidth()
+	a[2] = a[2]*gui.screenHeight()
+	return a
+end
+
+function gui.screenPercentX(a)
+	return a*gui.screenWidth()
+end
+
+function gui.screenPercentY(a)
+	return a*gui.screenHeight()
+end
+
+function gui.preDraw()
+  soundmanager:update()
+  love.graphics.setColor(255,255,255,255)
+	love.graphics.push()
+	love.graphics.translate(gui.xModification(),gui.yModification());
+end
+
+function gui.postDraw()
+	gui.core.draw()
+	love.graphics.pop()
+	love.graphics.setColor(122,122,180,255)
+	love.graphics.rectangle("fill", 0, 0, love.graphics.getWidth(), gui.yModification())
+	love.graphics.rectangle("fill", 0, love.graphics.getHeight(), love.graphics.getWidth(),  -1*gui.yModification())
+	love.graphics.rectangle("fill", 0, 0, gui.xModification(), love.graphics.getHeight())
+	love.graphics.rectangle("fill", love.graphics.getWidth()-gui.xModification(), 0, gui.xModification(), love.graphics.getHeight())
+end
+
+function love.load()
+  Polygamy.keyboard( "" )
+  math.randomseed(os.time())
+  beginLogo = love.graphics.newImage("assets/splashLogo.png")
+  Polygamy.state.polyStateSet("Splash Screen")
+  backgroundIMG = love.graphics.newImage("assets/trailBackground.png")
+  scoreIMG = love.graphics.newImage("assets/scores.png")
+  selectIMG = love.graphics.newImage("assets/select.png")
+  optionsIMG = love.graphics.newImage("assets/options.png")
+  crewIMG = love.graphics.newImage("assets/crew.png")
+  inventoryIMG = love.graphics.newImage("assets/inventory.png")
+  boxIMG = love.graphics.newImage("assets/box.png")
+  testIMG = love.graphics.newImage("assets/chartest.JPG")
+  travelIMG = love.graphics.newImage("assets/trailBackgroundLong.png")
+  gui.preloadFont("assets/GoodDog.otf")
+  gui.preloadFont("assets/LobsterTwo-Regular.otf")
+  gui.preloadFont("assets/oldenglishregular.ttf")
+  gui.preloadFont("assets/ThrowMyHandsUpintheAirBold.ttf")
+  mapIMG = love.graphics.newImage("assets/trail.JPG")
+  mapIMG = love.graphics.newImage("assets/trail.JPG")
+  wifeBathGameIMG = love.graphics.newImage("assets/wifeMiniImage.png")
+  manIMG = love.graphics.newImage("assets/enemy2.png")
+  evilAIMG = love.graphics.newImage("assets/defender.png")
+  evilBIMG = love.graphics.newImage("assets/enemy1.png")
+  powIMG = love.graphics.newImage("assets/POW.png")
+  millerBackIMG = love.graphics.newImage("assets/millerBack.png")
+  womanIMG = love.graphics.newImage("assets/lady.png")
+  heartIMG = love.graphics.newImage("assets/heart.png")
+  heartBadIMG = love.graphics.newImage("assets/heartBad.png")
+  canterburyIMG = love.graphics.newImage("assets/cathedral.png")
+  maze = love.graphics.newImage("assets/maze.png")
+  mazeMap = love.graphics.newImage("assets/mazeMAP.png")
+  foxUp = love.graphics.newImage("assets/foxUp.png")
+  foxDown = love.graphics.newImage("assets/foxDown.png")
+  foxRight = love.graphics.newImage("assets/foxRight.png")
+  foxLeft = love.graphics.newImage("assets/foxLeft.png")
+  rooster = love.graphics.newImage("assets/chicken.png")
+  bonusIMG = love.graphics.newImage("assets/egg.png")
+  stages[1].bckImg = love.graphics.newImage("assets/trailBackground.png")
+  stages[2].bckImg = love.graphics.newImage("assets/village.png")
+  stages[3].bckImg = love.graphics.newImage("assets/trailBackground.png")
+  stages[4].bckImg = love.graphics.newImage("assets/village.png")
+  stages[5].bckImg = love.graphics.newImage("assets/trailBackground.png")
+  stages[6].bckImg = love.graphics.newImage("assets/village.png")
+  stages[7].bckImg = love.graphics.newImage("assets/trailBackground.png")
+  stages[1].mapImg = love.graphics.newImage("assets/map1.png")
+  stages[2].mapImg = love.graphics.newImage("assets/map2.png")
+  stages[3].mapImg = love.graphics.newImage("assets/map3.png")
+  stages[4].mapImg = love.graphics.newImage("assets/map4.png")
+  stages[5].mapImg = love.graphics.newImage("assets/map5.png")
+  stages[6].mapImg = love.graphics.newImage("assets/map6.png")
+  stages[7].mapImg = love.graphics.newImage("assets/map7.png")
+  millerGameMusic = love.audio.newSource("assets/millerGame.mp3", "static")
+  knightGameMusic = love.audio.newSource("assets/knightGame.mp3", "static")
+  mainMenu = love.audio.newSource("assets/menuMusic.mp3", "static")
+  wifeOfBathGameMusic = love.audio.newSource("assets/wifeOfBathGame.mp3", "static")
+  priestMusic = love.audio.newSource("assets/nunsPriestGame.mp3", "static")
+  town= love.audio.newSource("assets/in a small town.mp3", "static")
+  road = love.audio.newSource("assets/OnTheRoadMusic.mp3", "static")
+  marching = love.audio.newSource("assets/marching.mp3", "static")
+end
+
+function love.textinput(str)
+	gui.keyboard.textinput(str)
+end

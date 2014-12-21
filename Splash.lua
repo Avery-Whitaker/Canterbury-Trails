@@ -1,6 +1,11 @@
 splash = Polygamy.state( "Splash Screen" )
 
 function splash.before() 
+intro = {logo = love.graphics.newImage("assets/splashLogo.png"),
+		r = 0,
+		scalex = 0.75,
+		scaley = 0.75,
+	}
   loveFont = love.graphics.newFont("assets/ThrowMyHandsUpintheAirBold.ttf", 30)
   love.graphics.setFont(loveFont)
   intro.logox = intro.logo:getWidth()
@@ -9,13 +14,11 @@ function splash.before()
   intro.tColor = {131,192,240,0}
   intro.lColor = {255,255,255,255}
   time = 0
+
+	
 end
 
-intro = {logo = love.graphics.newImage("assets/splashLogo.png"),
-	r = 0,
-	scalex = 0.75,
-	scaley = 0.75,
-}
+
 
 function splash.update(dt) 
 	intro.sizex = intro.logox * intro.scalex
@@ -53,6 +56,9 @@ function splash.draw()
 end
 
 function splash.after() 
-  w,h = love.window.getDesktopDimensions()
-  love.window.setMode(w,h, {resizable = true, borderless = false, minwidth = 400, minheight = 300, x = 0, y = 0})
+width, height, flags = love.window.getMode( )
+  if flags.resizable == false then
+    w,h = love.window.getDesktopDimensions()
+    love.window.setMode(w,h, {resizable = true, borderless = false, minwidth = 400, minheight = 300, x = 0, y = 0})
+  end
 end

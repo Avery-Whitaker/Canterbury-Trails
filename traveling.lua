@@ -1,6 +1,7 @@
 traveling = Polygamy.state( "Traveling" )
 
 function traveling.before() 
+      menu.setStage(nextStage)
   soundmanager:play(marching)
   shade = 0 
   backOff = 0
@@ -56,7 +57,6 @@ function traveling.update(dt)
     if nextStage == nil then 
       Polygamy.state.goto("End")
     else
-      menu.setStage(nextStage)
       Polygamy.state.goto("Map")
     end
   end
@@ -76,5 +76,9 @@ function traveling.draw()
 end
 
 function traveling.after()
-  soundmanager:play(stageMusic) 
+  print(stageMusic)
+  if(stageMusic ~= nil ) then
+  soundmanager:play(stageMusic) else
+  soundmanager:play(town) end
+   
 end

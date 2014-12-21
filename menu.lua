@@ -2,10 +2,7 @@ welcome = Polygamy.state( "Menu" )
 
 avalibleCharacters = {}
 
-canHunt = false
-justHunted = false
 
-nextStage = stages[1]
 
 menu = {}
 
@@ -20,6 +17,7 @@ function menu.setStage(a)
   nextStage = a.nextStage
   continueRejection = a.continueRejection
   stageMusic = a.stageMusic
+  
   justHunted = false
   canContinue = false
   mapText = introMapText
