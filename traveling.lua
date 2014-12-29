@@ -6,17 +6,17 @@ function traveling.before()
   shade = 0 
   backOff = 0
   for key,value in pairs(characters) do --actualcode
-    value.angle = math.random()*0.26179938779*2-0.26179938779
+    value.angle = math.random()*0.26179938779-0.26179938779/2
     if math.floor(math.random()+0.5) == 1 then
-      value.angleSpeed = math.random()*0.5+0.5
+      value.angleSpeed = math.random()*0.15+0.5
     else
-      value.angleSpeed = -math.random()*0.5+0.5
+      value.angleSpeed = -math.random()*0.15+0.5
     end
-    value.height = math.random()*0.01
+    value.height = 0.005-- math.random()*0.01
     if math.floor(math.random()+0.5) == 1 then
-      value.heightSpeed = math.random()*0.01
+      value.heightSpeed = math.random()*0.01+0.05
     else
-      value.heightSpeed = -math.random()*0.01
+      value.heightSpeed = -math.random()*0.01+0.05
     end
     value.scale = 0.1
   end
@@ -28,13 +28,13 @@ function traveling.update(dt)
     nNum = nNum + 1
   end
   for key,value in pairs(characters) do --actualcode
-    if value.angle > 0.26179938779 then
+    if value.angle > 0.26179938779/2 then
       value.angleSpeed = - value.angleSpeed 
-      value.angle = 0.26179938779
+      value.angle = 0.26179938779/2
     end
-    if value.angle < -0.26179938779 then
+    if value.angle < -0.26179938779/2 then
       value.angleSpeed = - value.angleSpeed 
-      value.angle = -0.26179938779
+      value.angle = -0.26179938779/2
     end
     value.angle = value.angle + value.angleSpeed*dt
   end
@@ -76,7 +76,6 @@ function traveling.draw()
 end
 
 function traveling.after()
-  print(stageMusic)
   if(stageMusic ~= nil ) then
   soundmanager:play(stageMusic) else
   soundmanager:play(town) end

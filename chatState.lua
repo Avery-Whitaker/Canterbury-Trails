@@ -22,7 +22,7 @@ function newChatState(w)
       end
     end
     gui.Image{ pos = {(gui.screenWidth()-(gui.imageSizeH(panelTop+0.35,w.character.image)[1]))/2, 0}, size= gui.imageSizeH(panelTop+0.35,w.character.image), image=w.character.image }
-    gui.Image{ pos = gui.screenPercent({0,0}), size= gui.screenPercent({1,1}), image=backgroundIMG }
+    gui.Image{ pos = gui.screenPercent({0,0}), size= gui.screenPercent({1,1}), image=bckImg }
   end
 
   state.draw = function()

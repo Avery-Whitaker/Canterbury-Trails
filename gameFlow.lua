@@ -34,7 +34,7 @@ stages[5].characterAction = {}
 stages[6].characterAction = {}
 stages[7].characterAction = {}
 
-stages[1].stageMusic = love.audio.newSource("assets/in a small town.mp3", "static")
+stages[1].stageMusic = love.audio.newSource("assets/OnTheRoadMusic.mp3", "static")
 stages[2].stageMusic = love.audio.newSource("assets/in a small town.mp3", "static")
 stages[3].stageMusic = love.audio.newSource("assets/OnTheRoadMusic.mp3", "static")
 stages[4].stageMusic = love.audio.newSource("assets/in a small town.mp3", "static")

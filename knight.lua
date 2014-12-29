@@ -12,9 +12,9 @@ function knightGame.before()
   lose = false
   popup = "none"
   if prayForLove == true then
-    prayText = "You faught valiatly, you were defeated, but your oponet fell of his horse! You get the girl and 50 bonus points!"
+    prayText = "You fought valiantly, you were defeated, but your opponent fell off his horse! You get the girl and 50 bonus points!"
   else
-    prayText = "You faught valiatly, but your lady love is not to be yours."
+    prayText = "You fought valiantly, but your lady love is not to be yours."
   end
 end
 
